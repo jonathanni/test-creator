@@ -1,8 +1,22 @@
 package com.esf.tm;
 
+/**
+ * 
+ * Wrapper for callbacks. The function will be called from the callback object.
+ * 
+ * @author Jonathan Ni
+ * @since 4/25/14
+ * @version 0.0r2
+ * 
+ */
+
 class Callback
 {
-	void cbFunction()
-	{
-	}
+    /**
+     * This function will be called inside a function utilizing callbacks.
+     */
+
+    void cbFunction()
+    {
+    }
 }
