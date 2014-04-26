@@ -1,4 +1,4 @@
-package com.esf.tm;
+package com.esf.tm.client;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  * Error reporter.
  * 
  * @author Jonathan Ni
- * @since 4/22/14
+ * @since 4/26/14
  * @version 0.0r1
  * 
  */
@@ -32,7 +32,7 @@ class ErrorReporter
 	{
 		final String msg = errormsg.toString();
 		final String stackTrace = stacktrace.toString();
-		TestGenerator.destroy(new Callback()
+		TestTaker.destroy(new Callback()
 		{
 			@Override
 			public void cbFunction()
@@ -51,7 +51,7 @@ class ErrorReporter
 					e.printStackTrace();
 				}
 
-				out.println("SERVER Error report generated on "
+				out.println("CLIENT Error report generated on "
 						+ new SimpleDateFormat("yyyyMMdd_HHmmss")
 								.format(Calendar.getInstance().getTime()));
 				out.println();

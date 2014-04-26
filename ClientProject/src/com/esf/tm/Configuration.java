@@ -22,7 +22,7 @@ class Configuration
      * @return the flag
      */
 
-    public static boolean isLetterChoice()
+    static boolean isLetterChoice()
     {
 	return isLetterChoice;
     }
@@ -36,7 +36,7 @@ class Configuration
      *            the flag
      */
 
-    public static void setLetterChoice(boolean isLetterChoice)
+    static void setLetterChoice(boolean isLetterChoice)
     {
 	Configuration.isLetterChoice = isLetterChoice;
     }

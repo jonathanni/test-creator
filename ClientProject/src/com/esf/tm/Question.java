@@ -2,15 +2,86 @@ package com.esf.tm;
 
 /**
  * 
- * Base class for all questions created by the client.
+ * Base question class. Since choices for questions can vary a lot, this is left
+ * for the subclasses to implement.
+ * 
+ * This class is MUTABLE.
  * 
  * @author Jonathan Ni
- * @since 4/22/14
+ * @since 4/26/14
  * @version 0.0r1
  * 
  */
 
-public class Question
+class Question
 {
+	private String message;
+	private int questionID;
 
+	/**
+	 * 
+	 * Creates a new Question from a message and an ID (which would be
+	 * internal).
+	 * 
+	 * @param message
+	 *            the message of the question
+	 * @param ID
+	 *            the ID number, which will be unique
+	 */
+
+	public Question(String message, int ID)
+	{
+		setMessage(message);
+		setQuestionID(ID);
+	}
+
+	/**
+	 * 
+	 * Gets the message associated with this Question.
+	 * 
+	 * @return the message
+	 */
+
+	String getMessage()
+	{
+		return message;
+	}
+
+	/**
+	 * 
+	 * Sets the message associated with this Question.
+	 * 
+	 * @param message
+	 *            the message
+	 */
+
+	void setMessage(String message)
+	{
+		this.message = message;
+	}
+
+	/**
+	 * 
+	 * Gets the unique ID associated with this Question.
+	 * 
+	 * @return the ID
+	 */
+
+	int getQuestionID()
+	{
+		return questionID;
+	}
+
+	/**
+	 * 
+	 * Gets the unique ID associated with this Question.
+	 * 
+	 * @param questionID
+	 *            the ID
+	 */
+
+	void setQuestionID(int questionID)
+	{
+		this.questionID = questionID;
+	}
 }

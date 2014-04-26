@@ -1,4 +1,4 @@
-package com.esf.tm;
+package com.esf.tm.client;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -10,18 +10,17 @@ import javax.swing.JFrame;
 
 /**
  * 
- * Server front-end.
+ * Client front-end.
  * 
  * @author Jonathan Ni
- * @since 4/22/14
+ * @since 4/26/14
  * @version 0.0r1
  * 
  */
 
-class TestGenerator extends JFrame implements WindowListener, ActionListener
+public class TestTaker extends JFrame implements WindowListener, ActionListener
 {
-
-	private static final long serialVersionUID = -6456791709807158899L;
+	private static final long serialVersionUID = -5547354766805951582L;
 
 	private static final int WIDTH = 640, HEIGHT = 480;
 	private static final int SCREEN_WIDTH = (int) Toolkit.getDefaultToolkit()
@@ -34,7 +33,7 @@ class TestGenerator extends JFrame implements WindowListener, ActionListener
 	 * 
 	 */
 
-	public TestGenerator()
+	public TestTaker()
 	{
 		super();
 
@@ -44,19 +43,6 @@ class TestGenerator extends JFrame implements WindowListener, ActionListener
 				/ 2);
 		setVisible(true);
 		addWindowListener(this);
-	}
-
-	/**
-	 * 
-	 * Destroys the program.
-	 * 
-	 * @param callback
-	 *            the "function" to call before exiting.
-	 */
-	static void destroy(Callback callback)
-	{
-		callback.cbFunction();
-		System.exit(0);
 	}
 
 	@Override
@@ -74,7 +60,7 @@ class TestGenerator extends JFrame implements WindowListener, ActionListener
 	@Override
 	public void windowClosing(WindowEvent we)
 	{
-		destroy(new Callback());
+
 	}
 
 	@Override
@@ -107,11 +93,24 @@ class TestGenerator extends JFrame implements WindowListener, ActionListener
 
 	}
 
+	/**
+	 * 
+	 * Destroys the program.
+	 * 
+	 * @param callback
+	 *            the "function" to call before exiting.
+	 */
+	static void destroy(Callback callback)
+	{
+		callback.cbFunction();
+		System.exit(0);
+	}
+
 	public static void main(String[] args)
 	{
 		if (SCREEN_WIDTH < 0 || SCREEN_HEIGHT < 0)
 			ErrorReporter.reportError(
 					"Error occured while initiating graphics", "");
-		new TestGenerator();
+		new TestTaker();
 	}
 }
