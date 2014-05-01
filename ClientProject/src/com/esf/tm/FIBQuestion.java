@@ -14,73 +14,97 @@ import java.util.ArrayList;
 
 public class FIBQuestion extends Question
 {
-	private ArrayList<String> correctAnswers = new ArrayList<String>();
+    private ArrayList<String> correctAnswers = new ArrayList<String>();
 
-	/**
-	 * 
-	 * See {@link Question#Question(String, int)}
-	 * 
-	 * @param message
-	 * @param ID
-	 */
+    /**
+     * 
+     * See {@link Question#Question(String, int)}
+     * 
+     * @param message
+     * @param ID
+     */
 
-	public FIBQuestion(String message, int ID)
-	{
-		super(message, ID);
-	}
+    public FIBQuestion(String message, int ID)
+    {
+	super(message, ID);
+    }
 
-	/**
-	 * 
-	 * Adds an answer to the list of correct answers.
-	 * 
-	 * @param answer
-	 *            a correct answer
-	 */
+    /**
+     * 
+     * Adds an answer to the list of correct answers.
+     * 
+     * @param answer
+     *            a correct answer
+     */
 
-	void addAnswer(String answer)
-	{
+    void addAnswer(String answer)
+    {
+	correctAnswers.add(answer);
+    }
 
-	}
+    /**
+     * 
+     * Sets an answer in the list to another. If the index is out of bounds the
+     * method throws an IllegalArgumentException.
+     * 
+     * @param index
+     *            the index of the answer
+     * @param answer
+     *            the new answer
+     * 
+     * @throws IllegalArgumentException
+     */
 
-	/**
-	 * 
-	 * Sets an answer in the list to another.
-	 * 
-	 * @param index
-	 *            the index of the answer
-	 * @param answer
-	 *            the new answer
-	 */
+    void setAnswer(int index, String answer)
+    {
+	if (index < 0 || index >= correctAnswers.size())
+	    try
+	    {
+		throw new IllegalArgumentException("Index out of bounds");
+	    } catch (IllegalArgumentException e)
+	    {
+		ErrorReporter.reportError("Answer index out of bounds",
+			Util.stackTraceToString(e));
+	    }
 
-	void setAnswer(int index, String answer)
-	{
+	correctAnswers.add(answer);
+    }
 
-	}
+    /**
+     * 
+     * Removes an answer from the list of correct answers. If the index is out
+     * of bounds the method throws an IllegalArgumentException.
+     * 
+     * @param index
+     *            the index of the answer
+     * 
+     * @throws IllegalArgumentException
+     */
 
-	/**
-	 * 
-	 * Removes an answer from the list of correct answers.
-	 * 
-	 * @param index
-	 *            the index of the answer
-	 */
+    void removeAnswer(int index)
+    {
+	if (index < 0 || index >= correctAnswers.size())
+	    try
+	    {
+		throw new IllegalArgumentException("Index out of bounds");
+	    } catch (IllegalArgumentException e)
+	    {
+		ErrorReporter.reportError("Answer index out of bounds",
+			Util.stackTraceToString(e));
+	    }
+    }
 
-	void removeAnswer(int index)
-	{
+    /**
+     * 
+     * Gets an array copy containing the list of correct answers.
+     * 
+     * @return the correct answers
+     */
 
-	}
-
-	/**
-	 * 
-	 * Gets an array copy containing the list of correct answers.
-	 * 
-	 * @return the correct answers
-	 */
-
-	public String[] getCorrectAnswers()
-	{
-		String[] list = new String[correctAnswers.size()];
-		correctAnswers.toArray(list);
-		return list;
-	}
+    public String[] getCorrectAnswers()
+    {
+	String[] list = new String[correctAnswers.size()];
+	correctAnswers.toArray(list);
+	return list;
+    }
 }
