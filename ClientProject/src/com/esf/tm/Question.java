@@ -15,73 +15,87 @@ package com.esf.tm;
 
 class Question
 {
-	private String message;
-	private int questionID;
+    private String message;
+    private int questionID;
 
-	/**
-	 * 
-	 * Creates a new Question from a message and an ID (which would be
-	 * internal).
-	 * 
-	 * @param message
-	 *            the message of the question
-	 * @param ID
-	 *            the ID number, which will be unique
-	 */
+    /**
+     * 
+     * Creates a new Question from a message and an ID (which would be
+     * internal).
+     * 
+     * @param message
+     *            the message of the question
+     * @param ID
+     *            the ID number, which will be unique
+     */
 
-	public Question(String message, int ID)
-	{
-		setMessage(message);
-		setQuestionID(ID);
-	}
+    public Question(String message, int ID)
+    {
+	setMessage(message);
+	setQuestionID(ID);
+    }
 
-	/**
-	 * 
-	 * Gets the message associated with this Question.
-	 * 
-	 * @return the message
-	 */
+    /**
+     * 
+     * Copy constructor.
+     * 
+     * @param other
+     *            the question
+     */
 
-	String getMessage()
-	{
-		return message;
-	}
+    public Question(Question other)
+    {
+	setMessage(other.message);
+	setQuestionID(other.questionID);
+    }
 
-	/**
-	 * 
-	 * Sets the message associated with this Question.
-	 * 
-	 * @param message
-	 *            the message
-	 */
+    /**
+     * 
+     * Gets the message associated with this Question.
+     * 
+     * @return the message
+     */
 
-	void setMessage(String message)
-	{
-		this.message = message;
-	}
+    String getMessage()
+    {
+	return message;
+    }
 
-	/**
-	 * 
-	 * Gets the unique ID associated with this Question.
-	 * 
-	 * @return the ID
-	 */
+    /**
+     * 
+     * Sets the message associated with this Question.
+     * 
+     * @param message
+     *            the message
+     */
 
-	int getQuestionID()
-	{
-		return questionID;
-	}
+    void setMessage(String message)
+    {
+	this.message = message;
+    }
 
-	/**
-	 * 
-	 * Gets the unique ID associated with this Question.
-	 * 
-	 * @param questionID
-	 *            the ID
-	 */
+    /**
+     * 
+     * Gets the unique ID associated with this Question.
+     * 
+     * @return the ID
+     */
 
-	void setQuestionID(int questionID)
-	{
-		this.questionID = questionID;
-	}
+    int getQuestionID()
+    {
+	return questionID;
+    }
+
+    /**
+     * 
+     * Gets the unique ID associated with this Question.
+     * 
+     * @param questionID
+     *            the ID
+     */
+
+    void setQuestionID(int questionID)
+    {
+	this.questionID = questionID;
+    }
 }

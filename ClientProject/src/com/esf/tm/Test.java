@@ -40,7 +40,8 @@ public class Test
 
     public Test(Test other)
     {
-	questionList.addAll(other.questionList);
+	for (Question i : other.questionList)
+	    questionList.add(new Question(i));
     }
 
     /**
@@ -132,6 +133,8 @@ public class Test
      * {@link #assignIDs()} should be called before this function to ensure that
      * IDs are properly assigned.
      * 
+     * Also shuffles the order of each question.
+     * 
      * Uses the Fisher-Yates algorithm for shuffling with the Mersenne Twister
      * PRNG implementation. See ec.util.MersenneTwisterFast for copyright
      * details.
@@ -152,6 +155,13 @@ public class Test
 	{
 	    int j = prng.nextInt(i + 1);
 	    Collections.swap(mixed.questionList, i, j);
+	}
+
+	for (int i = 0; i < mixed.questionList.size(); i++)
+	{
+	    Question entry = mixed.questionList.get(i);
+	    if (entry instanceof MCQuestion)
+		((MCQuestion) entry).mix();
 	}
 
 	return mixed;
