@@ -16,6 +16,8 @@ public class FIBQuestion extends Question
 {
     private ArrayList<String> correctAnswers = new ArrayList<String>();
 
+    private boolean isCaseSensitive, isWhitespaceSensitive;
+
     /**
      * 
      * See {@link Question#Question(String, int)}
@@ -106,5 +108,57 @@ public class FIBQuestion extends Question
 	String[] list = new String[correctAnswers.size()];
 	correctAnswers.toArray(list);
 	return list;
+    }
+
+    /**
+     * 
+     * Gets if input to this question is case sensitive.
+     * 
+     * @return the flag
+     */
+
+    public boolean isCaseSensitive()
+    {
+	return isCaseSensitive;
+    }
+
+    /**
+     * 
+     * Sets if input to this question is case sensitive.
+     * 
+     * @param isCaseSensitive
+     *            the flag
+     */
+
+    public void setCaseSensitive(boolean isCaseSensitive)
+    {
+	this.isCaseSensitive = isCaseSensitive;
+    }
+
+    /**
+     * 
+     * Gets if input to this question is whitespace sensitive, including
+     * whitespace in the middle of the answer.
+     * 
+     * @return the flag
+     */
+
+    public boolean isWhitespaceSensitive()
+    {
+	return isWhitespaceSensitive;
+    }
+
+    /**
+     * 
+     * Sets if input to this question is whitespace sensitive, including
+     * whitespace in the middle of the answer.
+     * 
+     * @param isWhitespaceSensitive
+     *            the flag
+     */
+
+    public void setWhitespaceSensitive(boolean isWhitespaceSensitive)
+    {
+	this.isWhitespaceSensitive = isWhitespaceSensitive;
     }
 }
