@@ -11,7 +11,7 @@ import ec.util.MersenneTwisterFast;
  * 
  * @author Jonathan Ni
  * @since 5/2/14
- * @version 0.0r2
+ * @version 0.0r3
  * 
  */
 
@@ -109,6 +109,33 @@ public class Test
 	    }
 
 	questionList.remove(index);
+    }
+
+    /**
+     * 
+     * Gets a question from the list of questions. If the index is out of bounds
+     * the method throws an IllegalArgumentException.
+     * 
+     * @param index
+     *            the index of the question
+     * @return the question at the index
+     * 
+     * @throws IllegalArgumentException
+     */
+
+    Question getQuestion(int index)
+    {
+	if (index < 0 || index >= questionList.size())
+	    try
+	    {
+		throw new IllegalArgumentException("Index out of bounds");
+	    } catch (IllegalArgumentException e)
+	    {
+		ErrorReporter.reportError("question index out of bounds",
+			Util.stackTraceToString(e));
+	    }
+
+	return questionList.get(index);
     }
 
     /**

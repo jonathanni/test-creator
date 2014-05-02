@@ -11,7 +11,7 @@ import ec.util.MersenneTwisterFast;
  * 
  * @author Jonathan Ni
  * @since 4/22/14
- * @version 0.0r4
+ * @version 0.0r5
  * 
  */
 
@@ -98,6 +98,33 @@ class MCQuestion extends Question
 	    }
 
 	choiceList.remove(index);
+    }
+
+    /**
+     * 
+     * Gets a choice from the list of choices. If the index is out of bounds the
+     * method throws an IllegalArgumentException.
+     * 
+     * @param index
+     *            the index of the choice
+     * @return the choice at the index
+     * 
+     * @throws IllegalArgumentException
+     */
+
+    Choice getChoice(int index)
+    {
+	if (index < 0 || index >= choiceList.size())
+	    try
+	    {
+		throw new IllegalArgumentException("Index out of bounds");
+	    } catch (IllegalArgumentException e)
+	    {
+		ErrorReporter.reportError("Choice index out of bounds",
+			Util.stackTraceToString(e));
+	    }
+
+	return choiceList.get(index);
     }
 
     /**
