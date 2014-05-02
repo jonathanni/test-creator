@@ -11,7 +11,7 @@ import ec.util.MersenneTwisterFast;
  * 
  * @author Jonathan Ni
  * @since 5/2/14
- * @version 0.0r1
+ * @version 0.0r2
  * 
  */
 
