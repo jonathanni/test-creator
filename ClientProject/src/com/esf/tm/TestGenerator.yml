@@ -1,2 +1,10 @@
-JFrame(name=frame, title=frame.title, size=frame.size, onWindowClosing=[windowDestroy]):
-  
+JFrame(name=frame, title=Test Generator, size=640x480, onWindowClosing=[windowDestroy]):
+ - JPanel(name=titleScreen):
+    - JLabel(name=titleScreenText, text=Welcome to Test Generator, font=italic bold Arial 40pt)
+    - JButton(name=importTestButton, text=Import Existing Test..., size=300x300)
+    - JButton(name=createTestButton, text=Create New Test...)
+    - JButton(name=exitButton, text=Exit, onMouseClicked=[windowDestroy])
+    - MigLayout: |
+        [grow]                [grow]                 [grow]
+        |titleScreenText+*
+        /importTestButton     |/createTestButton     >/exitButton

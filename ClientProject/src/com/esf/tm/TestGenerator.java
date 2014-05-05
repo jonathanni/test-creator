@@ -38,6 +38,7 @@ class TestGenerator extends JFrame implements ActionListener
 	public TestGenerator()
 	{
 		result = SwingJavaBuilder.build(this);
+		setVisible(true);
 	}
 
 	/**
