@@ -1,0 +1,2 @@
+JFrame(name=frame, title=frame.title, size=frame.size, onWindowClosing=[windowDestroy]):
+  

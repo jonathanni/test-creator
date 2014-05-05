@@ -3,10 +3,11 @@ package com.esf.tm;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
+
+import org.javabuilders.BuildResult;
+import org.javabuilders.swing.SwingJavaBuilder;
 
 /**
  * 
@@ -18,15 +19,15 @@ import javax.swing.JFrame;
  * 
  */
 
-class TestGenerator extends JFrame implements WindowListener, ActionListener
+class TestGenerator extends JFrame implements ActionListener
 {
 
 	private static final long serialVersionUID = -6456791709807158899L;
-
-	private static final int WIDTH = 640, HEIGHT = 480;
+	
 	private static final int SCREEN_WIDTH = (int) Toolkit.getDefaultToolkit()
 			.getScreenSize().getWidth(), SCREEN_HEIGHT = (int) Toolkit
 			.getDefaultToolkit().getScreenSize().getHeight();
+	private BuildResult result;
 
 	/**
 	 * 
@@ -36,14 +37,7 @@ class TestGenerator extends JFrame implements WindowListener, ActionListener
 
 	public TestGenerator()
 	{
-		super();
-
-		// Formatting
-		setSize(WIDTH, HEIGHT);
-		setLocation(SCREEN_WIDTH / 2 - WIDTH / 2, SCREEN_HEIGHT / 2 - HEIGHT
-				/ 2);
-		setVisible(true);
-		addWindowListener(this);
+		result = SwingJavaBuilder.build(this);
 	}
 
 	/**
@@ -59,46 +53,10 @@ class TestGenerator extends JFrame implements WindowListener, ActionListener
 		System.exit(0);
 	}
 
-	@Override
-	public void windowActivated(WindowEvent we)
-	{
 
-	}
-
-	@Override
-	public void windowClosed(WindowEvent we)
-	{
-
-	}
-
-	@Override
-	public void windowClosing(WindowEvent we)
+	public void windowDestroy()
 	{
 		destroy(new Callback());
-	}
-
-	@Override
-	public void windowDeactivated(WindowEvent we)
-	{
-
-	}
-
-	@Override
-	public void windowDeiconified(WindowEvent we)
-	{
-
-	}
-
-	@Override
-	public void windowIconified(WindowEvent we)
-	{
-
-	}
-
-	@Override
-	public void windowOpened(WindowEvent we)
-	{
-
 	}
 
 	@Override
