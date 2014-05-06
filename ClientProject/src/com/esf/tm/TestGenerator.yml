@@ -1,19 +1,22 @@
 JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDestroy]):
+ - JButton(name=prev, text=Previous)
+ - JButton(name=next, text=Next)
  - JPanel(name=titleScreen):
-    - JLabel(name=titleScreenText, text=Welcome to Test Generator, font=italic bold Arial 40pt)
+    - JLabel(name=titleScreenText, text=Welcome to Test Generator, font=italic bold Helvetica 40pt)
     - JButton(name=importTestButton, text=Import Existing Test...)
-    - JButton(name=createTestButton, text=Create New Test...)
+    - JButton(name=createTestButton, text=Create New Test..., onMouseClicked=[nextPanel])
     - JButton(name=exitButton, text=Exit, onMouseClicked=[windowDestroy])
     - MigLayout: |
         [grow]                [grow]                 [grow]
         |titleScreenText+*
         /importTestButton     |/createTestButton     >/exitButton
- - JPanel(name=createTestStart):
+ - JPanel(name=importTestScreen):
+ - JPanel(name=createTestScreen):
     - JTextField(name=testTitleField)
     - JTextField(name=testDescriptField)
-    - JButton(name=nextButton, text=Next)
     - MigLayout: |
         [pref]                            [grow,100]
         "Test Title: "                    testTitleField
         "Test Description (Optional):"    testDescriptField
-        nextButton
+        prev,next
+ - CardLayout(name=layout): [titleScreen, createTestScreen]
