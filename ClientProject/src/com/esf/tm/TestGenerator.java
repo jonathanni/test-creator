@@ -26,94 +26,100 @@ import org.javabuilders.swing.SwingJavaBuilder;
 class TestGenerator extends JFrame implements ActionListener
 {
 
-	private static final long serialVersionUID = -6456791709807158899L;
+    private static final long serialVersionUID = -6456791709807158899L;
 
-	private static final int SCREEN_WIDTH = (int) Toolkit.getDefaultToolkit()
-			.getScreenSize().getWidth(), SCREEN_HEIGHT = (int) Toolkit
-			.getDefaultToolkit().getScreenSize().getHeight();
-	private BuildResult result;
+    private static final int SCREEN_WIDTH = (int) Toolkit.getDefaultToolkit()
+	    .getScreenSize().getWidth(), SCREEN_HEIGHT = (int) Toolkit
+	    .getDefaultToolkit().getScreenSize().getHeight();
+    private BuildResult result;
 
-	/**
-	 * 
-	 * Creates a new test generator message panel to be used by the teacher.
-	 * 
-	 */
+    /**
+     * 
+     * Creates a new test generator message panel to be used by the teacher.
+     * 
+     */
 
-	public TestGenerator()
+    public TestGenerator()
+    {
+	result = SwingJavaBuilder.build(this);
+
+	try
 	{
-		result = SwingJavaBuilder.build(this);
-
-		try
-		{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException e)
-		{
-			ErrorReporter.reportError(
-					"An error has occured while trying to open the window.",
-					Util.stackTraceToString(e));
-			e.printStackTrace();
-		} catch (InstantiationException e)
-		{
-			ErrorReporter.reportError(
-					"An error has occured while trying to open the window.",
-					Util.stackTraceToString(e));
-			e.printStackTrace();
-		} catch (IllegalAccessException e)
-		{
-			ErrorReporter.reportError(
-					"An error has occured while trying to open the window.",
-					Util.stackTraceToString(e));
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e)
-		{
-			ErrorReporter.reportError(
-					"An error has occured while trying to open the window.",
-					Util.stackTraceToString(e));
-			e.printStackTrace();
-		}
-
-		setVisible(true);
+	    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	} catch (ClassNotFoundException e)
+	{
+	    ErrorReporter.reportError(
+		    "An error has occured while trying to open the window.",
+		    Util.stackTraceToString(e));
+	    e.printStackTrace();
+	} catch (InstantiationException e)
+	{
+	    ErrorReporter.reportError(
+		    "An error has occured while trying to open the window.",
+		    Util.stackTraceToString(e));
+	    e.printStackTrace();
+	} catch (IllegalAccessException e)
+	{
+	    ErrorReporter.reportError(
+		    "An error has occured while trying to open the window.",
+		    Util.stackTraceToString(e));
+	    e.printStackTrace();
+	} catch (UnsupportedLookAndFeelException e)
+	{
+	    ErrorReporter.reportError(
+		    "An error has occured while trying to open the window.",
+		    Util.stackTraceToString(e));
+	    e.printStackTrace();
 	}
 
-	/**
-	 * 
-	 * Destroys the program.
-	 * 
-	 * @param callback
-	 *            the "function" to call before exiting.
-	 */
-	static void destroy(Callback callback)
-	{
-		callback.cbFunction();
-		System.exit(0);
-	}
+	setVisible(true);
+    }
 
-	private void windowDestroy()
-	{
-		destroy(new Callback());
-	}
+    /**
+     * 
+     * Destroys the program.
+     * 
+     * @param callback
+     *            the "function" to call before exiting.
+     */
+    static void destroy(Callback callback)
+    {
+	callback.cbFunction();
+	System.exit(0);
+    }
 
-	private void nextPanel()
-	{
-		((CardLayout) result.get("layout")).next(getContentPane());
-	}
+    private void windowDestroy()
+    {
+	destroy(new Callback());
+    }
 
-	private void prevPanel()
-	{
-		((CardLayout) result.get("layout")).previous(getContentPane());
-	}
+    private void nextPanel()
+    {
+	((CardLayout) result.get("layout")).next(getContentPane());
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
+    private void prevPanel()
+    {
+	((CardLayout) result.get("layout")).previous(getContentPane());
+    }
 
-	}
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
 
-	public static void main(String[] args)
-	{
-		if (SCREEN_WIDTH < 0 || SCREEN_HEIGHT < 0)
-			ErrorReporter.reportError(
-					"Error occured while initiating graphics", "");
-		new TestGenerator();
-	}
+    }
+
+    public static void main(String[] args)
+    {
+	if (SCREEN_WIDTH < 0 || SCREEN_HEIGHT < 0)
+	    ErrorReporter.reportError(
+		    "Error occured while initiating graphics", "");
+
+	SwingJavaBuilder.getConfig().prototype(
+		"JButton(name=btnPrev, text=Previous)");
+	SwingJavaBuilder.getConfig().prototype(
+		"JButton(name=btnNext, text=Next)");
+
+	new TestGenerator();
+    }
 }

@@ -1,6 +1,4 @@
 JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDestroy]):
- - JButton(name=prev, text=Previous)
- - JButton(name=next, text=Next)
  - JPanel(name=titleScreen):
     - JLabel(name=titleScreenText, text=Welcome to Test Generator, font=italic bold Helvetica 40pt)
     - JButton(name=importTestButton, text=Import Existing Test...)
@@ -18,5 +16,5 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
         [pref]                            [grow,100]
         "Test Title: "                    testTitleField
         "Test Description (Optional):"    testDescriptField
-        prev,next
+        >$btnPrev,$btnNext
  - CardLayout(name=layout): [titleScreen, createTestScreen]
