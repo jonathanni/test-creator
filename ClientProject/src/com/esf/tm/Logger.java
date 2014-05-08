@@ -15,91 +15,91 @@ import java.io.OutputStream;
 
 class Logger
 {
-	private OutputStream normStream, errorStream;
+    private OutputStream normStream, errorStream;
 
-	/**
-	 * Creates a default Logger. Usually, parts of this software would use the
-	 * default logger, which uses System.out as the non-error stream and
-	 * System.err as the error stream.
-	 */
+    /**
+     * Creates a default Logger. Usually, parts of this software would use the
+     * default logger, which uses System.out as the non-error stream and
+     * System.err as the error stream.
+     */
 
-	public Logger()
+    public Logger()
+    {
+	this(System.out, System.err);
+    }
+
+    /**
+     * 
+     * Creates a Logger and allows you to specify the streams for urgent and
+     * non-urgent writing.
+     * 
+     * @param normalStream
+     *            the non-urgent stream
+     * @param errorStream
+     *            the urgent stream
+     */
+    public Logger(OutputStream normalStream, OutputStream errorStream)
+    {
+	this.normStream = normalStream;
+	this.errorStream = errorStream;
+    }
+
+    /**
+     * 
+     * Write information non-urgently.
+     * 
+     * @param o
+     *            the information being written
+     */
+
+    void info(Object o)
+    {
+	// Write to generic stream
+	try
 	{
-		this(System.out, System.err);
-	}
-
-	/**
-	 * 
-	 * Creates a Logger and allows you to specify the streams for urgent and
-	 * non-urgent writing.
-	 * 
-	 * @param normalStream
-	 *            the non-urgent stream
-	 * @param errorStream
-	 *            the urgent stream
-	 */
-	public Logger(OutputStream normalStream, OutputStream errorStream)
+	    normStream.write(("[I] " + o.toString() + "\n").getBytes());
+	} catch (IOException e)
 	{
-		this.normStream = normalStream;
-		this.errorStream = errorStream;
+	    e.printStackTrace();
 	}
+    }
 
-	/**
-	 * 
-	 * Write information non-urgently.
-	 * 
-	 * @param o
-	 *            the information being written
-	 */
+    /**
+     * 
+     * Write information urgently, but one should not stop the program after
+     * this.
+     * 
+     * @param o
+     *            the information being written
+     */
 
-	void info(Object o)
+    void warn(Object o)
+    {
+	try
 	{
-		// Write to generic stream
-		try
-		{
-			normStream.write(("[I] " + o.toString()).getBytes());
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * 
-	 * Write information urgently, but one should not stop the program after
-	 * this.
-	 * 
-	 * @param o
-	 *            the information being written
-	 */
-
-	void warn(Object o)
+	    errorStream.write(("[W] " + o.toString() + "\n").getBytes());
+	} catch (IOException e)
 	{
-		try
-		{
-			errorStream.write(("[W] " + o.toString()).getBytes());
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+	    e.printStackTrace();
 	}
+    }
 
-	/**
-	 * 
-	 * Write information urgently. The program should terminate after this, but
-	 * not as a result of calling this function.
-	 * 
-	 * @param o
-	 *            the information being written
-	 */
-	void error(Object o)
+    /**
+     * 
+     * Write information urgently. The program should terminate after this, but
+     * not as a result of calling this function.
+     * 
+     * @param o
+     *            the information being written
+     */
+    void error(Object o)
+    {
+	try
 	{
-		try
-		{
-			errorStream.write(("[E] " + o.toString()).getBytes());
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+	    errorStream.write(("[E] " + o.toString() + "\n").getBytes());
+	} catch (IOException e)
+	{
+	    e.printStackTrace();
 	}
+    }
 }

@@ -1,9 +1,11 @@
 package com.esf.tm;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,7 +26,7 @@ import org.javabuilders.swing.SwingJavaBuilder;
  * 
  */
 
-class TestGenerator extends JFrame implements ActionListener
+class TestGenerator extends JFrame
 {
 
     private static final long serialVersionUID = -6456791709807158899L;
@@ -34,10 +36,20 @@ class TestGenerator extends JFrame implements ActionListener
 	    .getDefaultToolkit().getScreenSize().getHeight();
     private BuildResult result;
 
-    private JButton btnPrevPanel;
-    private JButton btnNextPanel;
+    private JButton prevPanel;
+    private JButton nextPanel;
 
     private JPanel mainPanel;
+    private JPanel npPanel;
+
+    private CardLayout layout;
+
+    private Logger logger = new Logger();
+
+    private ArrayList<Integer> panelStops = new ArrayList<Integer>();
+    private ArrayList<Integer> panelStarts = new ArrayList<Integer>();
+
+    private int cardIndex;
 
     /**
      * 
@@ -78,11 +90,17 @@ class TestGenerator extends JFrame implements ActionListener
 	    e.printStackTrace();
 	}
 
-	btnPrevPanel.setVisible(false);
-	btnPrevPanel.setEnabled(false);
+	panelStarts.add(1);
+	panelStops.add(mainPanel.getComponentCount() - 1);
 
-	btnNextPanel.setVisible(false);
-	btnNextPanel.setEnabled(false);
+	remove(npPanel);
+	pack();
+
+	// btnPrevPanel.setVisible(false);
+	// btnPrevPanel.setEnabled(false);
+
+	// btnNextPanel.setVisible(false);
+	// btnNextPanel.setEnabled(false);
 
 	setVisible(true);
     }
@@ -117,10 +135,36 @@ class TestGenerator extends JFrame implements ActionListener
      * Change to the next frame.
      * 
      */
-    
+
     private void nextPanel()
     {
-	((CardLayout) result.get("layout")).next(mainPanel);
+	if (!nextPanel.isEnabled())
+	    return;
+
+	if (!prevPanel.isEnabled())
+	    prevPanel.setEnabled(true);
+
+	if (cardIndex == 0)
+	{
+	    add(npPanel, BorderLayout.SOUTH);
+	    pack();
+	}
+
+	layout.next(mainPanel);
+
+	cardIndex++;
+
+	boolean flag = false;
+
+	for (int i : panelStops)
+	    if (cardIndex == i)
+	    {
+		flag = true;
+		break;
+	    }
+
+	if (flag)
+	    nextPanel.setEnabled(false);
     }
 
     /**
@@ -128,16 +172,30 @@ class TestGenerator extends JFrame implements ActionListener
      * Change to the previous frame.
      * 
      */
-    
+
     private void prevPanel()
     {
-	((CardLayout) result.get("layout")).previous(mainPanel);
-    }
+	if (!prevPanel.isEnabled())
+	    return;
 
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
+	if (!nextPanel.isEnabled())
+	    nextPanel.setEnabled(true);
 
+	layout.previous(mainPanel);
+
+	cardIndex--;
+
+	boolean flag = false;
+
+	for (int i : panelStarts)
+	    if (cardIndex == i)
+	    {
+		flag = true;
+		break;
+	    }
+
+	if (flag)
+	    prevPanel.setEnabled(false);
     }
 
     public static void main(String[] args)
@@ -145,11 +203,6 @@ class TestGenerator extends JFrame implements ActionListener
 	if (SCREEN_WIDTH < 0 || SCREEN_HEIGHT < 0)
 	    ErrorReporter.reportError(
 		    "Error occured while initiating graphics", "");
-
-	SwingJavaBuilder.getConfig().prototype(
-		"JButton(name=btnPrevPanel, text=Previous)");
-	SwingJavaBuilder.getConfig().prototype(
-		"JButton(name=btnNextPanel, text=Next)");
 
 	new TestGenerator();
     }
