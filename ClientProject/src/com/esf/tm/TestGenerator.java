@@ -51,6 +51,9 @@ class TestGenerator extends JFrame
 
     private int cardIndex;
 
+    private static final int CREATE_TEST_PANEL_INDEX = 2,
+	    IMPORT_TEST_PANEL_INDEX = 1;
+
     /**
      * 
      * Creates a new test generator message panel to be used by the teacher.
@@ -90,17 +93,12 @@ class TestGenerator extends JFrame
 	    e.printStackTrace();
 	}
 
-	panelStarts.add(1);
+	panelStarts.add(CREATE_TEST_PANEL_INDEX);
+	panelStarts.add(IMPORT_TEST_PANEL_INDEX);
 	panelStops.add(mainPanel.getComponentCount() - 1);
 
 	remove(npPanel);
 	pack();
-
-	// btnPrevPanel.setVisible(false);
-	// btnPrevPanel.setEnabled(false);
-
-	// btnNextPanel.setVisible(false);
-	// btnNextPanel.setEnabled(false);
 
 	setVisible(true);
     }
@@ -153,18 +151,7 @@ class TestGenerator extends JFrame
 	layout.next(mainPanel);
 
 	cardIndex++;
-
-	boolean flag = false;
-
-	for (int i : panelStops)
-	    if (cardIndex == i)
-	    {
-		flag = true;
-		break;
-	    }
-
-	if (flag)
-	    nextPanel.setEnabled(false);
+	checkButtons();
     }
 
     /**
@@ -184,18 +171,60 @@ class TestGenerator extends JFrame
 	layout.previous(mainPanel);
 
 	cardIndex--;
+	checkButtons();
+    }
 
-	boolean flag = false;
+    private void changePanel(int index)
+    {
+	if (cardIndex == index)
+	    return;
 
-	for (int i : panelStarts)
-	    if (cardIndex == i)
-	    {
-		flag = true;
-		break;
-	    }
+	if (cardIndex == 0)
+	{
+	    add(npPanel, BorderLayout.SOUTH);
+	    pack();
+	}
 
-	if (flag)
-	    prevPanel.setEnabled(false);
+	cardIndex = index;
+	checkButtons();
+
+	layout.show(mainPanel, mainPanel.getComponent(cardIndex).getName());
+    }
+
+    private void checkButtons()
+    {
+	{
+	    boolean flag = false;
+
+	    for (int i : panelStops)
+		if (cardIndex == i)
+		{
+		    flag = true;
+		    break;
+		}
+
+	    if (flag)
+		nextPanel.setEnabled(false);
+	}
+
+	{
+	    boolean flag = false;
+
+	    for (int i : panelStarts)
+		if (cardIndex == i)
+		{
+		    flag = true;
+		    break;
+		}
+
+	    if (flag)
+		prevPanel.setEnabled(false);
+	}
+    }
+
+    private void changePanelCreateTest()
+    {
+	changePanel(CREATE_TEST_PANEL_INDEX);
     }
 
     public static void main(String[] args)

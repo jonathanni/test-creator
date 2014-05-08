@@ -3,7 +3,7 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
      - JPanel(name=titleScreen):
         - JLabel(name=titleScreenText, text=Welcome to Test Generator, font=italic bold Helvetica 40pt)
         - JButton(name=importTestButton, text=Import Existing Test...)
-        - JButton(name=createTestButton, text=Create New Test..., onMouseClicked=[nextPanel])
+        - JButton(name=createTestButton, text=Create New Test..., onMouseClicked=[changePanelCreateTest])
         - JButton(name=exitButton, text=Exit, onMouseClicked=[windowDestroy])
         - MigLayout: |
             [grow]                [grow]                 [grow]
