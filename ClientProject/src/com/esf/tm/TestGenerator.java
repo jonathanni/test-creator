@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -19,7 +20,7 @@ import org.javabuilders.swing.SwingJavaBuilder;
  * 
  * @author Jonathan Ni
  * @since 4/22/14
- * @version 0.0r1
+ * @version 0.0r2
  * 
  */
 
@@ -32,6 +33,11 @@ class TestGenerator extends JFrame implements ActionListener
 	    .getScreenSize().getWidth(), SCREEN_HEIGHT = (int) Toolkit
 	    .getDefaultToolkit().getScreenSize().getHeight();
     private BuildResult result;
+
+    private JButton btnPrevPanel;
+    private JButton btnNextPanel;
+
+    private JPanel mainPanel;
 
     /**
      * 
@@ -72,6 +78,12 @@ class TestGenerator extends JFrame implements ActionListener
 	    e.printStackTrace();
 	}
 
+	btnPrevPanel.setVisible(false);
+	btnPrevPanel.setEnabled(false);
+
+	btnNextPanel.setVisible(false);
+	btnNextPanel.setEnabled(false);
+
 	setVisible(true);
     }
 
@@ -88,19 +100,38 @@ class TestGenerator extends JFrame implements ActionListener
 	System.exit(0);
     }
 
+    /**
+     * 
+     * Function necessary for javabuilders to call in order to destroy the
+     * window.
+     * 
+     */
+
     private void windowDestroy()
     {
 	destroy(new Callback());
     }
 
+    /**
+     * 
+     * Change to the next frame.
+     * 
+     */
+    
     private void nextPanel()
     {
-	((CardLayout) result.get("layout")).next(getContentPane());
+	((CardLayout) result.get("layout")).next(mainPanel);
     }
 
+    /**
+     * 
+     * Change to the previous frame.
+     * 
+     */
+    
     private void prevPanel()
     {
-	((CardLayout) result.get("layout")).previous(getContentPane());
+	((CardLayout) result.get("layout")).previous(mainPanel);
     }
 
     @Override
@@ -116,9 +147,9 @@ class TestGenerator extends JFrame implements ActionListener
 		    "Error occured while initiating graphics", "");
 
 	SwingJavaBuilder.getConfig().prototype(
-		"JButton(name=btnPrev, text=Previous)");
+		"JButton(name=btnPrevPanel, text=Previous)");
 	SwingJavaBuilder.getConfig().prototype(
-		"JButton(name=btnNext, text=Next)");
+		"JButton(name=btnNextPanel, text=Next)");
 
 	new TestGenerator();
     }
