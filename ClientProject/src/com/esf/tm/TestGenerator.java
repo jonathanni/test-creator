@@ -36,13 +36,9 @@ class TestGenerator extends JFrame
 	    .getDefaultToolkit().getScreenSize().getHeight();
     private BuildResult result;
 
-    private JButton prevPanel;
-    private JButton nextPanel;
-
-    private JPanel mainPanel;
-    private JPanel npPanel;
-
-    private CardLayout layout;
+    private JButton prevPanel, nextPanel;
+    private JPanel mainPanel, npPanel, questionContainer;
+    private CardLayout layout, questionLayout;
 
     private Logger logger = new Logger();
 
@@ -53,6 +49,8 @@ class TestGenerator extends JFrame
 
     private static final int CREATE_TEST_PANEL_INDEX = 2,
 	    IMPORT_TEST_PANEL_INDEX = 1;
+
+    private int frameCount;
 
     /**
      * 
@@ -95,7 +93,7 @@ class TestGenerator extends JFrame
 
 	panelStarts.add(CREATE_TEST_PANEL_INDEX);
 	panelStarts.add(IMPORT_TEST_PANEL_INDEX);
-	panelStops.add(mainPanel.getComponentCount() - 1);
+	panelStops.add(frameCount = mainPanel.getComponentCount() - 1);
 
 	remove(npPanel);
 	pack();
@@ -130,7 +128,11 @@ class TestGenerator extends JFrame
 
     /**
      * 
-     * Change to the next frame.
+     * Change to the next frame. This requires testing to see if the button is
+     * enabled, returning if it is not, reenabling the back button if it was
+     * previously disabled, adding the Prev/Next panel if it is not the title
+     * screen, flipping the page, packing, and updating the buttons to
+     * enable/disable based on starts and stops.
      * 
      */
 
@@ -149,6 +151,7 @@ class TestGenerator extends JFrame
 	}
 
 	layout.next(mainPanel);
+	pack();
 
 	cardIndex++;
 	checkButtons();
@@ -156,7 +159,10 @@ class TestGenerator extends JFrame
 
     /**
      * 
-     * Change to the previous frame.
+     * Change to the previous frame. This requires testing to see if the button
+     * is enabled, returning if it is not, reenabling the next button if it was
+     * previously disabled, flipping the page, packing, and updating the buttons
+     * to enable/disable based on starts and stops.
      * 
      */
 
@@ -169,14 +175,32 @@ class TestGenerator extends JFrame
 	    nextPanel.setEnabled(true);
 
 	layout.previous(mainPanel);
+	pack();
 
 	cardIndex--;
 	checkButtons();
     }
 
+    /**
+     * 
+     * Change to an arbitrary frame. This requires testing to see if the index
+     * to change to is different than the current one, returning if it is not,
+     * adding the Prev/Next panel if it is not the title screen, flipping the
+     * page, packing, and updating the buttons to enable/disable based on starts
+     * and stops.
+     * 
+     * This method performs checks to see if the index is within bounds.
+     * 
+     * @param index
+     *            the index to change to
+     */
+
     private void changePanel(int index)
     {
 	if (cardIndex == index)
+	    return;
+
+	if (index < 0 || index >= frameCount)
 	    return;
 
 	if (cardIndex == 0)
@@ -189,7 +213,16 @@ class TestGenerator extends JFrame
 	checkButtons();
 
 	layout.show(mainPanel, mainPanel.getComponent(cardIndex).getName());
+	pack();
     }
+
+    /**
+     * 
+     * Updates the status of the buttons. If the current index is at a start,
+     * disable the previous button. If the current index is at a start, disable
+     * the next button. An index can be both at a start and a stop.
+     * 
+     */
 
     private void checkButtons()
     {
@@ -222,9 +255,30 @@ class TestGenerator extends JFrame
 	}
     }
 
+    /**
+     * 
+     * Changes the panel to the create test frame.
+     * 
+     */
+
     private void changePanelCreateTest()
     {
 	changePanel(CREATE_TEST_PANEL_INDEX);
+    }
+
+    private void chMCQPanel()
+    {
+	questionLayout.show(questionContainer, "MCQuestionContainer");
+    }
+    
+    private void chTFQPanel()
+    {
+	questionLayout.show(questionContainer, "TFQuestionContainer");
+    }
+    
+    private void chFIBQPanel()
+    {
+	questionLayout.show(questionContainer, "FIBQuestionContainer");
     }
 
     public static void main(String[] args)

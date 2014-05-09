@@ -17,9 +17,39 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
         - JTextField(name=testDescriptField)
         - MigLayout: |
             [pref]                            [grow,100]
+            |"Enter Test Information"+*
             "Test Title: "                    testTitleField
             "Test Description (Optional):"    testDescriptField
-     - CardLayout(name=layout): [titleScreen, createTestScreen]
+     - JPanel(name=createQuestionScreen):
+        - JPanel(name=questionTypeContainer):
+           - JPanel(name=questionTypeController):
+              - JRadioButton(name=rb1, text=Multiple Choice Question, selected=true, onMouseClicked=[chMCQPanel])
+              - JRadioButton(name=rb2, text=True/False Question, onMouseClicked=[chTFQPanel])
+              - JRadioButton(name=rb3, text=Fill in the Blank Question, onMouseClicked=[chFIBQPanel])
+              - ButtonGroup: [rb1, rb2, rb3]
+           - MigLayout: |
+               [pref]
+               "Pick a Question Type"
+               questionTypeController
+        - JPanel(name=questionContainer):
+           - JPanel(name=MCQuestionContainer):
+              - MigLayout: |
+                  [pref]
+                  |"Create New Multiple Choice Question"
+           - JPanel(name=TFQuestionContainer):
+              - MigLayout: |
+                  [pref]
+                  |"Create New True/False Question"
+           - JPanel(name=FIBQuestionContainer):
+              - MigLayout: |
+                  [pref]
+                  |"Create New Fill in the Blank Question"
+           - CardLayout(name=questionLayout): [MCQuestionContainer, TFQuestionContainer, FIBQuestionContainer]
+        - MigLayout: |
+            [pref]
+            questionTypeContainer
+            questionContainer
+     - CardLayout(name=layout): [titleScreen, createTestScreen, createQuestionScreen]
   - JPanel(name=npPanel):
      - JButton(name=prevPanel, text=Previous, onMouseClicked=[prevPanel])
      - JButton(name=nextPanel, text=Next, onMouseClicked=[nextPanel])
@@ -30,3 +60,6 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
       [pref]
       mainPanel
       >/npPanel
+validate:
+  - testTitleField.text: {label: Test Title, mandatory: true, minLength : 1}
+  - testDescriptField.text: {label: Test Description, mandatory: false, minLength : 1}
