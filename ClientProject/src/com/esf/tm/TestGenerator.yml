@@ -23,32 +23,33 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
      - JPanel(name=createQuestionScreen):
         - JPanel(name=questionTypeContainer):
            - JPanel(name=questionTypeController):
-              - JRadioButton(name=rb1, text=Multiple Choice Question, selected=true, onMouseClicked=[chMCQPanel])
-              - JRadioButton(name=rb2, text=True/False Question, onMouseClicked=[chTFQPanel])
-              - JRadioButton(name=rb3, text=Fill in the Blank Question, onMouseClicked=[chFIBQPanel])
+              - JRadioButton(name=rb1, text=Multiple Choice Question, selected=true, onMouseClicked=[chMCQPanel, chMCQLabel])
+              - JRadioButton(name=rb2, text=True/False Question, onMouseClicked=[chTFQPanel, chTFQLabel])
+              - JRadioButton(name=rb3, text=Fill in the Blank Question, onMouseClicked=[chFIBQPanel, chFIBQLabel])
               - ButtonGroup: [rb1, rb2, rb3]
            - MigLayout: |
                [pref]
                "Pick a Question Type"
                questionTypeController
+        - JLabel(name=questionLabel, text=Create New Multiple Choice Question):
+        - JTextArea(name=questionDescription, size=5x20):
         - JPanel(name=questionContainer):
            - JPanel(name=MCQuestionContainer):
               - MigLayout: |
                   [pref]
-                  |"Create New Multiple Choice Question"
            - JPanel(name=TFQuestionContainer):
               - MigLayout: |
                   [pref]
-                  |"Create New True/False Question"
            - JPanel(name=FIBQuestionContainer):
               - MigLayout: |
                   [pref]
-                  |"Create New Fill in the Blank Question"
            - CardLayout(name=questionLayout): [MCQuestionContainer, TFQuestionContainer, FIBQuestionContainer]
         - MigLayout: |
-            [pref]
-            questionTypeContainer
-            questionContainer
+            [pref]                  [pref]
+            questionTypeContainer+*
+            questionLabel+*
+            "Description: "         questionDescription
+            questionContainer+*
      - CardLayout(name=layout): [titleScreen, createTestScreen, createQuestionScreen]
   - JPanel(name=npPanel):
      - JButton(name=prevPanel, text=Previous, onMouseClicked=[prevPanel])

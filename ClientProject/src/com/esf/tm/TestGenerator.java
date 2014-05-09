@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -22,7 +23,7 @@ import org.javabuilders.swing.SwingJavaBuilder;
  * 
  * @author Jonathan Ni
  * @since 4/22/14
- * @version 0.0r2
+ * @version 0.0r3
  * 
  */
 
@@ -39,6 +40,7 @@ class TestGenerator extends JFrame
     private JButton prevPanel, nextPanel;
     private JPanel mainPanel, npPanel, questionContainer;
     private CardLayout layout, questionLayout;
+    private JLabel questionLabel;
 
     private Logger logger = new Logger();
 
@@ -270,15 +272,30 @@ class TestGenerator extends JFrame
     {
 	questionLayout.show(questionContainer, "MCQuestionContainer");
     }
-    
+
     private void chTFQPanel()
     {
 	questionLayout.show(questionContainer, "TFQuestionContainer");
     }
-    
+
     private void chFIBQPanel()
     {
 	questionLayout.show(questionContainer, "FIBQuestionContainer");
+    }
+
+    private void chMCQLabel()
+    {
+	questionLabel.setText("Create New Multiple Choice Question");
+    }
+    
+    private void chTFQLabel()
+    {
+	questionLabel.setText("Create New True/False Question");
+    }
+    
+    private void chFIBQLabel()
+    {
+	questionLabel.setText("Create New Fill in the Blank Question");
     }
 
     public static void main(String[] args)
