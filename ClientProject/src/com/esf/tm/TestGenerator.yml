@@ -32,7 +32,8 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
                "Pick a Question Type"
                questionTypeController
         - JLabel(name=questionLabel, text=Create New Multiple Choice Question):
-        - JTextArea(name=questionDescription, size=5x20):
+        - JScrollPane(name=questionScrollPanel, vScrollBar=asNeeded, hScrollBar=never):
+           JTextArea(name=questionDescription, rows=5):
         - JPanel(name=questionContainer):
            - JPanel(name=MCQuestionContainer):
               - MigLayout: |
@@ -45,15 +46,15 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
                   [pref]
            - CardLayout(name=questionLayout): [MCQuestionContainer, TFQuestionContainer, FIBQuestionContainer]
         - MigLayout: |
-            [pref]                  [pref]
+            [pref]                  [grow]
             questionTypeContainer+*
             questionLabel+*
-            "Description: "         questionDescription
+            "Description: "         questionScrollPanel
             questionContainer+*
      - CardLayout(name=layout): [titleScreen, createTestScreen, createQuestionScreen]
   - JPanel(name=npPanel):
      - JButton(name=prevPanel, text=Previous, onMouseClicked=[prevPanel])
-     - JButton(name=nextPanel, text=Next, onMouseClicked=[nextPanel])
+     - JButton(name=nextPanel, text=Next, onMouseClicked=[validateData, nextPanel])
      - MigLayout: |
          [pref]
          >/prevPanel,nextPanel
@@ -61,6 +62,3 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
       [pref]
       mainPanel
       >/npPanel
-validate:
-  - testTitleField.text: {label: Test Title, mandatory: true, minLength : 1}
-  - testDescriptField.text: {label: Test Description, mandatory: false, minLength : 1}

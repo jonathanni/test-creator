@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -41,6 +44,8 @@ class TestGenerator extends JFrame
     private JPanel mainPanel, npPanel, questionContainer;
     private CardLayout layout, questionLayout;
     private JLabel questionLabel;
+    private JTextField testTitleField, testDescriptField;
+    private JTextArea questionDescription;
 
     private Logger logger = new Logger();
 
@@ -49,10 +54,14 @@ class TestGenerator extends JFrame
 
     private int cardIndex;
 
-    private static final int CREATE_TEST_PANEL_INDEX = 2,
-	    IMPORT_TEST_PANEL_INDEX = 1;
+    private static final int TITLE_PANEL_INDEX = 0,
+	    IMPORT_TEST_PANEL_INDEX = 1, CREATE_TEST_PANEL_INDEX = 2,
+	    CREATE_QUESTION_PANEL_INDEX = 3;
 
     private int frameCount;
+
+    private boolean isValid = true;
+    private String invalidMessage;
 
     /**
      * 
@@ -140,6 +149,16 @@ class TestGenerator extends JFrame
 
     private void nextPanel()
     {
+	if (!isValid)
+	{
+	    JOptionPane.showMessageDialog(null, invalidMessage,
+		    "Please re-enter data", JOptionPane.ERROR_MESSAGE);
+	    invalidMessage = "";
+
+	    isValid = true;
+	    return;
+	}
+
 	if (!nextPanel.isEnabled())
 	    return;
 
@@ -199,6 +218,16 @@ class TestGenerator extends JFrame
 
     private void changePanel(int index)
     {
+	if (!isValid)
+	{
+	    JOptionPane.showMessageDialog(null, invalidMessage,
+		    "Please re-enter data", JOptionPane.ERROR_MESSAGE);
+	    invalidMessage = "";
+
+	    isValid = true;
+	    return;
+	}
+
 	if (cardIndex == index)
 	    return;
 
@@ -268,6 +297,21 @@ class TestGenerator extends JFrame
 	changePanel(CREATE_TEST_PANEL_INDEX);
     }
 
+    private void validateData()
+    {
+	switch (cardIndex)
+	{
+	    case CREATE_TEST_PANEL_INDEX:
+		isValid = testTitleField.getText().length() != 0;
+		invalidMessage = "The Test Title Field is Mandatory";
+		break;
+	    case CREATE_QUESTION_PANEL_INDEX:
+		isValid = questionDescription.getText().length() != 0;
+		invalidMessage = "The Question Description Field is Mandatory";
+		break;
+	}
+    }
+
     private void chMCQPanel()
     {
 	questionLayout.show(questionContainer, "MCQuestionContainer");
@@ -287,12 +331,12 @@ class TestGenerator extends JFrame
     {
 	questionLabel.setText("Create New Multiple Choice Question");
     }
-    
+
     private void chTFQLabel()
     {
 	questionLabel.setText("Create New True/False Question");
     }
-    
+
     private void chFIBQLabel()
     {
 	questionLabel.setText("Create New Fill in the Blank Question");
