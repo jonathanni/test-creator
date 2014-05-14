@@ -1,5 +1,5 @@
 JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDestroy]):
-  - JPanel(name=mainPanel):
+  - JPanel(name=tmainPanel):
      - JPanel(name=titleScreen):
         - JLabel(name=titleScreenText, text=Welcome to Test Generator, font=italic bold Helvetica 40pt)
         - JButton(name=importTestButton, text=Import Existing Test...)
@@ -60,5 +60,5 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
          >/prevPanel,nextPanel
   - MigLayout: |
       [pref]
-      mainPanel
+      tmainPanel
       >/npPanel

@@ -2,6 +2,7 @@ package com.esf.tm;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,7 +27,7 @@ import org.javabuilders.swing.SwingJavaBuilder;
  * 
  * @author Jonathan Ni
  * @since 4/22/14
- * @version 0.0r3
+ * @version 0.0r4
  * 
  */
 
@@ -41,7 +42,8 @@ class TestGenerator extends JFrame
     private BuildResult result;
 
     private JButton prevPanel, nextPanel;
-    private JPanel mainPanel, npPanel, questionContainer;
+    private JPanel mainPanel, tmainPanel, npPanel, questionContainer;
+    private CustomCardLayout customLayout;
     private CardLayout layout, questionLayout;
     private JLabel questionLabel;
     private JTextField testTitleField, testDescriptField;
@@ -102,11 +104,30 @@ class TestGenerator extends JFrame
 	    e.printStackTrace();
 	}
 
+	// Add in where the buttons should be disabled
 	panelStarts.add(CREATE_TEST_PANEL_INDEX);
 	panelStarts.add(IMPORT_TEST_PANEL_INDEX);
-	panelStops.add(frameCount = mainPanel.getComponentCount() - 1);
+	panelStops.add(frameCount = tmainPanel.getComponentCount() - 1);
 
+	// Create a new layout which packs to each JPanel size, create a new
+	// panel with that layout, add all the components from the old to the
+	// new, then add the new panel
+	customLayout = new CustomCardLayout();
+	mainPanel = new JPanel(customLayout);
+
+	{
+	    int j = 0;
+	    for (Component i : tmainPanel.getComponents())
+	    {
+		mainPanel.add((JPanel) i, String.valueOf(j++));
+		System.out.println(i);
+	    }
+	}
+
+	remove(tmainPanel);
 	remove(npPanel);
+
+	add(mainPanel);
 	pack();
 
 	setVisible(true);
@@ -171,7 +192,7 @@ class TestGenerator extends JFrame
 	    pack();
 	}
 
-	layout.next(mainPanel);
+	customLayout.next(mainPanel);
 	pack();
 
 	cardIndex++;
@@ -195,7 +216,7 @@ class TestGenerator extends JFrame
 	if (!nextPanel.isEnabled())
 	    nextPanel.setEnabled(true);
 
-	layout.previous(mainPanel);
+	customLayout.previous(mainPanel);
 	pack();
 
 	cardIndex--;
@@ -243,7 +264,7 @@ class TestGenerator extends JFrame
 	cardIndex = index;
 	checkButtons();
 
-	layout.show(mainPanel, mainPanel.getComponent(cardIndex).getName());
+	customLayout.show(mainPanel, String.valueOf(cardIndex));
 	pack();
     }
 
@@ -297,6 +318,12 @@ class TestGenerator extends JFrame
 	changePanel(CREATE_TEST_PANEL_INDEX);
     }
 
+    /**
+     * 
+     * Validate the data contained in each panel.
+     * 
+     */
+
     private void validateData()
     {
 	switch (cardIndex)
@@ -312,30 +339,66 @@ class TestGenerator extends JFrame
 	}
     }
 
+    /**
+     * 
+     * Change the question panel to the multiple choice question selection.
+     * 
+     */
+
     private void chMCQPanel()
     {
 	questionLayout.show(questionContainer, "MCQuestionContainer");
     }
+
+    /**
+     * 
+     * Change the question panel to the true/false question selection.
+     * 
+     */
 
     private void chTFQPanel()
     {
 	questionLayout.show(questionContainer, "TFQuestionContainer");
     }
 
+    /**
+     * 
+     * Change the question panel to the fill in the blank question selection.
+     * 
+     */
+
     private void chFIBQPanel()
     {
 	questionLayout.show(questionContainer, "FIBQuestionContainer");
     }
+
+    /**
+     * 
+     * Change the question label to the multiple choice question selection.
+     * 
+     */
 
     private void chMCQLabel()
     {
 	questionLabel.setText("Create New Multiple Choice Question");
     }
 
+    /**
+     * 
+     * Change the question label to the true/false question selection.
+     * 
+     */
+
     private void chTFQLabel()
     {
 	questionLabel.setText("Create New True/False Question");
     }
+
+    /**
+     * 
+     * Change the question label to the fill in the blank question selection.
+     * 
+     */
 
     private void chFIBQLabel()
     {

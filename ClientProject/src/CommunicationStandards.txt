@@ -3,4 +3,4 @@ Standards for Communications (PROTOCOL) Using JSON from Client to Server .......
 Preamble
 
 This document is necessary in establishing a mode of secure communication
-between the client and the server. 
+between the client and the server.
