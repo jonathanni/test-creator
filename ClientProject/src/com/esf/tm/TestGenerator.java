@@ -41,8 +41,8 @@ class TestGenerator extends JFrame
 	    .getDefaultToolkit().getScreenSize().getHeight();
     private BuildResult result;
 
-    private JButton prevPanel, nextPanel;
-    private JPanel mainPanel, tmainPanel, npPanel, questionContainer;
+    private JButton prevPanel, nextPanel, addQ, remQ;
+    private JPanel mainPanel, tmainPanel, npPanel, qPanel, questionContainer;
     private CustomCardLayout customLayout;
     private CardLayout layout, questionLayout;
     private JLabel questionLabel;
@@ -54,16 +54,16 @@ class TestGenerator extends JFrame
     private ArrayList<Integer> panelStops = new ArrayList<Integer>();
     private ArrayList<Integer> panelStarts = new ArrayList<Integer>();
 
-    private int cardIndex;
+    private int cardIndex, frameCount, questionIndex, questionCount;
 
     private static final int TITLE_PANEL_INDEX = 0,
 	    IMPORT_TEST_PANEL_INDEX = 1, CREATE_TEST_PANEL_INDEX = 2,
 	    CREATE_QUESTION_PANEL_INDEX = 3;
 
-    private int frameCount;
-
     private boolean isValid = true;
     private String invalidMessage;
+
+    private Test currentTest = new Test();
 
     /**
      * 
@@ -118,14 +118,12 @@ class TestGenerator extends JFrame
 	{
 	    int j = 0;
 	    for (Component i : tmainPanel.getComponents())
-	    {
 		mainPanel.add((JPanel) i, String.valueOf(j++));
-		System.out.println(i);
-	    }
 	}
 
 	remove(tmainPanel);
 	remove(npPanel);
+	remove(qPanel);
 
 	add(mainPanel);
 	pack();
@@ -183,6 +181,12 @@ class TestGenerator extends JFrame
 	if (!nextPanel.isEnabled())
 	    return;
 
+	if (cardIndex == CREATE_TEST_PANEL_INDEX)
+	{
+	    add(qPanel, BorderLayout.SOUTH);
+	    pack();
+	}
+
 	if (!prevPanel.isEnabled())
 	    prevPanel.setEnabled(true);
 
@@ -212,6 +216,12 @@ class TestGenerator extends JFrame
     {
 	if (!prevPanel.isEnabled())
 	    return;
+
+	if (cardIndex == CREATE_QUESTION_PANEL_INDEX && questionIndex == 0)
+	{
+	    remove(qPanel);
+	    pack();
+	}
 
 	if (!nextPanel.isEnabled())
 	    nextPanel.setEnabled(true);
@@ -252,10 +262,10 @@ class TestGenerator extends JFrame
 	if (cardIndex == index)
 	    return;
 
-	if (index < 0 || index >= frameCount)
+	if (index < TITLE_PANEL_INDEX || index >= frameCount)
 	    return;
 
-	if (cardIndex == 0)
+	if (cardIndex == TITLE_PANEL_INDEX)
 	{
 	    add(npPanel, BorderLayout.SOUTH);
 	    pack();
@@ -337,6 +347,27 @@ class TestGenerator extends JFrame
 		invalidMessage = "The Question Description Field is Mandatory";
 		break;
 	}
+    }
+
+    private void addQuestion()
+    {
+	currentTest.addQuestionAtIndex(questionIndex + 1, new Question("", 0));
+	questionCount++;
+
+	if (questionCount >= 2)
+	    remQ.setEnabled(true);
+    }
+
+    private void removeQuestion()
+    {
+	if (questionCount <= 1)
+	    return;
+
+	currentTest.removeQuestion(questionIndex);
+	questionCount--;
+
+	if (questionCount == 1)
+	    remQ.setEnabled(false);
     }
 
     /**

@@ -56,6 +56,19 @@ public class Test
     {
 	questionList.add(question);
     }
+    
+    /**
+     * 
+     * Adds a question to the test.
+     * 
+     * @param question
+     *            the question
+     */
+
+    void addQuestionAtIndex(int index, Question question)
+    {
+	questionList.add(index, question);
+    }
 
     /**
      * 

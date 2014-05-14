@@ -52,6 +52,9 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
             "Description: "         questionScrollPanel
             questionContainer+*
      - CardLayout(name=layout): [titleScreen, createTestScreen, createQuestionScreen]
+  - JPanel(name=qPanel):
+     - JButton(name=addQ, text=Add New Question, onMouseClicked=[addQuestion])
+     - JButton(name=remQ, text=Remove Current Question, onMouseClicked=[removeQuestion])
   - JPanel(name=npPanel):
      - JButton(name=prevPanel, text=Previous, onMouseClicked=[prevPanel])
      - JButton(name=nextPanel, text=Next, onMouseClicked=[validateData, nextPanel])
@@ -61,4 +64,5 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
   - MigLayout: |
       [pref]
       tmainPanel
+      qPanel
       >/npPanel
