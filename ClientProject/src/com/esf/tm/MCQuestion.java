@@ -19,6 +19,7 @@ class MCQuestion extends Question
 {
     private ArrayList<Choice> choiceList = new ArrayList<Choice>();
     private int correctAnswer;
+    private boolean isMixable;
 
     /**
      * 
@@ -150,6 +151,16 @@ class MCQuestion extends Question
     public void setCorrectAnswer(int correctAnswer)
     {
 	this.correctAnswer = correctAnswer;
+    }
+
+    public boolean isMixable()
+    {
+	return isMixable;
+    }
+
+    public void setMixable(boolean isMixable)
+    {
+	this.isMixable = isMixable;
     }
 
     /**

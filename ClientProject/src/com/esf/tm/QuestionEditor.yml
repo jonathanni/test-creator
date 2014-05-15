@@ -14,8 +14,10 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
      JTextArea(name=questionDescription, rows=5):
   - JPanel(name=questionContainer):
      - JPanel(name=MCQuestionContainer):
+        - JCheckBox(name=questionMixable, text="Choices Mixable?")
         - MigLayout: |
             [pref]
+            questionMixable
      - JPanel(name=TFQuestionContainer):
         - MigLayout: |
             [pref]
