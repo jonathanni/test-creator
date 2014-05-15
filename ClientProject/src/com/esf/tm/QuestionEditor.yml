@@ -1,0 +1,33 @@
+JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit]):
+  - JPanel(name=questionTypeContainer):
+     - JPanel(name=questionTypeController):
+        - JRadioButton(name=rb1, text=Multiple Choice Question, selected=true, onMouseClicked=[chMCQPanel, chMCQLabel])
+        - JRadioButton(name=rb2, text=True/False Question, onMouseClicked=[chTFQPanel, chTFQLabel])
+        - JRadioButton(name=rb3, text=Fill in the Blank Question, onMouseClicked=[chFIBQPanel, chFIBQLabel])
+        - ButtonGroup: [rb1, rb2, rb3]
+     - MigLayout: |
+         [pref]
+         "Pick a Question Type"
+         questionTypeController
+  - JLabel(name=questionLabel, text=Create New Multiple Choice Question):
+  - JScrollPane(name=questionScrollPanel, vScrollBar=asNeeded, hScrollBar=never):
+     JTextArea(name=questionDescription, rows=5):
+  - JPanel(name=questionContainer):
+     - JPanel(name=MCQuestionContainer):
+        - MigLayout: |
+            [pref]
+     - JPanel(name=TFQuestionContainer):
+        - MigLayout: |
+            [pref]
+     - JPanel(name=FIBQuestionContainer):
+        - MigLayout: |
+            [pref]
+     - CardLayout(name=questionLayout): [MCQuestionContainer, TFQuestionContainer, FIBQuestionContainer]
+  - JButton(name=exitButton, text=exit, onMouseClicked=[exit])
+  - MigLayout: |
+      [pref]                  [grow]
+      questionTypeContainer+*
+      questionLabel+*
+      "Description: "         questionScrollPanel
+      questionContainer+*
+      |exitButton

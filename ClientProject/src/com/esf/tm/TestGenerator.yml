@@ -21,40 +21,22 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
             "Test Title: "                    testTitleField
             "Test Description (Optional):"    testDescriptField
      - JPanel(name=createQuestionScreen):
-        - JPanel(name=questionTypeContainer):
-           - JPanel(name=questionTypeController):
-              - JRadioButton(name=rb1, text=Multiple Choice Question, selected=true, onMouseClicked=[chMCQPanel, chMCQLabel])
-              - JRadioButton(name=rb2, text=True/False Question, onMouseClicked=[chTFQPanel, chTFQLabel])
-              - JRadioButton(name=rb3, text=Fill in the Blank Question, onMouseClicked=[chFIBQPanel, chFIBQLabel])
-              - ButtonGroup: [rb1, rb2, rb3]
+        - JPanel(name=qPanel):
+           - JScrollPane(name=qListScrollPanel, vScrollBar=asNeeded, hScrollBar=never):
+              JList(name=qList, selectionMode=0)
+           - JButton(name=editQ, text=Edit Question, onMouseClicked=[editQuestion])
+           - JButton(name=addQ, text=Add Question, onMouseClicked=[addQuestion])
+           - JButton(name=remQ, text=Remove Question, enabled=false, onMouseClicked=[removeQuestion])
            - MigLayout: |
-               [pref]
-               "Pick a Question Type"
-               questionTypeController
-        - JLabel(name=questionLabel, text=Create New Multiple Choice Question):
-        - JScrollPane(name=questionScrollPanel, vScrollBar=asNeeded, hScrollBar=never):
-           JTextArea(name=questionDescription, rows=5):
-        - JPanel(name=questionContainer):
-           - JPanel(name=MCQuestionContainer):
-              - MigLayout: |
-                  [pref]
-           - JPanel(name=TFQuestionContainer):
-              - MigLayout: |
-                  [pref]
-           - JPanel(name=FIBQuestionContainer):
-              - MigLayout: |
-                  [pref]
-           - CardLayout(name=questionLayout): [MCQuestionContainer, TFQuestionContainer, FIBQuestionContainer]
+               [grow,100]                     [pref]
+               qListScrollPanel+1+*           editQ
+                                              addQ
+                                              remQ
         - MigLayout: |
-            [pref]                  [grow]
-            questionTypeContainer+*
-            questionLabel+*
-            "Description: "         questionScrollPanel
-            questionContainer+*
+            [pref]
+            |"Question Creation Zone"
+            qPanel
      - CardLayout(name=layout): [titleScreen, createTestScreen, createQuestionScreen]
-  - JPanel(name=qPanel):
-     - JButton(name=addQ, text=Add New Question, onMouseClicked=[addQuestion])
-     - JButton(name=remQ, text=Remove Current Question, onMouseClicked=[removeQuestion])
   - JPanel(name=npPanel):
      - JButton(name=prevPanel, text=Previous, onMouseClicked=[prevPanel])
      - JButton(name=nextPanel, text=Next, onMouseClicked=[validateData, nextPanel])
@@ -64,5 +46,6 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
   - MigLayout: |
       [pref]
       tmainPanel
-      qPanel
       >/npPanel
+bind:
+  - qList.model: this.testQuestions

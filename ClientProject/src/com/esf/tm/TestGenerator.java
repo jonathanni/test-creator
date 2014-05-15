@@ -1,22 +1,22 @@
 package com.esf.tm;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.javabuilders.BuildResult;
 import org.javabuilders.swing.SwingJavaBuilder;
@@ -27,421 +27,445 @@ import org.javabuilders.swing.SwingJavaBuilder;
  * 
  * @author Jonathan Ni
  * @since 4/22/14
- * @version 0.0r4
+ * @version 0.0r6
  * 
  */
 
-class TestGenerator extends JFrame
+class TestGenerator extends JFrame implements ListSelectionListener
 {
 
-    private static final long serialVersionUID = -6456791709807158899L;
+	private static final long serialVersionUID = -6456791709807158899L;
 
-    private static final int SCREEN_WIDTH = (int) Toolkit.getDefaultToolkit()
-	    .getScreenSize().getWidth(), SCREEN_HEIGHT = (int) Toolkit
-	    .getDefaultToolkit().getScreenSize().getHeight();
-    private BuildResult result;
+	private static final int SCREEN_WIDTH = (int) Toolkit.getDefaultToolkit()
+			.getScreenSize().getWidth(), SCREEN_HEIGHT = (int) Toolkit
+			.getDefaultToolkit().getScreenSize().getHeight();
 
-    private JButton prevPanel, nextPanel, addQ, remQ;
-    private JPanel mainPanel, tmainPanel, npPanel, qPanel, questionContainer;
-    private CustomCardLayout customLayout;
-    private CardLayout layout, questionLayout;
-    private JLabel questionLabel;
-    private JTextField testTitleField, testDescriptField;
-    private JTextArea questionDescription;
+	private static TestGenerator instance;
+	private BuildResult result;
 
-    private Logger logger = new Logger();
+	// GUI objects. These are initialized using Javabuilders in the
+	// TestGenerator.yml document, but they can be referenced here.
+	private JButton prevPanel, nextPanel, addQ, remQ;
+	private JPanel mainPanel, tmainPanel, npPanel, qPanel;
+	private CustomCardLayout customLayout;
+	private JTextField testTitleField, testDescriptField;
+	private JTextArea questionDescription;
+	private JList qList;
 
-    private ArrayList<Integer> panelStops = new ArrayList<Integer>();
-    private ArrayList<Integer> panelStarts = new ArrayList<Integer>();
+	// For debug purposes only
+	private Logger logger = new Logger();
 
-    private int cardIndex, frameCount, questionIndex, questionCount;
+	private ArrayList<Integer> panelStops = new ArrayList<Integer>();
+	private ArrayList<Integer> panelStarts = new ArrayList<Integer>();
 
-    private static final int TITLE_PANEL_INDEX = 0,
-	    IMPORT_TEST_PANEL_INDEX = 1, CREATE_TEST_PANEL_INDEX = 2,
-	    CREATE_QUESTION_PANEL_INDEX = 3;
+	// Controller indices and counters for the number of frames/questions
+	private int cardIndex, frameCount, questionIndex = -1, questionCount;
 
-    private boolean isValid = true;
-    private String invalidMessage;
+	// Constants for each frame ID
+	private static final int TITLE_PANEL_INDEX = 0,
+			IMPORT_TEST_PANEL_INDEX = 1, CREATE_TEST_PANEL_INDEX = 2,
+			CREATE_QUESTION_PANEL_INDEX = 3;
 
-    private Test currentTest = new Test();
+	// Used by the validator
+	private boolean isValid = true;
+	private String invalidMessage;
 
-    /**
-     * 
-     * Creates a new test generator message panel to be used by the teacher.
-     * 
-     */
+	// The Test associated with this object
+	private Test currentTest = new Test();
 
-    public TestGenerator()
-    {
-	result = SwingJavaBuilder.build(this);
+	private ArrayList<Question> testQuestions = new ArrayList<Question>();
+	private DefaultListModel qListModel = new DefaultListModel();
 
-	try
+	/**
+	 * 
+	 * Creates a new test generator message panel to be used by the teacher.
+	 * 
+	 */
+
+	private TestGenerator()
 	{
-	    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	} catch (ClassNotFoundException e)
-	{
-	    ErrorReporter.reportError(
-		    "An error has occured while trying to open the window.",
-		    Util.stackTraceToString(e));
-	    e.printStackTrace();
-	} catch (InstantiationException e)
-	{
-	    ErrorReporter.reportError(
-		    "An error has occured while trying to open the window.",
-		    Util.stackTraceToString(e));
-	    e.printStackTrace();
-	} catch (IllegalAccessException e)
-	{
-	    ErrorReporter.reportError(
-		    "An error has occured while trying to open the window.",
-		    Util.stackTraceToString(e));
-	    e.printStackTrace();
-	} catch (UnsupportedLookAndFeelException e)
-	{
-	    ErrorReporter.reportError(
-		    "An error has occured while trying to open the window.",
-		    Util.stackTraceToString(e));
-	    e.printStackTrace();
-	}
+		result = SwingJavaBuilder.build(this);
 
-	// Add in where the buttons should be disabled
-	panelStarts.add(CREATE_TEST_PANEL_INDEX);
-	panelStarts.add(IMPORT_TEST_PANEL_INDEX);
-	panelStops.add(frameCount = tmainPanel.getComponentCount() - 1);
-
-	// Create a new layout which packs to each JPanel size, create a new
-	// panel with that layout, add all the components from the old to the
-	// new, then add the new panel
-	customLayout = new CustomCardLayout();
-	mainPanel = new JPanel(customLayout);
-
-	{
-	    int j = 0;
-	    for (Component i : tmainPanel.getComponents())
-		mainPanel.add((JPanel) i, String.valueOf(j++));
-	}
-
-	remove(tmainPanel);
-	remove(npPanel);
-	remove(qPanel);
-
-	add(mainPanel);
-	pack();
-
-	setVisible(true);
-    }
-
-    /**
-     * 
-     * Destroys the program.
-     * 
-     * @param callback
-     *            the "function" to call before exiting.
-     */
-    static void destroy(Callback callback)
-    {
-	callback.cbFunction();
-	System.exit(0);
-    }
-
-    /**
-     * 
-     * Function necessary for javabuilders to call in order to destroy the
-     * window.
-     * 
-     */
-
-    private void windowDestroy()
-    {
-	destroy(new Callback());
-    }
-
-    /**
-     * 
-     * Change to the next frame. This requires testing to see if the button is
-     * enabled, returning if it is not, reenabling the back button if it was
-     * previously disabled, adding the Prev/Next panel if it is not the title
-     * screen, flipping the page, packing, and updating the buttons to
-     * enable/disable based on starts and stops.
-     * 
-     */
-
-    private void nextPanel()
-    {
-	if (!isValid)
-	{
-	    JOptionPane.showMessageDialog(null, invalidMessage,
-		    "Please re-enter data", JOptionPane.ERROR_MESSAGE);
-	    invalidMessage = "";
-
-	    isValid = true;
-	    return;
-	}
-
-	if (!nextPanel.isEnabled())
-	    return;
-
-	if (cardIndex == CREATE_TEST_PANEL_INDEX)
-	{
-	    add(qPanel, BorderLayout.SOUTH);
-	    pack();
-	}
-
-	if (!prevPanel.isEnabled())
-	    prevPanel.setEnabled(true);
-
-	if (cardIndex == 0)
-	{
-	    add(npPanel, BorderLayout.SOUTH);
-	    pack();
-	}
-
-	customLayout.next(mainPanel);
-	pack();
-
-	cardIndex++;
-	checkButtons();
-    }
-
-    /**
-     * 
-     * Change to the previous frame. This requires testing to see if the button
-     * is enabled, returning if it is not, reenabling the next button if it was
-     * previously disabled, flipping the page, packing, and updating the buttons
-     * to enable/disable based on starts and stops.
-     * 
-     */
-
-    private void prevPanel()
-    {
-	if (!prevPanel.isEnabled())
-	    return;
-
-	if (cardIndex == CREATE_QUESTION_PANEL_INDEX && questionIndex == 0)
-	{
-	    remove(qPanel);
-	    pack();
-	}
-
-	if (!nextPanel.isEnabled())
-	    nextPanel.setEnabled(true);
-
-	customLayout.previous(mainPanel);
-	pack();
-
-	cardIndex--;
-	checkButtons();
-    }
-
-    /**
-     * 
-     * Change to an arbitrary frame. This requires testing to see if the index
-     * to change to is different than the current one, returning if it is not,
-     * adding the Prev/Next panel if it is not the title screen, flipping the
-     * page, packing, and updating the buttons to enable/disable based on starts
-     * and stops.
-     * 
-     * This method performs checks to see if the index is within bounds.
-     * 
-     * @param index
-     *            the index to change to
-     */
-
-    private void changePanel(int index)
-    {
-	if (!isValid)
-	{
-	    JOptionPane.showMessageDialog(null, invalidMessage,
-		    "Please re-enter data", JOptionPane.ERROR_MESSAGE);
-	    invalidMessage = "";
-
-	    isValid = true;
-	    return;
-	}
-
-	if (cardIndex == index)
-	    return;
-
-	if (index < TITLE_PANEL_INDEX || index >= frameCount)
-	    return;
-
-	if (cardIndex == TITLE_PANEL_INDEX)
-	{
-	    add(npPanel, BorderLayout.SOUTH);
-	    pack();
-	}
-
-	cardIndex = index;
-	checkButtons();
-
-	customLayout.show(mainPanel, String.valueOf(cardIndex));
-	pack();
-    }
-
-    /**
-     * 
-     * Updates the status of the buttons. If the current index is at a start,
-     * disable the previous button. If the current index is at a start, disable
-     * the next button. An index can be both at a start and a stop.
-     * 
-     */
-
-    private void checkButtons()
-    {
-	{
-	    boolean flag = false;
-
-	    for (int i : panelStops)
-		if (cardIndex == i)
+		try
 		{
-		    flag = true;
-		    break;
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e)
+		{
+			ErrorReporter.reportError(
+					"An error has occured while trying to open the window.",
+					Util.stackTraceToString(e));
+			e.printStackTrace();
+		} catch (InstantiationException e)
+		{
+			ErrorReporter.reportError(
+					"An error has occured while trying to open the window.",
+					Util.stackTraceToString(e));
+			e.printStackTrace();
+		} catch (IllegalAccessException e)
+		{
+			ErrorReporter.reportError(
+					"An error has occured while trying to open the window.",
+					Util.stackTraceToString(e));
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e)
+		{
+			ErrorReporter.reportError(
+					"An error has occured while trying to open the window.",
+					Util.stackTraceToString(e));
+			e.printStackTrace();
 		}
 
-	    if (flag)
-		nextPanel.setEnabled(false);
-	}
+		// Add in where the buttons should be disabled
+		panelStarts.add(CREATE_TEST_PANEL_INDEX);
+		panelStarts.add(IMPORT_TEST_PANEL_INDEX);
+		panelStops.add(frameCount = tmainPanel.getComponentCount() - 1);
 
-	{
-	    boolean flag = false;
+		// Create a new layout which packs to each JPanel size, create a new
+		// panel with that layout, add all the components from the old to the
+		// new, then add the new panel
+		customLayout = new CustomCardLayout();
+		mainPanel = new JPanel(customLayout);
 
-	    for (int i : panelStarts)
-		if (cardIndex == i)
 		{
-		    flag = true;
-		    break;
+			int j = 0;
+			for (Component i : tmainPanel.getComponents())
+				mainPanel.add((JPanel) i, "" + j++);
 		}
 
-	    if (flag)
-		prevPanel.setEnabled(false);
+		// Bind the JList to the list model
+		qList.setModel(qListModel);
+		qList.getSelectionModel().addListSelectionListener(this);
+
+		remove(tmainPanel);
+		remove(npPanel);
+
+		add(mainPanel);
+
+		setResizable(false);
+
+		setVisible(true);
+		pack();
 	}
-    }
 
-    /**
-     * 
-     * Changes the panel to the create test frame.
-     * 
-     */
-
-    private void changePanelCreateTest()
-    {
-	changePanel(CREATE_TEST_PANEL_INDEX);
-    }
-
-    /**
-     * 
-     * Validate the data contained in each panel.
-     * 
-     */
-
-    private void validateData()
-    {
-	switch (cardIndex)
+	/**
+	 * 
+	 * Destroys the program.
+	 * 
+	 * @param callback
+	 *            the "function" to call before exiting.
+	 */
+	static void destroy(Callback callback)
 	{
-	    case CREATE_TEST_PANEL_INDEX:
-		isValid = testTitleField.getText().length() != 0;
-		invalidMessage = "The Test Title Field is Mandatory";
-		break;
-	    case CREATE_QUESTION_PANEL_INDEX:
-		isValid = questionDescription.getText().length() != 0;
-		invalidMessage = "The Question Description Field is Mandatory";
-		break;
+		callback.cbFunction();
+		System.exit(0);
 	}
-    }
 
-    private void addQuestion()
-    {
-	currentTest.addQuestionAtIndex(questionIndex + 1, new Question("", 0));
-	questionCount++;
+	/**
+	 * 
+	 * Function necessary for javabuilders to call in order to destroy the
+	 * window.
+	 * 
+	 */
 
-	if (questionCount >= 2)
-	    remQ.setEnabled(true);
-    }
+	private void windowDestroy()
+	{
+		destroy(new Callback());
+	}
 
-    private void removeQuestion()
-    {
-	if (questionCount <= 1)
-	    return;
+	/**
+	 * 
+	 * Change to the next frame. This requires testing to see if the button is
+	 * enabled, returning if it is not, reenabling the back button if it was
+	 * previously disabled, adding the Prev/Next panel if it is not the title
+	 * screen, flipping the page, packing, and updating the buttons to
+	 * enable/disable based on starts and stops.
+	 * 
+	 */
 
-	currentTest.removeQuestion(questionIndex);
-	questionCount--;
+	private void nextPanel()
+	{
+		// Prevent going to the next page due to validation failing
+		if (!isValid)
+		{
+			JOptionPane.showMessageDialog(null, invalidMessage,
+					"Please re-enter data", JOptionPane.ERROR_MESSAGE);
+			invalidMessage = "";
 
-	if (questionCount == 1)
-	    remQ.setEnabled(false);
-    }
+			isValid = true;
+			return;
+		}
 
-    /**
-     * 
-     * Change the question panel to the multiple choice question selection.
-     * 
-     */
+		// Prevent going to the next page due to the button being disabled
+		if (!nextPanel.isEnabled())
+			return;
 
-    private void chMCQPanel()
-    {
-	questionLayout.show(questionContainer, "MCQuestionContainer");
-    }
+		if (cardIndex == CREATE_TEST_PANEL_INDEX)
+		{
+			add(qPanel, BorderLayout.SOUTH);
+			pack();
+		}
 
-    /**
-     * 
-     * Change the question panel to the true/false question selection.
-     * 
-     */
+		// If the prev button is disabled, enable it, since the user can now go
+		// back
+		if (!prevPanel.isEnabled())
+			prevPanel.setEnabled(true);
 
-    private void chTFQPanel()
-    {
-	questionLayout.show(questionContainer, "TFQuestionContainer");
-    }
+		// If the user is going away from the first page, add the prev/next
+		// buttons
+		if (cardIndex == TITLE_PANEL_INDEX)
+		{
+			add(npPanel, BorderLayout.SOUTH);
+			pack();
+		}
 
-    /**
-     * 
-     * Change the question panel to the fill in the blank question selection.
-     * 
-     */
+		cardIndex++;
+		checkButtons();
 
-    private void chFIBQPanel()
-    {
-	questionLayout.show(questionContainer, "FIBQuestionContainer");
-    }
+		customLayout.next(mainPanel);
+		pack();
+	}
 
-    /**
-     * 
-     * Change the question label to the multiple choice question selection.
-     * 
-     */
+	/**
+	 * 
+	 * Change to the previous frame. This requires testing to see if the button
+	 * is enabled, returning if it is not, reenabling the next button if it was
+	 * previously disabled, flipping the page, packing, and updating the buttons
+	 * to enable/disable based on starts and stops.
+	 * 
+	 */
 
-    private void chMCQLabel()
-    {
-	questionLabel.setText("Create New Multiple Choice Question");
-    }
+	private void prevPanel()
+	{
+		// Prevent going to the prev page due to the button being disabled
+		if (!prevPanel.isEnabled())
+			return;
 
-    /**
-     * 
-     * Change the question label to the true/false question selection.
-     * 
-     */
+		// If the panel is flipped before the first question creation panel,
+		// remove the add/remove question panel
+		if (cardIndex == CREATE_QUESTION_PANEL_INDEX)
+		{
+			remove(qPanel);
+			pack();
+		}
 
-    private void chTFQLabel()
-    {
-	questionLabel.setText("Create New True/False Question");
-    }
+		// If the next button is disabled, enable it, since the user can now go
+		// forward
+		if (!nextPanel.isEnabled())
+			nextPanel.setEnabled(true);
 
-    /**
-     * 
-     * Change the question label to the fill in the blank question selection.
-     * 
-     */
+		cardIndex--;
+		checkButtons();
 
-    private void chFIBQLabel()
-    {
-	questionLabel.setText("Create New Fill in the Blank Question");
-    }
+		customLayout.previous(mainPanel);
+		pack();
+	}
 
-    public static void main(String[] args)
-    {
-	if (SCREEN_WIDTH < 0 || SCREEN_HEIGHT < 0)
-	    ErrorReporter.reportError(
-		    "Error occured while initiating graphics", "");
+	/**
+	 * 
+	 * Change to an arbitrary frame. This requires testing to see if the index
+	 * to change to is different than the current one, returning if it is not,
+	 * adding the Prev/Next panel if it is not the title screen, flipping the
+	 * page, packing, and updating the buttons to enable/disable based on starts
+	 * and stops.
+	 * 
+	 * This method performs checks to see if the index is within bounds.
+	 * 
+	 * @param index
+	 *            the index to change to
+	 */
 
-	new TestGenerator();
-    }
+	private void changePanel(int index)
+	{
+		// Prevent going to the page due to validation failing
+		if (!isValid)
+		{
+			JOptionPane.showMessageDialog(null, invalidMessage,
+					"Please re-enter data", JOptionPane.ERROR_MESSAGE);
+			invalidMessage = "";
+
+			isValid = true;
+			return;
+		}
+
+		// Going to the same index has no effect
+		if (cardIndex == index)
+			return;
+
+		// Going to an out of bounds index has no effect
+		if (index < TITLE_PANEL_INDEX || index >= frameCount)
+			return;
+
+		// Exiting the title panel will add the prev/next buttons
+		if (cardIndex == TITLE_PANEL_INDEX)
+		{
+			add(npPanel, BorderLayout.SOUTH);
+			pack();
+		}
+
+		cardIndex = index;
+		checkButtons();
+
+		customLayout.show(mainPanel, String.valueOf(cardIndex));
+		pack();
+	}
+
+	/**
+	 * 
+	 * Updates the status of the buttons. If the current index is at a start,
+	 * disable the previous button. If the current index is at a start, disable
+	 * the next button. An index can be both at a start and a stop.
+	 * 
+	 */
+
+	private void checkButtons()
+	{
+		{
+			boolean flag = false;
+
+			for (int i : panelStops)
+				if (cardIndex == i)
+				{
+					flag = true;
+					break;
+				}
+
+			if (flag)
+				nextPanel.setEnabled(false);
+		}
+
+		{
+			boolean flag = false;
+
+			for (int i : panelStarts)
+				if (cardIndex == i)
+				{
+					flag = true;
+					break;
+				}
+
+			if (flag)
+				prevPanel.setEnabled(false);
+		}
+	}
+
+	/**
+	 * 
+	 * Changes the panel to the create test frame.
+	 * 
+	 */
+
+	private void changePanelCreateTest()
+	{
+		changePanel(CREATE_TEST_PANEL_INDEX);
+	}
+
+	/**
+	 * 
+	 * Validate the data contained in each panel.
+	 * 
+	 */
+
+	private void validateData()
+	{
+		switch (cardIndex)
+		{
+		case CREATE_TEST_PANEL_INDEX:
+			isValid = testTitleField.getText().length() != 0;
+			invalidMessage = "The Test Title Field is Mandatory";
+			break;
+		case CREATE_QUESTION_PANEL_INDEX:
+			isValid = questionDescription.getText().length() != 0;
+			invalidMessage = "The Question Description Field is Mandatory";
+			break;
+		}
+	}
+
+	/**
+	 * 
+	 * Edits the current question pointed to by the JList if the index is valid.
+	 * Creates a new {@link QuestionEditor} in order to achieve this.
+	 * 
+	 */
+
+	private void editQuestion()
+	{
+		if (questionIndex < 0 || questionIndex >= questionCount)
+			return;
+
+		QuestionEditor editor = new QuestionEditor(
+				testQuestions.get(questionIndex));
+		setVisible(false);
+	}
+
+	/**
+	 * 
+	 * Adds a new Question to the JList and to the backend. Increments the
+	 * questionIndex to point to the new question, and increment the
+	 * questionCount. Updates the buttons as necessary.
+	 * 
+	 */
+
+	private void addQuestion()
+	{
+		Question question;
+		testQuestions.add(++questionIndex, question = new Question(
+				"New Question " + questionIndex, 0));
+		qListModel.add(questionIndex, question.getMessage());
+		questionCount++;
+
+		if (questionCount >= 2)
+			remQ.setEnabled(true);
+	}
+
+	/**
+	 * 
+	 * Removes a Question from the JList and the backend. Decrements the
+	 * questionIndex if necessary, at the end of the list, and decrement the
+	 * questionCount. Updates the buttons as necessary.
+	 * 
+	 */
+
+	private void removeQuestion()
+	{
+		if (questionCount <= 1)
+			return;
+
+		testQuestions.remove(questionIndex);
+		qListModel.remove(questionIndex);
+		questionCount--;
+
+		if (questionIndex == questionCount)
+			questionIndex--;
+
+		if (questionCount == 1)
+			remQ.setEnabled(false);
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent event)
+	{
+		if (!event.getValueIsAdjusting() && qList.getSelectedIndex() != -1)
+			questionIndex = qList.getSelectedIndex();
+	}
+
+	/**
+	 * 
+	 * Gets the only instance of the TestGenerator that should be created.
+	 * 
+	 * @return the instance
+	 */
+
+	public static TestGenerator getInstance()
+	{
+		return instance;
+	}
+
+	public static void main(String[] args)
+	{
+		if (SCREEN_WIDTH < 0 || SCREEN_HEIGHT < 0)
+			ErrorReporter.reportError(
+					"Error occured while initiating graphics", "");
+
+		instance = new TestGenerator();
+	}
 }
