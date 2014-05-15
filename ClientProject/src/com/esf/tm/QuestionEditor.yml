@@ -23,7 +23,7 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
         - MigLayout: |
             [pref]
      - CardLayout(name=questionLayout): [MCQuestionContainer, TFQuestionContainer, FIBQuestionContainer]
-  - JButton(name=exitButton, text=exit, onMouseClicked=[exit])
+  - JButton(name=exitButton, text=exit, onMouseClicked=[$validate, exit])
   - MigLayout: |
       [pref]                  [grow]
       questionTypeContainer+*
@@ -31,3 +31,5 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
       "Description: "         questionScrollPanel
       questionContainer+*
       |exitButton
+validate:
+  - questionDescription.text: {label: Question Description, mandatory: true, minLength : 1}
