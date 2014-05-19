@@ -12,12 +12,29 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
   - JLabel(name=questionLabel, text=Create New Multiple Choice Question):
   - JScrollPane(name=questionScrollPanel, vScrollBar=asNeeded, hScrollBar=never):
      JTextArea(name=questionDescription, rows=5):
-  - JPanel(name=questionContainer):
+  - JPanel(name=tquestionContainer):
      - JPanel(name=MCQuestionContainer):
         - JCheckBox(name=questionMixable, text="Choices Mixable?")
+        - JPanel(name=mcChoicePanel):
+           - JScrollPane(name=mcChoiceScrollPanel):
+              JList(name=mcChoices)
+           - JPanel(name=mcChoiceButtonPanel):
+              - JButton(name=editC, text=Edit Choice, onMouseClicked=[editChoice])
+              - JButton(name=addC, text=Add Choice, onMouseClicked=[addChoice])
+              - JButton(name=remC, text=Remove Choice, enabled=false, onMouseClicked=[removeChoice])
+              - JButton(name=moveUpC, text=Move Choice Up, onMouseClicked=[moveUpChoice])
+              - JButton(name=moveDownC, text=Move Choice Down, onMouseClicked=[moveDownChoice])
+              - MigLayout: |
+                  [pref]
+                  editC,addC,remC
+                  moveUpC,moveDownC
+           - MigLayout: |
+               [pref]
+               mcChoiceScrollPanel,mcChoiceButtonPanel
         - MigLayout: |
             [pref]
             questionMixable
+            mcChoicePanel
      - JPanel(name=TFQuestionContainer):
         - JPanel(name=TFController):
            - JRadioButton(name=rbTrue, text=True, selected=true)
@@ -29,18 +46,35 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
         - JCheckBox(name=caseSensitive, text="Case Sensitive?")
         - JCheckBox(name=whitespaceSensitive, text="Whitespace Sensitive?", selected=true)
         - JSpinner(name=blankSpaces)
+        - JScrollPane(name=blankListScrollPanel):
+           JList(name=fibBlankList)
+        - JScrollPane(name=blankCAScrollPanel):
+           JList(name=fibBlankCAChoicesList)
+        - JPanel(name=fibAllButtonPanel):
+           - JPanel(name=fibBlankButtonPanel):
+              - JButton(name=addB, text=Add Blank, onMouseClicked=[addBlank])
+              - JButton(name=remB, text=Remove Blank, enabled=false, onMouseClicked=[removeBlank])
+              - MigLayout: |
+                  [pref]
+                  addB,remB
+           #- JPanel(name=fibCAButtonPanel):
+              #- JButton(name=addCA, text=Add Choice, onMouseClicked=[addChoice])
+              #- JButton(name=remCA, text=Remove Choice, enabled=false, onMouseClicked=[removeChoice])
+              #- JButton(name=moveUpCA, text=Move Choice Up, onMouseClicked=[moveUpChoice])
+              #- JButton(name=moveDownCA, text=Move Choice Down, onMouseClicked=[moveDownChoice])
         - MigLayout: |
             [pref]
             caseSensitive,whitespaceSensitive
-            blankSpaces
+            blankSpaces,"(max 255)"
+            blankListScrollPanel,blankCAScrollPanel,fibAllButtonPanel
      - CardLayout(name=questionLayout): [MCQuestionContainer, TFQuestionContainer, FIBQuestionContainer]
-  - JButton(name=exitButton, text=exit, onMouseClicked=[$validate, exit])
+  - JButton(name=exitButton, text=exit, onMouseClicked=[$validate, validateData, exit])
   - MigLayout: |
       [pref]                  [grow]
       questionTypeContainer+*
       questionLabel+*
       "Description: "         questionScrollPanel
-      questionContainer+*
+      tquestionContainer+*
       |exitButton
 validate:
   - questionDescription.text: {label: Question Description, mandatory: true, minLength : 1}
