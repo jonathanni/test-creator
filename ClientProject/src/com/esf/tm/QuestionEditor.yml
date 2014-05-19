@@ -19,11 +19,20 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
             [pref]
             questionMixable
      - JPanel(name=TFQuestionContainer):
+        - JPanel(name=TFController):
+           - JRadioButton(name=rbTrue, text=True, selected=true)
+           - JRadioButton(name=rbFalse, text=False)
+           - ButtonGroup: [rbTrue, rbFalse]
         - MigLayout: |
             [pref]
      - JPanel(name=FIBQuestionContainer):
+        - JCheckBox(name=caseSensitive, text="Case Sensitive?")
+        - JCheckBox(name=whitespaceSensitive, text="Whitespace Sensitive?", selected=true)
+        - JSpinner(name=blankSpaces)
         - MigLayout: |
             [pref]
+            caseSensitive,whitespaceSensitive
+            blankSpaces
      - CardLayout(name=questionLayout): [MCQuestionContainer, TFQuestionContainer, FIBQuestionContainer]
   - JButton(name=exitButton, text=exit, onMouseClicked=[$validate, exit])
   - MigLayout: |

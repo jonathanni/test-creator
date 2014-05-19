@@ -1,14 +1,20 @@
 package com.esf.tm;
 
 import java.awt.CardLayout;
+import java.util.ArrayList;
 
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.javabuilders.BuildResult;
 import org.javabuilders.swing.SwingJavaBuilder;
@@ -24,166 +30,217 @@ import org.javabuilders.swing.SwingJavaBuilder;
  * 
  */
 
-public class QuestionEditor extends JFrame
+public class QuestionEditor extends JFrame implements ChangeListener
 {
-    private static final long serialVersionUID = -8403774668066080746L;
-    private BuildResult result;
-    private final Question question;
+	private static final long serialVersionUID = -8403774668066080746L;
+	private BuildResult result;
 
-    private CardLayout questionLayout;
-    private JLabel questionLabel;
-    private JPanel questionContainer;
-    private JTextArea questionDescription;
-    private JRadioButton rb1, rb2, rb3;
+	private CardLayout questionLayout;
+	private JLabel questionLabel;
+	private JPanel questionContainer;
+	private JTextArea questionDescription;
+	private JRadioButton rb1, rb2, rb3, rbTrue;
+	private JCheckBox mixable, caseSensitive, whitespaceSensitive;
+	private JSpinner blankSpaces;
 
-    /**
-     * 
-     * Creates a new QuestionEditor and binds a Question to it. This
-     * QuestionEditor will change the contents of the question binded.
-     * 
-     * @param question
-     *            the Question to bind
-     */
+	private final Question question;
 
-    public QuestionEditor(Question question)
-    {
-	this.question = question;
+	private ArrayList<Choice> mcQChoices = new ArrayList<Choice>();
+	private int mcCorrectAnswer;
 
-	result = SwingJavaBuilder.build(this);
+	private ArrayList<ArrayList<String>> fibQcorrectAnswers = new ArrayList<ArrayList<String>>();
 
-	try
+	/**
+	 * 
+	 * Creates a new QuestionEditor and binds a Question to it. This
+	 * QuestionEditor will change the contents of the question binded.
+	 * 
+	 * @param question
+	 *            the Question to bind
+	 */
+
+	public QuestionEditor(Question question)
 	{
-	    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	} catch (ClassNotFoundException e)
-	{
-	    ErrorReporter.reportError(
-		    "An error has occured while trying to open the window.",
-		    Util.stackTraceToString(e));
-	    e.printStackTrace();
-	} catch (InstantiationException e)
-	{
-	    ErrorReporter.reportError(
-		    "An error has occured while trying to open the window.",
-		    Util.stackTraceToString(e));
-	    e.printStackTrace();
-	} catch (IllegalAccessException e)
-	{
-	    ErrorReporter.reportError(
-		    "An error has occured while trying to open the window.",
-		    Util.stackTraceToString(e));
-	    e.printStackTrace();
-	} catch (UnsupportedLookAndFeelException e)
-	{
-	    ErrorReporter.reportError(
-		    "An error has occured while trying to open the window.",
-		    Util.stackTraceToString(e));
-	    e.printStackTrace();
+		this.question = question;
+
+		result = SwingJavaBuilder.build(this);
+
+		try
+		{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e)
+		{
+			ErrorReporter.reportError(
+					"An error has occured while trying to open the window.",
+					Util.stackTraceToString(e));
+			e.printStackTrace();
+		} catch (InstantiationException e)
+		{
+			ErrorReporter.reportError(
+					"An error has occured while trying to open the window.",
+					Util.stackTraceToString(e));
+			e.printStackTrace();
+		} catch (IllegalAccessException e)
+		{
+			ErrorReporter.reportError(
+					"An error has occured while trying to open the window.",
+					Util.stackTraceToString(e));
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e)
+		{
+			ErrorReporter.reportError(
+					"An error has occured while trying to open the window.",
+					Util.stackTraceToString(e));
+			e.printStackTrace();
+		}
+
+		questionDescription.setText(getQuestion().getMessage());
+		(getQuestion() instanceof FIBQuestion ? rb3
+				: (getQuestion() instanceof TFQuestion ? rb2 : rb1))
+				.setSelected(true);
+		blankSpaces.setModel(new SpinnerNumberModel(1, 1, 255, 1));
+		blankSpaces.addChangeListener(this);
+
+		// By default, the first is selected and is the "correct answer"
+		addChoice();
+
+		setVisible(true);
+		pack();
 	}
 
-	questionDescription.setText(getQuestion().getMessage());
-	(getQuestion() instanceof FIBQuestion ? rb3
-		: (getQuestion() instanceof TFQuestion ? rb2 : rb1))
-		.setSelected(true);
+	/**
+	 * 
+	 * Gets the question associated with this QuestionEditor.
+	 * 
+	 * @return the question
+	 */
 
-	setVisible(true);
-	pack();
-    }
+	public Question getQuestion()
+	{
+		return question;
+	}
 
-    /**
-     * 
-     * Gets the question associated with this QuestionEditor.
-     * 
-     * @return the question
-     */
+	private void addChoice()
+	{
+	}
 
-    public Question getQuestion()
-    {
-	return question;
-    }
+	/**
+	 * 
+	 * Disposes of this window and reenables the TestGenerator.
+	 * 
+	 */
 
-    /**
-     * 
-     * Disposes of this window and reenables the TestGenerator.
-     * 
-     */
+	private void exit()
+	{
+		Question newQuestion = rb1.isSelected() ? new MCQuestion(question)
+				: (rb2.isSelected() ? new TFQuestion(question)
+						: new FIBQuestion(question));
 
-    private void exit()
-    {
-	String msg;
-	question.setMessage(msg = questionDescription.getText());
-	TestGenerator.getInstance().updateQuestion(
-		rb1.isSelected() ? new MCQuestion(msg, 0)
-			: (rb2.isSelected() ? new TFQuestion(msg, 0)
-				: new FIBQuestion(msg, 0)));
+		newQuestion.setMessage(questionDescription.getText());
 
-	TestGenerator.getInstance().setVisible(true);
-	setVisible(false);
-	dispose();
-    }
+		if (newQuestion instanceof MCQuestion)
+		{
+			for (Choice i : mcQChoices)
+				((MCQuestion) newQuestion).addChoice(i);
 
-    /**
-     * 
-     * Change the question panel to the multiple choice question selection.
-     * 
-     */
+			((MCQuestion) newQuestion).setCorrectAnswer(mcCorrectAnswer);
+			((MCQuestion) newQuestion).setMixable(mixable.isSelected());
+		} else if (newQuestion instanceof TFQuestion)
+			((TFQuestion) newQuestion).setCorrectAnswer(rbTrue.isSelected());
+		else if (newQuestion instanceof FIBQuestion)
+		{
+			for (int i = 0; i < fibQcorrectAnswers.size(); i++)
+				for (String j : fibQcorrectAnswers.get(i))
+					((FIBQuestion) newQuestion).addAnswer(i, j);
+			((FIBQuestion) newQuestion).setBlankSpaces((Integer) blankSpaces
+					.getValue());
+			((FIBQuestion) newQuestion).setCaseSensitive(caseSensitive
+					.isSelected());
+			((FIBQuestion) newQuestion)
+					.setWhitespaceSensitive(whitespaceSensitive.isSelected());
+		}
 
-    private void chMCQPanel()
-    {
-	questionLayout.show(questionContainer, "MCQuestionContainer");
-    }
+		TestGenerator.getInstance().updateQuestion(newQuestion);
 
-    /**
-     * 
-     * Change the question panel to the true/false question selection.
-     * 
-     */
+		TestGenerator.getInstance().setVisible(true);
+		setVisible(false);
+		dispose();
+	}
 
-    private void chTFQPanel()
-    {
-	questionLayout.show(questionContainer, "TFQuestionContainer");
-    }
+	private void doNothing()
+	{
+	}
 
-    /**
-     * 
-     * Change the question panel to the fill in the blank question selection.
-     * 
-     */
+	/**
+	 * 
+	 * Change the question panel to the multiple choice question selection.
+	 * 
+	 */
 
-    private void chFIBQPanel()
-    {
-	questionLayout.show(questionContainer, "FIBQuestionContainer");
-    }
+	private void chMCQPanel()
+	{
+		questionLayout.show(questionContainer, "MCQuestionContainer");
+	}
 
-    /**
-     * 
-     * Change the question label to the multiple choice question selection.
-     * 
-     */
+	/**
+	 * 
+	 * Change the question panel to the true/false question selection.
+	 * 
+	 */
 
-    private void chMCQLabel()
-    {
-	questionLabel.setText("Create New Multiple Choice Question");
-    }
+	private void chTFQPanel()
+	{
+		questionLayout.show(questionContainer, "TFQuestionContainer");
+	}
 
-    /**
-     * 
-     * Change the question label to the true/false question selection.
-     * 
-     */
+	/**
+	 * 
+	 * Change the question panel to the fill in the blank question selection.
+	 * 
+	 */
 
-    private void chTFQLabel()
-    {
-	questionLabel.setText("Create New True/False Question");
-    }
+	private void chFIBQPanel()
+	{
+		questionLayout.show(questionContainer, "FIBQuestionContainer");
+	}
 
-    /**
-     * 
-     * Change the question label to the fill in the blank question selection.
-     * 
-     */
+	/**
+	 * 
+	 * Change the question label to the multiple choice question selection.
+	 * 
+	 */
 
-    private void chFIBQLabel()
-    {
-	questionLabel.setText("Create New Fill in the Blank Question");
-    }
+	private void chMCQLabel()
+	{
+		questionLabel.setText("Create New Multiple Choice Question");
+	}
+
+	/**
+	 * 
+	 * Change the question label to the true/false question selection.
+	 * 
+	 */
+
+	private void chTFQLabel()
+	{
+		questionLabel.setText("Create New True/False Question");
+	}
+
+	/**
+	 * 
+	 * Change the question label to the fill in the blank question selection.
+	 * 
+	 */
+
+	private void chFIBQLabel()
+	{
+		questionLabel.setText("Create New Fill in the Blank Question");
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent event)
+	{
+		int bs = (Integer) blankSpaces.getValue();
+		
+	}
 }

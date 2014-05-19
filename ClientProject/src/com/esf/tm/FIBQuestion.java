@@ -14,151 +14,224 @@ import java.util.ArrayList;
 
 public class FIBQuestion extends Question
 {
-    private ArrayList<String> correctAnswers = new ArrayList<String>();
+	private ArrayList<ArrayList<String>> correctAnswers = new ArrayList<ArrayList<String>>();
 
-    private boolean isCaseSensitive, isWhitespaceSensitive;
+	private boolean isCaseSensitive, isWhitespaceSensitive;
+	private int blankSpaces;
 
-    /**
-     * 
-     * See {@link Question#Question(String, int)}
-     * 
-     * @param message
-     * @param ID
-     */
+	/**
+	 * 
+	 * See {@link Question#Question(String, int)}
+	 * 
+	 * @param message
+	 * @param ID
+	 */
 
-    public FIBQuestion(String message, int ID)
-    {
-	super(message, ID);
-    }
+	public FIBQuestion(String message, int ID)
+	{
+		super(message, ID);
+	}
 
-    /**
-     * 
-     * Adds an answer to the list of correct answers.
-     * 
-     * @param answer
-     *            a correct answer
-     */
+	/**
+	 * 
+	 * Copy constructor.
+	 * 
+	 * @param other
+	 *            the question
+	 */
 
-    void addAnswer(String answer)
-    {
-	correctAnswers.add(answer);
-    }
+	public FIBQuestion(FIBQuestion other)
+	{
+		this(other.getMessage(), other.getQuestionID());
 
-    /**
-     * 
-     * Sets an answer in the list to another. If the index is out of bounds the
-     * method throws an IllegalArgumentException.
-     * 
-     * @param index
-     *            the index of the answer
-     * @param answer
-     *            the new answer
-     * 
-     * @throws IllegalArgumentException
-     */
+		for (ArrayList<String> i : other.correctAnswers)
+			correctAnswers.add(new ArrayList<String>(i));
 
-    void setAnswer(int index, String answer)
-    {
-	if (index < 0 || index >= correctAnswers.size())
-	    try
-	    {
-		throw new IllegalArgumentException("Index out of bounds");
-	    } catch (IllegalArgumentException e)
-	    {
-		ErrorReporter.reportError("Answer index out of bounds",
-			Util.stackTraceToString(e));
-	    }
+		setCaseSensitive(other.isCaseSensitive());
+		setWhitespaceSensitive(other.isWhitespaceSensitive());
+	}
 
-	correctAnswers.add(answer);
-    }
+	/**
+	 * 
+	 * Copy constructor from Question.
+	 * 
+	 * @param other
+	 *            the question
+	 */
 
-    /**
-     * 
-     * Removes an answer from the list of correct answers. If the index is out
-     * of bounds the method throws an IllegalArgumentException.
-     * 
-     * @param index
-     *            the index of the answer
-     * 
-     * @throws IllegalArgumentException
-     */
+	public FIBQuestion(Question other)
+	{
+		super(other);
+	}
 
-    void removeAnswer(int index)
-    {
-	if (index < 0 || index >= correctAnswers.size())
-	    try
-	    {
-		throw new IllegalArgumentException("Index out of bounds");
-	    } catch (IllegalArgumentException e)
-	    {
-		ErrorReporter.reportError("Answer index out of bounds",
-			Util.stackTraceToString(e));
-	    }
-    }
+	/**
+	 * 
+	 * Adds an answer to the list of correct answers for a specific blank space.
+	 * 
+	 * @param blankIndex
+	 *            an index of a blank space
+	 * @param answer
+	 *            a correct answer
+	 */
 
-    /**
-     * 
-     * Gets an array copy containing the list of correct answers.
-     * 
-     * @return the correct answers
-     */
+	void addAnswer(int blankIndex, String answer)
+	{
+		correctAnswers.get(blankIndex).add(answer);
+	}
 
-    public String[] getCorrectAnswers()
-    {
-	String[] list = new String[correctAnswers.size()];
-	correctAnswers.toArray(list);
-	return list;
-    }
+	/**
+	 * 
+	 * Sets an answer in the list to another. If the index is out of bounds the
+	 * method throws an IllegalArgumentException.
+	 * 
+	 * @param blankIndex
+	 *            an index of a blank space
+	 * @param index
+	 *            the index of the answer
+	 * @param answer
+	 *            the new answer
+	 * 
+	 * @throws IllegalArgumentException
+	 */
 
-    /**
-     * 
-     * Gets if input to this question is case sensitive.
-     * 
-     * @return the flag
-     */
+	void setAnswer(int blankIndex, int index, String answer)
+	{
+		if (index < 0 || index >= correctAnswers.size())
+			try
+			{
+				throw new IllegalArgumentException("Index out of bounds");
+			} catch (IllegalArgumentException e)
+			{
+				ErrorReporter.reportError("Answer index out of bounds",
+						Util.stackTraceToString(e));
+			}
 
-    public boolean isCaseSensitive()
-    {
-	return isCaseSensitive;
-    }
+		correctAnswers.get(blankIndex).set(index, answer);
+	}
 
-    /**
-     * 
-     * Sets if input to this question is case sensitive.
-     * 
-     * @param isCaseSensitive
-     *            the flag
-     */
+	/**
+	 * 
+	 * Removes an answer from the list of correct answers. If the index is out
+	 * of bounds the method throws an IllegalArgumentException.
+	 * 
+	 * @param index
+	 *            the index of the answer
+	 * 
+	 * @throws IllegalArgumentException
+	 */
 
-    public void setCaseSensitive(boolean isCaseSensitive)
-    {
-	this.isCaseSensitive = isCaseSensitive;
-    }
+	void removeAnswer(int index)
+	{
+		if (index < 0 || index >= correctAnswers.size())
+			try
+			{
+				throw new IllegalArgumentException("Index out of bounds");
+			} catch (IllegalArgumentException e)
+			{
+				ErrorReporter.reportError("Answer index out of bounds",
+						Util.stackTraceToString(e));
+			}
+	}
 
-    /**
-     * 
-     * Gets if input to this question is whitespace sensitive, including
-     * whitespace in the middle of the answer.
-     * 
-     * @return the flag
-     */
+	/**
+	 * 
+	 * Gets the 2D ArrayList of correct answers.
+	 * 
+	 * @return the correct answers
+	 */
 
-    public boolean isWhitespaceSensitive()
-    {
-	return isWhitespaceSensitive;
-    }
+	public ArrayList<ArrayList<String>> getCorrectAnswers()
+	{
+		return correctAnswers;
+	}
 
-    /**
-     * 
-     * Sets if input to this question is whitespace sensitive, including
-     * whitespace in the middle of the answer.
-     * 
-     * @param isWhitespaceSensitive
-     *            the flag
-     */
+	/**
+	 * 
+	 * Gets if input to this question is case sensitive.
+	 * 
+	 * @return the flag
+	 */
 
-    public void setWhitespaceSensitive(boolean isWhitespaceSensitive)
-    {
-	this.isWhitespaceSensitive = isWhitespaceSensitive;
-    }
+	public boolean isCaseSensitive()
+	{
+		return isCaseSensitive;
+	}
+
+	/**
+	 * 
+	 * Sets if input to this question is case sensitive.
+	 * 
+	 * @param isCaseSensitive
+	 *            the flag
+	 */
+
+	public void setCaseSensitive(boolean isCaseSensitive)
+	{
+		this.isCaseSensitive = isCaseSensitive;
+	}
+
+	/**
+	 * 
+	 * Gets if input to this question is whitespace sensitive, including
+	 * whitespace in the middle of the answer.
+	 * 
+	 * @return the flag
+	 */
+
+	public boolean isWhitespaceSensitive()
+	{
+		return isWhitespaceSensitive;
+	}
+
+	/**
+	 * 
+	 * Sets if input to this question is whitespace sensitive, including
+	 * whitespace in the middle of the answer.
+	 * 
+	 * @param isWhitespaceSensitive
+	 *            the flag
+	 */
+
+	public void setWhitespaceSensitive(boolean isWhitespaceSensitive)
+	{
+		this.isWhitespaceSensitive = isWhitespaceSensitive;
+	}
+
+	/**
+	 * 
+	 * Gets the number of blank spaces that this question will contain.
+	 * 
+	 * @return the number of blank spaces
+	 */
+
+	public int getBlankSpaces()
+	{
+		return blankSpaces;
+	}
+
+	/**
+	 * 
+	 * Sets the number of blank spaces that this question will contain.
+	 * 
+	 * @param blankSpaces
+	 *            the number of blank spaces
+	 * 
+	 * @throws IllegalArgumentException
+	 */
+
+	public void setBlankSpaces(int blankSpaces)
+	{
+		if (blankSpaces < 1)
+			try
+			{
+				throw new IllegalArgumentException(
+						"Blank space # must be positive");
+			} catch (IllegalArgumentException e)
+			{
+				ErrorReporter.reportError("Blank space # must be positive",
+						Util.stackTraceToString(e));
+			}
+
+		this.blankSpaces = blankSpaces;
+	}
 }

@@ -27,11 +27,12 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
            - JButton(name=editQ, text=Edit Question, onMouseClicked=[editQuestion])
            - JButton(name=addQ, text=Add Question, onMouseClicked=[addQuestion])
            - JButton(name=remQ, text=Remove Question, enabled=false, onMouseClicked=[removeQuestion])
+           - JButton(name=moveUpQ, text=Move Question Up, onMouseClicked=[moveUpQuestion])
+           - JButton(name=moveDownQ, text=Move Question Down, onMouseClicked=[moveDownQuestion])
            - MigLayout: |
                [grow,100]                     [pref]
-               qListScrollPanel+1+*           editQ
-                                              addQ
-                                              remQ
+               qListScrollPanel+1+*           editQ,addQ,remQ
+                                              moveUpQ,moveDownQ
         - MigLayout: |
             [pref]
             |"Question Creation Zone"
