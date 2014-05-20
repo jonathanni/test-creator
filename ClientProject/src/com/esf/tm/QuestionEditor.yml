@@ -59,12 +59,13 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
               - JButton(name=remB, text=Remove Blank, enabled=false, onMouseClicked=[removeBlank])
               - MigLayout: |
                   [pref]
-                  addB,remB
+                  addB
+                  remB
            - JPanel(name=fibCAButtonPanel):
-              - JButton(name=addCA, text=Add Choice, onMouseClicked=[addChoice])
-              - JButton(name=remCA, text=Remove Choice, enabled=false, onMouseClicked=[removeChoice])
-              - JButton(name=moveUpCA, text=Move Choice Up, onMouseClicked=[moveUpChoice])
-              - JButton(name=moveDownCA, text=Move Choice Down, onMouseClicked=[moveDownChoice])
+              - JButton(name=addCA, text=Add Choice, onMouseClicked=[addCorrectAnswer])
+              - JButton(name=remCA, text=Remove Choice, enabled=false, onMouseClicked=[removeCorrectAnswer])
+              - JButton(name=moveUpCA, text=Move Choice Up, onMouseClicked=[moveUpCorrectAnswer])
+              - JButton(name=moveDownCA, text=Move Choice Down, onMouseClicked=[moveDownCorrectAnswer])
               - MigLayout: |
                   [pref]
                   moveUpCA            addCA
