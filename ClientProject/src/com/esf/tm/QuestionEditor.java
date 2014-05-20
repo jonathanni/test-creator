@@ -73,7 +73,9 @@ public class QuestionEditor extends JFrame implements ChangeListener,
     private int mcCorrectAnswer = -1, mcChoiceIndex = -1, mcChoiceCount;
 
     private ArrayList<ArrayList<String>> fibQcorrectAnswers = new ArrayList<ArrayList<String>>();
-    private int fibBlankIndex = -1, fibBlankCount, fibCOIndex = -1, fibCOCount;
+    private int fibBlankIndex = -1, fibBlankCount;
+    private ArrayList<Integer> fibBlankCAIndices = new ArrayList<Integer>(),
+	    fibBlankCACounts = new ArrayList<Integer>();
 
     /**
      * 
@@ -199,6 +201,9 @@ public class QuestionEditor extends JFrame implements ChangeListener,
 	fibBlankListModel.add(fibBlankIndex, "Blank " + fibBlankIndex);
 	fibBlankCount++;
 
+	fibBlankCAIndices.add(fibBlankIndex, -1);
+	fibBlankCACounts.add(fibBlankIndex, 0);
+
 	if (fibBlankCount >= 2)
 	    remB.setEnabled(true);
     }
@@ -219,6 +224,9 @@ public class QuestionEditor extends JFrame implements ChangeListener,
 	fibQcorrectAnswers.remove(fibBlankIndex);
 	fibBlankListModel.remove(fibBlankIndex);
 	fibBlankCount--;
+
+	fibBlankCAIndices.remove(fibBlankIndex);
+	fibBlankCACounts.remove(fibBlankIndex);
 
 	if (fibBlankIndex == fibBlankCount)
 	    fibBlankIndex--;
@@ -276,22 +284,25 @@ public class QuestionEditor extends JFrame implements ChangeListener,
 
     /**
      * 
-     * Adds a new Choice to the JList and to the backend. Increments the
-     * mcChoiceIndex to point to the new choice, and increment the
-     * mcChoiceCount. Updates the buttons as necessary.
+     * Adds a new correct answer to the JTable and to the backend. Increments
+     * the fibBlankCAIndex to point to the new choice, and increment the
+     * fibBlankCACount. Updates the buttons as necessary.
      * 
      */
     // TODO
     private void addCorrectAnswer()
     {
-	if (mcCorrectAnswer > mcChoiceIndex)
-	    mcCorrectAnswer++;
+	String correct;
+	fibBlankCAIndices.set(fibBlankIndex,
+		fibBlankCAIndices.get(fibBlankIndex) + 1);
 
-	Choice choice;
-	mcQChoices.add(++mcChoiceIndex, choice = new Choice("New Choice "
-		+ mcChoiceIndex));
-	mcCListModel.add(mcChoiceIndex, choice.getMessage());
-	mcChoiceCount++;
+	fibQcorrectAnswers.get(fibBlankIndex).add(
+		fibBlankCAIndices.get(fibBlankIndex),
+		correct = "Correct Answer "
+			+ fibBlankCAIndices.get(fibBlankIndex));
+	// mcCListModel.add(mcChoiceIndex, choice.getMessage());
+	fibBlankCACounts.set(fibBlankIndex,
+		fibBlankCACounts.get(fibBlankIndex) + 1);
 
 	if (mcChoiceCount >= 2)
 	    remC.setEnabled(true);
