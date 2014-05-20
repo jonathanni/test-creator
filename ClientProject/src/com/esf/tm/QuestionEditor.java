@@ -27,6 +27,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import org.javabuilders.BuildResult;
 import org.javabuilders.swing.SwingJavaBuilder;
@@ -289,99 +290,118 @@ public class QuestionEditor extends JFrame implements ChangeListener,
      * fibBlankCACount. Updates the buttons as necessary.
      * 
      */
-    // TODO
     private void addCorrectAnswer()
     {
 	String correct;
+	// Increment index
 	fibBlankCAIndices.set(fibBlankIndex,
 		fibBlankCAIndices.get(fibBlankIndex) + 1);
 
-	fibQcorrectAnswers.get(fibBlankIndex).add(
-		fibBlankCAIndices.get(fibBlankIndex),
-		correct = "Correct Answer "
-			+ fibBlankCAIndices.get(fibBlankIndex));
-	// mcCListModel.add(mcChoiceIndex, choice.getMessage());
+	// Get incremented index
+	int blankCAIndex = fibBlankCAIndices.get(fibBlankIndex);
+
+	// Insert into backend
+	fibQcorrectAnswers.get(fibBlankIndex).add(blankCAIndex,
+		correct = "Correct Answer " + blankCAIndex);
+
+	// Insert into frontend
+	((DefaultTableModel) fibBlankCAChoicesList.getModel()).insertRow(
+		blankCAIndex, new Object[] { correct });
+
+	// Increment count
 	fibBlankCACounts.set(fibBlankIndex,
 		fibBlankCACounts.get(fibBlankIndex) + 1);
 
-	if (mcChoiceCount >= 2)
-	    remC.setEnabled(true);
+	if (fibBlankCACounts.get(fibBlankIndex) >= 2)
+	    remCA.setEnabled(true);
 
-	mcChoices.setSelectedIndex(mcChoiceIndex);
+	// Select next item
+	fibBlankCAChoicesList.changeSelection(
+		fibBlankCAIndices.get(fibBlankIndex), 0, false, false);
     }
 
     /**
      * 
-     * Removes a Choice from the JList and the backend. Decrements the
-     * mcChoiceIndex if necessary, at the end of the list, and decrement the
-     * mcChoiceCount. Updates the buttons as necessary.
+     * Removes a correct answer from the JTable and the backend. Decrements the
+     * fibBlankCAIndex if necessary, at the end of the list, and decrement the
+     * fibBlankCACount. Updates the buttons as necessary.
      * 
      */
-    // TODO
     private void removeCorrectAnswer()
     {
-	if (mcChoiceCount <= 1)
+	if (fibBlankCACounts.get(fibBlankIndex) <= 1)
 	    return;
 
-	if (mcChoiceIndex == mcCorrectAnswer)
-	    mcCorrectAnswer = -1;
+	// Get index
+	int blankCAIndex = fibBlankCAIndices.get(fibBlankIndex);
 
-	if (mcCorrectAnswer > mcChoiceIndex)
-	    mcCorrectAnswer--;
+	// Remove from backend
+	fibQcorrectAnswers.get(fibBlankIndex).remove(blankCAIndex);
 
-	mcQChoices.remove(mcChoiceIndex);
-	mcCListModel.remove(mcChoiceIndex);
-	mcChoiceCount--;
+	// Remove from frontend
+	((DefaultTableModel) fibBlankCAChoicesList.getModel())
+		.removeRow(blankCAIndex);
 
-	if (mcChoiceIndex == mcChoiceCount)
-	    mcChoiceIndex--;
+	// Decrement count
+	fibBlankCACounts.set(fibBlankCount,
+		fibBlankCACounts.get(fibBlankIndex) - 1);
 
-	if (mcChoiceCount == 1)
-	    remC.setEnabled(false);
+	// If at end, decrement
+	if (blankCAIndex == fibBlankCACounts.get(fibBlankCount))
+	    fibBlankCAIndices.set(fibBlankIndex, blankCAIndex - 1);
 
-	mcChoices.setSelectedIndex(mcChoiceIndex);
+	if (fibBlankCACounts.get(fibBlankCount) == 1)
+	    remCA.setEnabled(false);
+
+	// Select prev item
+	fibBlankCAChoicesList.changeSelection(
+		fibBlankCAIndices.get(fibBlankIndex), 0, false, false);
     }
 
     /**
      * 
-     * Moves a Choice up the JList. Cannot move a choice up that is at the
-     * beginning of the list.
+     * Moves a correct answer up the JTable. Cannot move a correct answer up
+     * that is at the beginning of the list.
      * 
      */
-    // TODO
     private void moveUpCorrectAnswer()
     {
-	if (mcChoiceIndex < 1)
+	int blankCAIndex = fibBlankCAIndices.get(fibBlankIndex);
+
+	if (blankCAIndex < 1)
 	    return;
 
-	if (mcChoiceIndex - 1 == mcCorrectAnswer)
-	    mcCorrectAnswer++;
+	// Swap backend
+	Collections.swap(fibQcorrectAnswers.get(fibBlankIndex),
+		blankCAIndex - 1, blankCAIndex);
 
-	Collections.swap(mcQChoices, mcChoiceIndex - 1, mcChoiceIndex);
+	// Swap frontend
+	((DefaultTableModel) fibBlankCAChoicesList.getModel()).moveRow(
+		blankCAIndex, blankCAIndex, blankCAIndex - 1);
 
-	String temp = (String) mcCListModel.get(mcChoiceIndex);
-	mcCListModel.set(mcChoiceIndex, mcCListModel.get(mcChoiceIndex - 1));
-	mcCListModel.set(mcChoiceIndex - 1, temp);
+	fibBlankCAIndices.set(fibBlankIndex, blankCAIndex - 1);
 
-	mcChoiceIndex--;
-	mcChoices.setSelectedIndex(mcChoiceIndex);
+	// Select prev item
+	fibBlankCAChoicesList.changeSelection(
+		fibBlankCAIndices.get(fibBlankIndex), 0, false, false);
     }
 
     /**
      * 
-     * Moves a Choice down the JList. Cannot move a choice down that is at the
-     * end of the list.
+     * Moves a correct answer down the JTable. Cannot move a correct answer down
+     * that is at the end of the list.
      * 
      */
     // TODO
     private void moveDownCorrectAnswer()
     {
-	if (mcChoiceIndex == mcChoiceCount - 1)
+	int blankCAIndex = fibBlankCAIndices.get(fibBlankIndex);
+
+	if (blankCAIndex == fibBlankCACounts.get(fibBlankIndex) - 1)
 	    return;
 
-	if (mcChoiceIndex + 1 == mcCorrectAnswer)
-	    mcCorrectAnswer--;
-
+	// TODO
+	
 	Collections.swap(mcQChoices, mcChoiceIndex, mcChoiceIndex + 1);
 
 	String temp = (String) mcCListModel.get(mcChoiceIndex + 1);
