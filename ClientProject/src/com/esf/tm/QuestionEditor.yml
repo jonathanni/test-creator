@@ -24,13 +24,16 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
               - JButton(name=remC, text=Remove Choice, enabled=false, onMouseClicked=[removeChoice])
               - JButton(name=moveUpC, text=Move Choice Up, onMouseClicked=[moveUpChoice])
               - JButton(name=moveDownC, text=Move Choice Down, onMouseClicked=[moveDownChoice])
+              - JButton(name=setC, text=Set as Correct Answer, onMouseClicked=[setChoice])
               - MigLayout: |
                   [pref]
-                  editC,addC,remC
-                  moveUpC,moveDownC
+                  editC
+                  moveUpC                 addC
+                  moveDownC               remC
+                  setC
            - MigLayout: |
-               [pref]
-               mcChoiceScrollPanel,mcChoiceButtonPanel
+               [grow,100]             [pref]
+               mcChoiceScrollPanel    mcChoiceButtonPanel
         - MigLayout: |
             [pref]
             questionMixable
@@ -49,7 +52,7 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
         - JScrollPane(name=blankListScrollPanel):
            JList(name=fibBlankList)
         - JScrollPane(name=blankCAScrollPanel):
-           JList(name=fibBlankCAChoicesList)
+           JTable(name=fibBlankCAChoicesList)
         - JPanel(name=fibAllButtonPanel):
            - JPanel(name=fibBlankButtonPanel):
               - JButton(name=addB, text=Add Blank, onMouseClicked=[addBlank])
@@ -57,11 +60,18 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
               - MigLayout: |
                   [pref]
                   addB,remB
-           #- JPanel(name=fibCAButtonPanel):
-              #- JButton(name=addCA, text=Add Choice, onMouseClicked=[addChoice])
-              #- JButton(name=remCA, text=Remove Choice, enabled=false, onMouseClicked=[removeChoice])
-              #- JButton(name=moveUpCA, text=Move Choice Up, onMouseClicked=[moveUpChoice])
-              #- JButton(name=moveDownCA, text=Move Choice Down, onMouseClicked=[moveDownChoice])
+           - JPanel(name=fibCAButtonPanel):
+              - JButton(name=addCA, text=Add Choice, onMouseClicked=[addChoice])
+              - JButton(name=remCA, text=Remove Choice, enabled=false, onMouseClicked=[removeChoice])
+              - JButton(name=moveUpCA, text=Move Choice Up, onMouseClicked=[moveUpChoice])
+              - JButton(name=moveDownCA, text=Move Choice Down, onMouseClicked=[moveDownChoice])
+              - MigLayout: |
+                  [pref]
+                  moveUpCA            addCA
+                  moveDownCA          remCA
+           - MigLayout: |
+               [pref]
+               fibBlankButtonPanel,fibCAButtonPanel
         - MigLayout: |
             [pref]
             caseSensitive,whitespaceSensitive
