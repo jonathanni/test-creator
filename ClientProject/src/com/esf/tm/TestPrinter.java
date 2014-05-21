@@ -67,7 +67,7 @@ public class TestPrinter
 		for (int j = 0; j < ((MCQuestion) q).getChoiceCount(); j++)
 		    testOut.write("  ( ) "
 			    + (j < ALPHABET.length ? String
-				    .valueOf(ALPHABET[j]) : "" + j)
+				    .valueOf(ALPHABET[j]) : "" + j) + " "
 			    + ((MCQuestion) q).getChoice(j));
 	    else if (q instanceof TFQuestion)
 		testOut.write("  ( ) True\n  ( ) False\n");
@@ -94,6 +94,7 @@ public class TestPrinter
 			    .getCorrectAnswer() ? "  (*) " : "  ( ) ")
 			    + (j < ALPHABET.length ? String
 				    .valueOf(ALPHABET[j]) : "" + j)
+			    + " "
 			    + ((MCQuestion) q).getChoice(j));
 	    else if (q instanceof TFQuestion)
 		if (((TFQuestion) q).getCorrectAnswer())
