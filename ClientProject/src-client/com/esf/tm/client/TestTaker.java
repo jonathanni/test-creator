@@ -1,6 +1,10 @@
 package com.esf.tm.client;
 
+import java.util.ArrayList;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JList;
 
 import org.javabuilders.BuildResult;
 import org.javabuilders.swing.SwingJavaBuilder;
@@ -20,6 +24,8 @@ public class TestTaker extends JFrame
     private static final long serialVersionUID = -5547354766805951582L;
 
     private BuildResult result;
+    private JList ips;
+    private DefaultListModel ipListModel = new DefaultListModel();
 
     /**
      * 
@@ -33,9 +39,13 @@ public class TestTaker extends JFrame
 
 	result = SwingJavaBuilder.build(this);
 
+	ips.setModel(ipListModel);
+
 	pack();
 	setVisible(true);
 	pack();
+
+	new Thread(new NodeScanner()).start();
     }
 
     /**
@@ -49,6 +59,18 @@ public class TestTaker extends JFrame
     {
 	callback.cbFunction();
 	System.exit(0);
+    }
+
+    /**
+     * 
+     * Function necessary for javabuilders to call in order to destroy the
+     * window.
+     * 
+     */
+
+    private void windowDestroy()
+    {
+	destroy(new Callback());
     }
 
     public static void main(String[] args)

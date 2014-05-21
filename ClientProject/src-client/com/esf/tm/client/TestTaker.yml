@@ -1,4 +1,4 @@
-JFrame(name=frame):
+JFrame(name=frame, onWindowClosing=[windowDestroy]):
   - JPanel(name=mainPanel):
      - JScrollPane(name=ipPanel):
         JList(name=ips)

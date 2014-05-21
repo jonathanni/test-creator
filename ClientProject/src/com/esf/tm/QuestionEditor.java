@@ -321,6 +321,8 @@ public class QuestionEditor extends JFrame implements ChangeListener,
 	if (fibBlankCount <= 1)
 	    return;
 
+	isBusy = true;
+
 	fibQcorrectAnswers.remove(fibBlankIndex);
 	fibBlankListModel.remove(fibBlankIndex);
 	fibBlankCount--;
@@ -332,6 +334,8 @@ public class QuestionEditor extends JFrame implements ChangeListener,
 	    fibBlankIndex--;
 
 	fibBlankList.setSelectedIndex(fibBlankIndex);
+
+	isBusy = false;
     }
 
     private void editCorrectAnswer(int row)
@@ -853,7 +857,8 @@ public class QuestionEditor extends JFrame implements ChangeListener,
 		    && fibBlankList.getSelectedIndex() != -1)
 		fibBlankIndex = fibBlankList.getSelectedIndex();
 
-	    updateTable();
+	    if (!isBusy)
+		updateTable();
 	} else if (event.getSource() == fibBlankCAChoicesList
 		.getSelectionModel())
 	{
