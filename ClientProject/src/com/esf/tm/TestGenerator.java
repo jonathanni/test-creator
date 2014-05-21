@@ -421,8 +421,6 @@ class TestGenerator extends JFrame implements ListSelectionListener
 
     private void changePanelPrintTest()
     {
-	System.out.println(currentTest);
-	
 	testForms = (Integer) printCount.getValue();
 	changePanel(PRINT_TEST_PANEL_INDEX);
 	

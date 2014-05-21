@@ -49,6 +49,8 @@ public class FIBQuestion extends Question
 
 	setCaseSensitive(other.isCaseSensitive());
 	setWhitespaceSensitive(other.isWhitespaceSensitive());
+
+	setBlankSpaces(other.getBlankSpaces());
     }
 
     /**

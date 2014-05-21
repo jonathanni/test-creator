@@ -52,6 +52,7 @@ class MCQuestion extends Question
     public MCQuestion(String message, int ID, ArrayList<Choice> choice)
     {
 	super(message, ID);
+	choiceList.addAll(choice);
     }
 
     /**

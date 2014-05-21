@@ -41,8 +41,16 @@ public class Test
 
     public Test(Test other)
     {
+	setTestTitle(other.getTestTitle());
+	setTestDescription(other.getTestDescription());
+
 	for (Question i : other.questionList)
-	    questionList.add(new Question(i));
+	    if (i instanceof MCQuestion)
+		questionList.add(new MCQuestion((MCQuestion) i));
+	    else if (i instanceof TFQuestion)
+		questionList.add(new TFQuestion((TFQuestion) i));
+	    else if (i instanceof FIBQuestion)
+		questionList.add(new FIBQuestion((FIBQuestion) i));
     }
 
     /**

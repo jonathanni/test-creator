@@ -106,6 +106,7 @@ class Choice
     @Override
     public String toString()
     {
+	/*
 	String prefix = "";
 	if (Configuration.isLetterChoice())
 	    if (choiceID > 0 && choiceID < 26)
@@ -116,5 +117,8 @@ class Choice
 	    prefix += choiceID;
 
 	return prefix + ") " + msg + "\n";
+	*/
+	
+	return msg + "\n";
     }
 }
