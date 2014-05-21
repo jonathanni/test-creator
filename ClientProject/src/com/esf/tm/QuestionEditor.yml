@@ -38,13 +38,14 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
             [pref]
             questionMixable
             mcChoicePanel
-     - JPanel(name=TFQuestionContainer):
-        - JPanel(name=TFController):
+     - JPanel(name=tfQuestionContainer):
+        - JPanel(name=tfController):
            - JRadioButton(name=rbTrue, text=True, selected=true)
            - JRadioButton(name=rbFalse, text=False)
            - ButtonGroup: [rbTrue, rbFalse]
         - MigLayout: |
             [pref]
+            tfController
      - JPanel(name=FIBQuestionContainer):
         - JCheckBox(name=caseSensitive, text="Case Sensitive?")
         - JCheckBox(name=whitespaceSensitive, text="Whitespace Sensitive?", selected=true)
@@ -68,6 +69,7 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
                fibCAButtonPanel
         - MigLayout: |
             [pref]
+            "In order to create a fill in the blank question, each blank needs to have a '___.' (three underscores and a .)"
             caseSensitive,whitespaceSensitive
             blankSpaces,"(max 255)"
             blankListScrollPanel,blankCAScrollPanel,fibAllButtonPanel

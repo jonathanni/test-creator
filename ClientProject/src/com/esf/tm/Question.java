@@ -98,4 +98,11 @@ class Question
     {
 	this.questionID = questionID;
     }
+
+    @Override
+    public String toString()
+    {
+	return "Question ID: " + questionID + "\nQuestion Description: "
+		+ message + "\n";
+    }
 }
