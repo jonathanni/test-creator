@@ -1,0 +1,8 @@
+JFrame(name=frame):
+  - JPanel(name=mainPanel):
+     - JScrollPane(name=ipPanel):
+        JList(name=ips)
+  - MigLayout: |
+      [pref]
+      |"Scanning for Teachers..."
+      mainPanel
