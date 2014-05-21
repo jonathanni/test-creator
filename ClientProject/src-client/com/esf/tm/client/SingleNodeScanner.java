@@ -2,6 +2,7 @@ package com.esf.tm.client;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class SingleNodeScanner implements Runnable
@@ -18,18 +19,28 @@ public class SingleNodeScanner implements Runnable
     @Override
     public void run()
     {
+	Socket s = null;
 	try
 	{
-	    if (InetAddress.getByName(host).isReachable(500))
-		isUp = true;
+	    s = new Socket(InetAddress.getByName(host), TestTaker.PORT);
+	    System.out.println("HI");
+	    isDone = true;
+	    return;
 	} catch (UnknownHostException e)
 	{
-	    e.printStackTrace();
 	} catch (IOException e)
 	{
-	    e.printStackTrace();
+	    isDone = true;
+	} finally
+	{
+	    if (s != null)
+		try
+		{
+		    s.close();
+		} catch (IOException e)
+		{
+		}
 	}
-	isDone = true;
     }
 
     public String getHost()

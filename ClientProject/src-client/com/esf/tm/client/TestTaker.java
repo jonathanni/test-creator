@@ -26,6 +26,8 @@ public class TestTaker extends JFrame
     private BuildResult result;
     private JList ips;
     private DefaultListModel ipListModel = new DefaultListModel();
+    
+    public static final int PORT = 3353;
 
     /**
      * 
