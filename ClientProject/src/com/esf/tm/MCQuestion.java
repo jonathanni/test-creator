@@ -11,7 +11,7 @@ import ec.util.MersenneTwisterFast;
  * 
  * @author Jonathan Ni
  * @since 4/22/14
- * @version 0.0r6
+ * @version 0.0r7
  * 
  */
 
@@ -201,14 +201,34 @@ class MCQuestion extends Question
 		this.correctAnswer = correctAnswer;
 	}
 
+	/**
+	 * 
+	 * Gets if this question is mixable.
+	 * 
+	 * @return the flag
+	 */
+
 	public boolean isMixable()
 	{
 		return isMixable;
 	}
 
+	/**
+	 * 
+	 * Sets if this question is mixable.
+	 * 
+	 * @param isMixable
+	 *            the flag
+	 */
+
 	public void setMixable(boolean isMixable)
 	{
 		this.isMixable = isMixable;
+	}
+
+	public int getChoiceCount()
+	{
+		return choiceList.size();
 	}
 
 	/**

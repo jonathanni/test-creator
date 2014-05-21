@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * 
  * @author Jonathan Ni
  * @since 4/26/14
- * @version 0.0r2
+ * @version 0.0r3
  * 
  */
 
@@ -120,7 +120,7 @@ public class FIBQuestion extends Question
 	 * @throws IllegalArgumentException
 	 */
 
-	void removeAnswer(int index)
+	void removeAnswer(int blankIndex, int index)
 	{
 		if (index < 0 || index >= correctAnswers.size())
 			try
@@ -131,6 +131,7 @@ public class FIBQuestion extends Question
 				ErrorReporter.reportError("Answer index out of bounds",
 						Util.stackTraceToString(e));
 			}
+		correctAnswers.get(blankIndex).remove(index);
 	}
 
 	/**
@@ -233,5 +234,23 @@ public class FIBQuestion extends Question
 			}
 
 		this.blankSpaces = blankSpaces;
+	}
+
+	/**
+	 * 
+	 * Prepare the specific index for adding correct answers by initializing it
+	 * if it hasn't been.
+	 * 
+	 * The calling of this method should be restricted. It should only be called
+	 * in sequential order.
+	 * 
+	 * @param blankIndex
+	 *            the index of the blank.
+	 */
+
+	public void prepare(int blankIndex)
+	{
+		if (blankIndex >= correctAnswers.size())
+			correctAnswers.add(blankIndex, new ArrayList<String>());
 	}
 }

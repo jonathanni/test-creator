@@ -54,13 +54,6 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
         - JScrollPane(name=blankCAScrollPanel):
            JTable(name=fibBlankCAChoicesList)
         - JPanel(name=fibAllButtonPanel):
-           - JPanel(name=fibBlankButtonPanel):
-              - JButton(name=addB, text=Add Blank, onMouseClicked=[addBlank])
-              - JButton(name=remB, text=Remove Blank, enabled=false, onMouseClicked=[removeBlank])
-              - MigLayout: |
-                  [pref]
-                  addB
-                  remB
            - JPanel(name=fibCAButtonPanel):
               - JButton(name=addCA, text=Add Choice, onMouseClicked=[addCorrectAnswer])
               - JButton(name=remCA, text=Remove Choice, enabled=false, onMouseClicked=[removeCorrectAnswer])
@@ -72,7 +65,7 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
                   moveDownCA          remCA
            - MigLayout: |
                [pref]
-               fibBlankButtonPanel,fibCAButtonPanel
+               fibCAButtonPanel
         - MigLayout: |
             [pref]
             caseSensitive,whitespaceSensitive
