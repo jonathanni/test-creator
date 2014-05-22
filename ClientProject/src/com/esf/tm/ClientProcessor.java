@@ -37,11 +37,16 @@ public class ClientProcessor implements Runnable
 
 	if (header.equals("requestLogin"))
 	    cc.getWriter().getQueue().add(new Message("requestPassword", null));
-	if (header.equals("login"))
+	else if (header.equals("login"))
 	    if (((String) payload).equals(TestGenerator.PASSWORD))
+	    {
 		cc.getWriter().getQueue()
 			.add(new Message("loginSuccess", null));
-	    else
+		cc.getWriter()
+			.getQueue()
+			.add(new Message("receiveTest", TestGenerator
+				.getInstance().getTest()));
+	    } else
 	    {
 		cc.getWriter().getQueue()
 			.add(new Message("loginFailure", null));

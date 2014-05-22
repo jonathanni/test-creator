@@ -45,7 +45,7 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
         - JPanel(name=cPanel):
            - JSpinner(name=printCount)
            - JButton(name=choosePrint, text=Create and Print Out Tests, onMouseClicked=[changePanelPrintTest])
-           - JButton(name=chooseNetwork, text=Allow Students to Take Test via Network=[changePanelNetworkTest])
+           - JButton(name=chooseNetwork, text=Allow Students to Take Test via Network, onMouseClicked=[changePanelNetworkTest])
            - MigLayout: |
                [pref]
                "Number of Forms (max 255): ",printCount    choosePrint

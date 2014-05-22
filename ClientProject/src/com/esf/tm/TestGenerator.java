@@ -109,35 +109,6 @@ class TestGenerator extends JFrame implements ListSelectionListener
     {
 	result = SwingJavaBuilder.build(this);
 
-	try
-	{
-	    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	} catch (ClassNotFoundException e)
-	{
-	    ErrorReporter.reportError(
-		    "An error has occured while trying to open the window.",
-		    Util.stackTraceToString(e));
-	    e.printStackTrace();
-	} catch (InstantiationException e)
-	{
-	    ErrorReporter.reportError(
-		    "An error has occured while trying to open the window.",
-		    Util.stackTraceToString(e));
-	    e.printStackTrace();
-	} catch (IllegalAccessException e)
-	{
-	    ErrorReporter.reportError(
-		    "An error has occured while trying to open the window.",
-		    Util.stackTraceToString(e));
-	    e.printStackTrace();
-	} catch (UnsupportedLookAndFeelException e)
-	{
-	    ErrorReporter.reportError(
-		    "An error has occured while trying to open the window.",
-		    Util.stackTraceToString(e));
-	    e.printStackTrace();
-	}
-
 	// Add in where the buttons should be disabled
 	panelStarts.add(CREATE_TEST_PANEL_INDEX);
 	panelStarts.add(IMPORT_TEST_PANEL_INDEX);
@@ -420,8 +391,6 @@ class TestGenerator extends JFrame implements ListSelectionListener
     private void changePanelCreateTest()
     {
 	changePanel(CREATE_TEST_PANEL_INDEX);
-
-	new Thread(new ClientProcessor()).start();
     }
 
     /**
@@ -459,6 +428,9 @@ class TestGenerator extends JFrame implements ListSelectionListener
     private void changePanelNetworkTest()
     {
 	changePanel(NETWORK_TEST_PANEL_INDEX);
+
+	new Thread(new ClientListener()).start();
+	new Thread(new ClientProcessor()).start();
     }
 
     /**
@@ -646,6 +618,11 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	return instance;
     }
 
+    Test getTest()
+    {
+	return currentTest;
+    }
+
     private static String generateString(Random rng, String characters,
 	    int length)
     {
@@ -657,8 +634,12 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	return new String(text);
     }
 
-    public static void main(String[] args)
+    public static void main(String[] args) throws ClassNotFoundException,
+	    InstantiationException, IllegalAccessException,
+	    UnsupportedLookAndFeelException
     {
+	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
 	if (SCREEN_WIDTH < 0 || SCREEN_HEIGHT < 0)
 	    ErrorReporter.reportError(
 		    "Error occured while initiating graphics", "");

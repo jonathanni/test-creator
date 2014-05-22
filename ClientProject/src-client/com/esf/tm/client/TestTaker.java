@@ -1,5 +1,6 @@
 package com.esf.tm.client;
 
+import java.awt.CardLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -7,6 +8,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import org.javabuilders.BuildResult;
 import org.javabuilders.swing.SwingJavaBuilder;
@@ -17,7 +20,7 @@ import org.javabuilders.swing.SwingJavaBuilder;
  * 
  * @author Jonathan Ni
  * @since 4/26/14
- * @version 0.0r2
+ * @version 0.0r3
  * 
  */
 
@@ -28,13 +31,21 @@ public class TestTaker extends JFrame implements MouseListener
     private static TestTaker instance;
 
     private BuildResult result;
+
+    private JPanel mainPanel;
+    private JScrollPane ipPanel;
     private JList ips;
+
+    private CardLayout layout = new CardLayout();
+
     private DefaultListModel ipListModel = new DefaultListModel();
 
     private NodeScanner nScanner;
     private ServerCommunicator communicator;
 
     private Test currentTest;
+
+    private int currentQuestion;
 
     public static final int PORT = 3353;
 
@@ -58,6 +69,21 @@ public class TestTaker extends JFrame implements MouseListener
 	pack();
 
 	new Thread(nScanner = new NodeScanner()).start();
+    }
+
+    public int getCurrentQuestion()
+    {
+	return currentQuestion;
+    }
+
+    public void setCurrentQuestion(int currentQuestion)
+    {
+	this.currentQuestion = currentQuestion;
+    }
+
+    public ServerCommunicator getCommunicator()
+    {
+	return communicator;
     }
 
     void clearList()
@@ -124,6 +150,10 @@ public class TestTaker extends JFrame implements MouseListener
 	// receiveTest
 	currentTest = (Test) communicator.getReader().getQueue().poll()
 		.getPayload();
+
+	mainPanel.remove(ipPanel);
+	
+	
     }
 
     /**

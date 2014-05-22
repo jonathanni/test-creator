@@ -106,35 +106,6 @@ public class QuestionEditor extends JFrame implements ChangeListener,
 
 	result = SwingJavaBuilder.build(this);
 
-	try
-	{
-	    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	} catch (ClassNotFoundException e)
-	{
-	    ErrorReporter.reportError(
-		    "An error has occured while trying to open the window.",
-		    Util.stackTraceToString(e));
-	    e.printStackTrace();
-	} catch (InstantiationException e)
-	{
-	    ErrorReporter.reportError(
-		    "An error has occured while trying to open the window.",
-		    Util.stackTraceToString(e));
-	    e.printStackTrace();
-	} catch (IllegalAccessException e)
-	{
-	    ErrorReporter.reportError(
-		    "An error has occured while trying to open the window.",
-		    Util.stackTraceToString(e));
-	    e.printStackTrace();
-	} catch (UnsupportedLookAndFeelException e)
-	{
-	    ErrorReporter.reportError(
-		    "An error has occured while trying to open the window.",
-		    Util.stackTraceToString(e));
-	    e.printStackTrace();
-	}
-
 	questionDescription.setText(getQuestion().getMessage());
 	(getQuestion() instanceof FIBQuestion ? rb3
 		: (getQuestion() instanceof TFQuestion ? rb2 : rb1))
