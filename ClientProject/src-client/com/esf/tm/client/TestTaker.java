@@ -1,15 +1,22 @@
 package com.esf.tm.client;
 
-import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
+import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import org.javabuilders.BuildResult;
 import org.javabuilders.swing.SwingJavaBuilder;
@@ -26,205 +33,409 @@ import org.javabuilders.swing.SwingJavaBuilder;
 
 public class TestTaker extends JFrame implements MouseListener
 {
-    private static final long serialVersionUID = -5547354766805951582L;
+	private static final long serialVersionUID = -5547354766805951582L;
 
-    private static TestTaker instance;
+	private static TestTaker instance;
 
-    private BuildResult result;
+	private BuildResult result;
 
-    private JPanel mainPanel;
-    private JScrollPane ipPanel;
-    private JList ips;
+	private JPanel mainPanel, questionPanel, npPanel, scorePanel;
+	private JScrollPane ipPanel;
+	private JList ips;
+	private JButton next, prev;
+	private JLabel scoreText;
 
-    private CardLayout layout = new CardLayout();
+	private CustomCardLayout layout = new CustomCardLayout();
 
-    private DefaultListModel ipListModel = new DefaultListModel();
+	private DefaultListModel ipListModel = new DefaultListModel();
 
-    private NodeScanner nScanner;
-    private ServerCommunicator communicator;
+	private NodeScanner nScanner;
+	private ServerCommunicator communicator;
 
-    private Test currentTest;
+	private Test currentTest;
 
-    private int currentQuestion;
+	private int currentQuestion;
+	private ArrayList<Object> testAnswers = new ArrayList<Object>();
 
-    public static final int PORT = 3353;
+	private ArrayList<ArrayList<Component>> testComponents = new ArrayList<ArrayList<Component>>();
 
-    /**
-     * 
-     * Creates a new test generator message panel to be used by the teacher.
-     * 
-     */
+	private TestAnswer answers;
 
-    public TestTaker()
-    {
-	super();
+	public static final int PORT = 3353;
 
-	result = SwingJavaBuilder.build(this);
+	/**
+	 * 
+	 * Creates a new test generator message panel to be used by the teacher.
+	 * 
+	 */
 
-	ips.setModel(ipListModel);
-	ips.addMouseListener(this);
-
-	pack();
-	setVisible(true);
-	pack();
-
-	new Thread(nScanner = new NodeScanner()).start();
-    }
-
-    public int getCurrentQuestion()
-    {
-	return currentQuestion;
-    }
-
-    public void setCurrentQuestion(int currentQuestion)
-    {
-	this.currentQuestion = currentQuestion;
-    }
-
-    public ServerCommunicator getCommunicator()
-    {
-	return communicator;
-    }
-
-    void clearList()
-    {
-	ipListModel.removeAllElements();
-    }
-
-    void appendIP(String ip)
-    {
-	ipListModel.addElement(ip);
-    }
-
-    private void requestLogin(String ip)
-    {
-	SingleNodeScanner sns;
-	new Thread(sns = new SingleNodeScanner(ip)).start();
-
-	try
+	public TestTaker()
 	{
-	    while (!sns.isDone)
-		Thread.sleep(10);
-	} catch (InterruptedException e)
-	{
-	    e.printStackTrace();
+		super();
+
+		result = SwingJavaBuilder.build(this);
+
+		ips.setModel(ipListModel);
+		ips.addMouseListener(this);
+
+		mainPanel.remove(scorePanel);
+
+		pack();
+		setVisible(true);
+		pack();
+
+		new Thread(nScanner = new NodeScanner()).start();
 	}
 
-	if (!sns.isUp)
+	public int getCurrentQuestion()
 	{
-	    JOptionPane.showMessageDialog(null, "The host " + ip
-		    + " could not be connected to.", "Error",
-		    JOptionPane.ERROR_MESSAGE);
-	    return;
+		return currentQuestion;
 	}
 
-	communicator = new ServerCommunicator(ip);
-
-	// requestLogin
-
-	communicator.getWriter().getQueue()
-		.add(new Message("requestLogin", null));
-
-	// receive requestPassword
-	communicator.getReader().getQueue().poll();
-
-	boolean flag = true;
-
-	while (flag)
+	public void setCurrentQuestion(int currentQuestion)
 	{
-	    String password = JOptionPane.showInputDialog("Enter the password");
+		this.currentQuestion = currentQuestion;
+	}
 
-	    // login
-	    communicator.getWriter().getQueue()
-		    .add(new Message("login", password));
+	public ServerCommunicator getCommunicator()
+	{
+		return communicator;
+	}
 
-	    Message recv = communicator.getReader().getQueue().poll();
+	void clearList()
+	{
+		ipListModel.removeAllElements();
+	}
 
-	    if (recv.getHeader().equals("loginSuccess"))
-		flag = false;
-	    else if (recv.getHeader().equals("loginFailure"))
+	void appendIP(String ip)
+	{
+		ipListModel.addElement(ip);
+	}
+
+	private ArrayList<String> getFIBData()
+	{
+		ArrayList<String> list = new ArrayList<String>();
+
+		for (Component i : testComponents.get(currentQuestion))
+			list.add(((JTextField) i).getText());
+
+		return list;
+	}
+
+	private void nextPanel()
+	{
+		if (currentTest.getQuestion(currentQuestion) instanceof FIBQuestion)
+			answers.getAnswers().set(currentQuestion, getFIBData());
+
+		if (currentQuestion == currentTest.getQuestionCount() - 1)
+			finish();
+
+		if (currentQuestion == currentTest.getQuestionCount() - 2)
+			next.setText("Finish");
+
+		currentQuestion++;
+
+		layout.next(questionPanel);
+		pack();
+	}
+
+	private void prevPanel()
+	{
+		checkButtons();
+		if (!prev.isEnabled())
+			return;
+
+		if (currentTest.getQuestion(currentQuestion) instanceof FIBQuestion)
+			answers.getAnswers().set(currentQuestion, getFIBData());
+
+		if (currentQuestion == currentTest.getQuestionCount() - 1)
+			next.setText("Next");
+
+		currentQuestion--;
+
+		layout.previous(questionPanel);
+		pack();
+	}
+
+	private void checkButtons()
+	{
+		if (currentQuestion == 0)
+			prev.setEnabled(false);
+		else
+			prev.setEnabled(true);
+	}
+
+	private void finish()
+	{
+		// sendTest
+		communicator.getWriter().getQueue()
+				.add(new Message("sendTest", answers));
+
+		// receiveScore
+		Integer score = (Integer) communicator.getReader().getQueue().poll()
+				.getPayload();
+
+		// exit
+		communicator.getWriter().getQueue().add(new Message("exit", null));
+
+		// acknowledge exit
+		communicator.getReader().getQueue().poll();
+
+		scoreText.setText(score + "/" + currentTest.getPointWorth());
+
+		mainPanel.remove(questionPanel);
+		remove(npPanel);
+
+		mainPanel.add(scorePanel);
+
+		communicator.getReader().isRunning = false;
+		communicator.getWriter().isRunning = false;
+	}
+
+	private void requestLogin(String ip)
+	{
+		SingleNodeScanner sns;
+		new Thread(sns = new SingleNodeScanner(ip)).start();
+
+		try
+		{
+			while (!sns.isDone)
+				Thread.sleep(10);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+
+		if (!sns.isUp)
+		{
+			JOptionPane.showMessageDialog(null, "The host " + ip
+					+ " could not be connected to.", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		// Retire node scanner
+		nScanner.isRunning = false;
+
+		communicator = new ServerCommunicator(ip);
+
+		// requestLogin
+
+		communicator.getWriter().getQueue()
+				.add(new Message("requestLogin", null));
+
 		// receive requestPassword
 		communicator.getReader().getQueue().poll();
+
+		boolean flag = true;
+
+		while (flag)
+		{
+			JPanel panel = new JPanel();
+
+			JTextField userField = new JTextField(10);
+			JTextField passField = new JTextField(10);
+
+			panel.add(new JLabel("User: "));
+			panel.add(userField);
+			panel.add(Box.createVerticalStrut(5));
+			panel.add(new JLabel("Password: "));
+			panel.add(passField);
+
+			JOptionPane.showConfirmDialog(null, panel, "Enter the password",
+					JOptionPane.OK_OPTION);
+
+			String user = userField.getText();
+			String password = passField.getText();
+
+			// login
+			communicator.getWriter().getQueue()
+					.add(new Message("login", new String[] { user, password }));
+
+			Message recv = communicator.getReader().getQueue().poll();
+
+			if (recv.getHeader().equals("loginSuccess"))
+				flag = false;
+			else if (recv.getHeader().equals("loginFailure"))
+				// receive requestPassword
+				communicator.getReader().getQueue().poll();
+		}
+
+		// receiveTest
+		currentTest = (Test) communicator.getReader().getQueue().poll()
+				.getPayload();
+
+		mainPanel.remove(ipPanel);
+
+		questionPanel = new JPanel(layout);
+
+		for (int i = 0; i < currentTest.getQuestionCount(); i++)
+		{
+			JPanel qPanel = new JPanel();
+			Question j = currentTest.getQuestion(i);
+
+			testComponents.add(new ArrayList<Component>());
+
+			if (j instanceof MCQuestion)
+			{
+				JLabel title = new JLabel(i + ". "
+						+ j.getMessage().replace("\n", "<br />") + "<br />");
+
+				qPanel.add(title);
+
+				ButtonGroup group = new ButtonGroup();
+
+				for (int k = 0; k < ((MCQuestion) j).getChoiceCount(); k++)
+				{
+					JRadioButton btn = new JRadioButton(((MCQuestion) j)
+							.getChoice(k).getMessage());
+
+					btn.addMouseListener(this);
+
+					group.add(btn);
+					qPanel.add(btn);
+
+					testComponents.get(i).add(btn);
+				}
+			} else if (j instanceof TFQuestion)
+			{
+				JLabel title = new JLabel(i + ". "
+						+ j.getMessage().replace("\n", "<br />") + "<br />");
+
+				qPanel.add(title);
+
+				ButtonGroup group = new ButtonGroup();
+
+				JRadioButton btnTrue = new JRadioButton("True");
+				JRadioButton btnFalse = new JRadioButton("False");
+
+				btnTrue.addMouseListener(this);
+				btnFalse.addMouseListener(this);
+
+				group.add(btnTrue);
+				group.add(btnFalse);
+
+				qPanel.add(btnTrue);
+				qPanel.add(btnFalse);
+
+				testComponents.get(i).add(btnTrue);
+				testComponents.get(i).add(btnFalse);
+			} else
+			{
+				JLabel title = new JLabel(i + ". ");
+
+				qPanel.add(title);
+
+				String[] pieces = j.getMessage().replace("\n", "<br />")
+						.split("___.");
+				for (String k : pieces)
+				{
+					JLabel piece = new JLabel(k);
+
+					qPanel.add(piece);
+
+					if (!k.equals(pieces[pieces.length - 1]))
+					{
+						JTextField field = new JTextField();
+
+						qPanel.add(piece);
+
+						testComponents.get(i).add(field);
+					}
+				}
+			}
+
+			questionPanel.add(qPanel, "" + i);
+		}
+
+		mainPanel.add(questionPanel);
+
+		answers = new TestAnswer(currentTest.getQuestionCount());
 	}
 
-	// receiveTest
-	currentTest = (Test) communicator.getReader().getQueue().poll()
-		.getPayload();
-
-	mainPanel.remove(ipPanel);
-	
-	
-    }
-
-    /**
-     * 
-     * Destroys the program.
-     * 
-     * @param callback
-     *            the "function" to call before exiting.
-     */
-    static void destroy(Callback callback)
-    {
-	callback.cbFunction();
-	System.exit(0);
-    }
-
-    /**
-     * 
-     * Function necessary for javabuilders to call in order to destroy the
-     * window.
-     * 
-     */
-
-    private void windowDestroy()
-    {
-	destroy(new Callback());
-    }
-
-    public static TestTaker getInstance()
-    {
-	return instance;
-    }
-
-    public static void main(String[] args)
-    {
-	instance = new TestTaker();
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent event)
-    {
-	JList list = (JList) event.getSource();
-
-	if (event.getClickCount() == 2)
+	/**
+	 * 
+	 * Destroys the program.
+	 * 
+	 * @param callback
+	 *            the "function" to call before exiting.
+	 */
+	static void destroy(Callback callback)
 	{
-	    String ip = (String) ipListModel.get(list.getSelectedIndex());
-	    requestLogin(ip);
+		callback.cbFunction();
+		System.exit(0);
 	}
-    }
 
-    @Override
-    public void mouseEntered(MouseEvent event)
-    {
+	/**
+	 * 
+	 * Function necessary for javabuilders to call in order to destroy the
+	 * window.
+	 * 
+	 */
 
-    }
+	private void windowDestroy()
+	{
+		destroy(new Callback());
+	}
 
-    @Override
-    public void mouseExited(MouseEvent event)
-    {
+	public static TestTaker getInstance()
+	{
+		return instance;
+	}
 
-    }
+	public static void main(String[] args)
+	{
+		instance = new TestTaker();
+	}
 
-    @Override
-    public void mousePressed(MouseEvent event)
-    {
+	@Override
+	public void mouseClicked(MouseEvent event)
+	{
+		if (event.getSource() == ips)
+		{
+			JList list = (JList) event.getSource();
 
-    }
+			if (event.getClickCount() == 2)
+			{
+				String ip = (String) ipListModel.get(list.getSelectedIndex());
+				requestLogin(ip);
+			}
+		} else if (event.getSource() instanceof JRadioButton)
+		{
+			JRadioButton btn = (JRadioButton) event.getSource();
 
-    @Override
-    public void mouseReleased(MouseEvent event)
-    {
+			Question question = currentTest.getQuestion(currentQuestion);
 
-    }
+			if (question instanceof MCQuestion)
+				testComponents.get(currentQuestion).indexOf(btn);
+			else if (question instanceof TFQuestion)
+				answers.getAnswers().set(currentQuestion,
+						testComponents.get(currentQuestion).indexOf(btn) == 0);
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent event)
+	{
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent event)
+	{
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent event)
+	{
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent event)
+	{
+
+	}
 
 }

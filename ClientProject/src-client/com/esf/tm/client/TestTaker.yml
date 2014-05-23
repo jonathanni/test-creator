@@ -2,7 +2,17 @@ JFrame(name=frame, onWindowClosing=[windowDestroy]):
   - JPanel(name=mainPanel):
      - JScrollPane(name=ipPanel):
         JList(name=ips)
+     - JPanel(name=scorePanel):
+        - JLabel(name=scoreTitle, text=Your final score is..., font=bold Helvetica 20pt)
+        - JLabel(Name=scoreText, font = bold Helvetica 48pt)
+  - JPanel(name=npPanel):
+     - JButton(name=next, text=Next, onMouseClicked=[nextPanel])
+     - JButton(name=prev, text=Previous, onMouseClicked=[prevPanel])
+     - MigLayout: |
+         [pref]
+         prev,next
   - MigLayout: |
       [pref]
       |"Scanning for Teachers..."
       mainPanel
+      >/npPanel
