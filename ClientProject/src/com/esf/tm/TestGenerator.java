@@ -601,13 +601,13 @@ class TestGenerator extends JFrame implements ListSelectionListener
 		return clients;
 	}
 
-	private void addClientNode()
+	void addClientNode()
 	{
 		JPanel clientPanel = new JPanel();
 		clientPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-		clientPanel
-				.add(new JLabel("Name: [not connected]<br />Progress: [N/A]"));
+		clientPanel.add(new JLabel("Name: [not connected]<br />"));
+		clientPanel.add(new JLabel("Progress: [N/A]"));
 
 		nPanel.add(clientPanel);
 	}
@@ -642,6 +642,11 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	Test getTest()
 	{
 		return currentTest;
+	}
+
+	JPanel getNetPanel()
+	{
+		return nPanel;
 	}
 
 	private static String generateString(Random rng, String characters,

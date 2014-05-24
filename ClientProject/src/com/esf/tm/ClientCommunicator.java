@@ -7,6 +7,8 @@ public class ClientCommunicator
 	private ClientReader reader;
 	private ClientWriter writer;
 
+	private Test test;
+
 	public volatile boolean isRunning = true;
 
 	public ClientCommunicator(Socket socket)
@@ -23,5 +25,15 @@ public class ClientCommunicator
 	public ClientWriter getWriter()
 	{
 		return writer;
+	}
+
+	public Test getTest()
+	{
+		return test;
+	}
+
+	public Test setTest(Test test)
+	{
+		return this.test = test;
 	}
 }
