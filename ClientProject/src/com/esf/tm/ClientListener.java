@@ -17,10 +17,7 @@ public class ClientListener implements Runnable
 
 	@Override
 	public void run()
-	{
-		// X509SSLContextFactory sslContextFactory = new
-		// X509SSLContextFactory();
-		
+	{	
 		ServerSocket server = null;
 		try
 		{

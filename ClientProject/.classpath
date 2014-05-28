@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="src/javabuilder-core-1.2.2.jar"/>
 	<classpathentry kind="lib" path="src/javabuilder-swing-1.2.2.jar"/>
 	<classpathentry kind="lib" path="src/plugins/glazedlists/javabuilder-swing-glazedlists-1.2.2.jar"/>
+	<classpathentry kind="lib" path="src/jsslutils-1.0.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
