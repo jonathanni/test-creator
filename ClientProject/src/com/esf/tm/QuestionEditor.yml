@@ -14,7 +14,7 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
      JTextArea(name=questionDescription, rows=5):
   - JPanel(name=tquestionContainer):
      - JPanel(name=MCQuestionContainer):
-        - JCheckBox(name=questionMixable, text="Choices Mixable?")
+        - JCheckBox(name=questionMixable, selected=true, text="Randomize Choices?")
         - JPanel(name=mcChoicePanel):
            - JScrollPane(name=mcChoiceScrollPanel):
               JList(name=mcChoices)
@@ -74,7 +74,7 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
             blankSpaces,"(max 255)"
             blankListScrollPanel,blankCAScrollPanel,fibAllButtonPanel
      - CardLayout(name=questionLayout): [MCQuestionContainer, TFQuestionContainer, FIBQuestionContainer]
-  - JButton(name=exitButton, text=exit, onMouseClicked=[$validate, validateData, exit])
+  - JButton(name=exitButton, text=Save and Return, onMouseClicked=[$validate, validateData, exit])
   - MigLayout: |
       [pref]                  [grow]
       questionTypeContainer+*

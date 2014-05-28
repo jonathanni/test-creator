@@ -6,7 +6,10 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -15,6 +18,7 @@ import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -61,9 +65,11 @@ class TestGenerator extends JFrame implements ListSelectionListener
 
 	// GUI objects. These are initialized using Javabuilders in the
 	// TestGenerator.yml document, but they can be referenced here.
-	private JButton prevPanel, nextPanel, addQ, remQ, moveUpQ, moveDownQ;
+	private JButton prevPanel, nextPanel, addQ, remQ, moveUpQ, moveDownQ,
+			startNetwork;
 	private JPanel mainPanel, tmainPanel, npPanel, qPanel, networkTestScreen,
 			nPanel;
+	private JLabel ipAddress, password;
 	private CustomCardLayout customLayout;
 	private JTextField testTitleField, testDescriptField;
 	private JList qList;
@@ -98,6 +104,8 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	private int testForms;
 
 	private ArrayList<ClientCommunicator> clients = new ArrayList<ClientCommunicator>();
+	private ClientProcessor processor;
+	private ClientListener listener;
 
 	public static final String PASSWORD = generateString(new Random(),
 			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
@@ -122,7 +130,7 @@ class TestGenerator extends JFrame implements ListSelectionListener
 
 		panelStops.add(CHOOSE_TEST_PANEL_INDEX);
 		panelStops.add(PRINT_TEST_PANEL_INDEX);
-		panelStops.add(frameCount = tmainPanel.getComponentCount() - 1);
+		panelStops.add((frameCount = tmainPanel.getComponentCount()) - 1);
 
 		// Create a new layout which packs to each JPanel size, create a new
 		// panel with that layout, add all the components from the old to the
@@ -396,6 +404,26 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	{
 		changePanel(CREATE_TEST_PANEL_INDEX);
 	}
+	
+	private void changePanelImportTest()
+	{
+		//Create a file chooser
+		final JFileChooser fc = new JFileChooser();
+		//In response to a button click:
+		int returnVal = fc.showOpenDialog(getParent());
+		String pathName = fc.getSelectedFile().getAbsolutePath();
+		File file = new File(pathName);
+		Import myImport = new Import();
+		currentTest = myImport.importNew(file);
+		
+		int numQuestions = currentTest.getQuestionCount();
+		for (int i = 0; i < numQuestions; i++) {
+			testQuestions.add(currentTest.getQuestion(i));
+			getInstance().addQuestion();
+			getInstance().updateQuestion(currentTest.getQuestion(i));
+		}
+		changePanel(CREATE_QUESTION_PANEL_INDEX);
+	}
 
 	/**
 	 * 
@@ -431,17 +459,23 @@ class TestGenerator extends JFrame implements ListSelectionListener
 
 	private void changePanelNetworkTest()
 	{
+		try
+		{
+			ipAddress.setText("IP Address: "
+					+ InetAddress.getLocalHost().getHostAddress());
+		} catch (UnknownHostException e)
+		{
+			e.printStackTrace();
+		}
+
+		password.setText(PASSWORD);
+
 		changePanel(NETWORK_TEST_PANEL_INDEX);
 
-		ClientProcessor cp = null;
+		new Thread(listener = new ClientListener()).start();
+		new Thread(processor = new ClientProcessor()).start();
 
-		new Thread(new ClientListener()).start();
-		new Thread(cp = new ClientProcessor()).start();
-
-		nPanel = new JPanel(new GridLayout(10, 3));
-		JScrollPane scroll = new JScrollPane(nPanel);
-
-		networkTestScreen.add(scroll);
+		nPanel.setLayout(new GridLayout(20, 3));
 	}
 
 	/**
@@ -502,6 +536,7 @@ class TestGenerator extends JFrame implements ListSelectionListener
 		testQuestions.add(++questionIndex, question = new Question(
 				"New Question " + questionIndex, 0));
 		qListModel.add(questionIndex, question.getMessage());
+		qList.setSelectedIndex(questionIndex);
 		questionCount++;
 
 		if (questionCount >= 2)
@@ -527,6 +562,7 @@ class TestGenerator extends JFrame implements ListSelectionListener
 
 		if (questionIndex == questionCount)
 			questionIndex--;
+		qList.setSelectedIndex(questionIndex);
 
 		if (questionCount == 1)
 			remQ.setEnabled(false);
@@ -603,6 +639,9 @@ class TestGenerator extends JFrame implements ListSelectionListener
 
 	void addClientNode()
 	{
+		if (!startNetwork.isEnabled())
+			startNetwork.setEnabled(true);
+
 		JPanel clientPanel = new JPanel();
 		clientPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
@@ -610,6 +649,19 @@ class TestGenerator extends JFrame implements ListSelectionListener
 		clientPanel.add(new JLabel("Progress: [N/A]"));
 
 		nPanel.add(clientPanel);
+	}
+
+	private void distributeTests()
+	{
+		if (!startNetwork.isEnabled())
+			return;
+
+		startNetwork.setText("Distributing...");
+		processor.sendTest();
+		startNetwork.setText("Distributed");
+		startNetwork.setEnabled(false);
+
+		listener.isRunning = false;
 	}
 
 	@Override
@@ -665,6 +717,10 @@ class TestGenerator extends JFrame implements ListSelectionListener
 			UnsupportedLookAndFeelException
 	{
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+		System.setProperty("javax.net.ssl.keyStore", "testgen.key");
+		System.setProperty("javax.net.ssl.keyStorePassword",
+				"2436230468901920356");
 
 		if (SCREEN_WIDTH < 0 || SCREEN_HEIGHT < 0)
 			ErrorReporter.reportError(

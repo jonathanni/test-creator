@@ -73,6 +73,7 @@ public class TestPrinter
 		testOut.write("  ( ) True\n  ( ) False\n");
 
 	    testOut.write("\n");
+	    testOut.write("\n");
 	}
 
 	testOut.close();
@@ -91,25 +92,26 @@ public class TestPrinter
 	    if (q instanceof MCQuestion)
 		for (int j = 0; j < ((MCQuestion) q).getChoiceCount(); j++)
 		    keyOut.write((((MCQuestion) q).getChoice(j).getChoiceID() == ((MCQuestion) q)
-			    .getCorrectAnswer() ? "  (*) " : "  ( ) ")
+			    .getCorrectAnswer() ? "\n  (*) " : "\n  ( ) ")
 			    + (j < ALPHABET.length ? String
 				    .valueOf(ALPHABET[j]) : "" + j)
 			    + " "
 			    + ((MCQuestion) q).getChoice(j));
 	    else if (q instanceof TFQuestion)
 		if (((TFQuestion) q).getCorrectAnswer())
-		    keyOut.write("  (*) True\n  ( ) False\n");
+		    keyOut.write("\n  (*) True\n\n  ( ) False\n");
 		else
-		    keyOut.write("  ( ) True\n  (*) False\n");
+		    keyOut.write("\n  ( ) True\n\n  (*) False\n");
 	    else
 		for (int j = 0; j < ((FIBQuestion) q).getBlankSpaces(); j++)
 		{
-		    keyOut.write("  Blank " + j + " Correct Answers:\n");
+		    keyOut.write("\n  Blank " + j + " Correct Answers:\n");
 		    for (String k : ((FIBQuestion) q).getCorrectAnswers()
 			    .get(j))
 			keyOut.write("    " + k + "\n");
 		}
 
+	    keyOut.write("\n");
 	    keyOut.write("\n");
 	}
 
