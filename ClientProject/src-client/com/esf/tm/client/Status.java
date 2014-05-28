@@ -1,5 +1,6 @@
 package com.esf.tm.client;
 
+
 public class Status
 {
     private int currentQuestion;
