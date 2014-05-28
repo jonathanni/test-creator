@@ -61,8 +61,19 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
             "Once you are done, you may grade the tests using the keys located in the keys/ folder."
             "You may close this window at this time."
      - JPanel(name=networkTestScreen):
+        - JLabel(name=ipAddress)
+        - JLabel(name=password)
+        - JScrollPane(name=networkScrollPanel):
+           JPanel(name=nPanel)
+        - JButton(name=startNetwork, text=Distribute Tests, enabled=false, onMouseClicked=[distributeTests])
         - MigLayout: |
             [pref]
+            "Please give this information to students: "
+            ipAddress
+            password
+            "<br />"
+            networkScrollPanel
+            startNetwork
      - CardLayout(name=layout): [titleScreen, importTestScreen, createTestScreen, createQuestionScreen, chooseTestScreen, printTestScreen, networkTestScreen]
   - JPanel(name=npPanel):
      - JButton(name=prevPanel, text=Previous, onMouseClicked=[prevPanel])

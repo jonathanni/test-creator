@@ -64,11 +64,6 @@ public class ClientProcessor implements Runnable
 
 				cc.getWriter().getQueue()
 						.add(new Message("loginSuccess", null));
-				cc.getWriter()
-						.getQueue()
-						.add(new Message("receiveTest", cc
-								.setTest(TestGenerator.getInstance().getTest()
-										.mix())));
 			} else
 			{
 				cc.getWriter().getQueue()
@@ -160,5 +155,15 @@ public class ClientProcessor implements Runnable
 			cc.getReader().isRunning = false;
 			cc.getWriter().isRunning = false;
 		}
+	}
+
+	void sendTest()
+	{
+		for (ClientCommunicator i : TestGenerator.getInstance().getClients())
+			if (i.isRunning)
+				i.getWriter()
+						.getQueue()
+						.add(new Message("receiveTest", i.setTest(TestGenerator
+								.getInstance().getTest().mix())));
 	}
 }

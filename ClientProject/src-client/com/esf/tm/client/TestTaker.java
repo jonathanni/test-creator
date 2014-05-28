@@ -79,6 +79,7 @@ public class TestTaker extends JFrame implements MouseListener
 		ips.addMouseListener(this);
 
 		mainPanel.remove(scorePanel);
+		mainPanel.remove(npPanel);
 
 		pack();
 		setVisible(true);
@@ -349,6 +350,7 @@ public class TestTaker extends JFrame implements MouseListener
 		}
 
 		mainPanel.add(questionPanel);
+		mainPanel.add(npPanel);
 
 		answers = new TestAnswer(currentTest.getQuestionCount());
 	}
