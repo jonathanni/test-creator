@@ -2,7 +2,7 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
   - JPanel(name=tmainPanel):
      - JPanel(name=titleScreen):
         - JLabel(name=titleScreenText, text=Welcome to Test Generator, font=italic bold Helvetica 40pt)
-        - JButton(name=importTestButton, text=Import Existing Test...)
+        - JButton(name=importTestButton, text=Import Existing Test..., onMouseClicked=[importTest])
         - JButton(name=createTestButton, text=Create New Test..., onMouseClicked=[changePanelCreateTest])
         - JButton(name=exitButton, text=Exit, onMouseClicked=[windowDestroy])
         - MigLayout: |
@@ -43,11 +43,14 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
             qPanel^
      - JPanel(name=chooseTestScreen):
         - JPanel(name=cPanel):
+           - JButton(name=choosePrintMaster, text=Print Master Test, onMouseClicked=[printTest])
            - JSpinner(name=printCount)
            - JButton(name=choosePrint, text=Create and Print Out Tests, onMouseClicked=[changePanelPrintTest])
            - JButton(name=chooseNetwork, text=Allow Students to Take Test via Network, onMouseClicked=[changePanelNetworkTest])
            - MigLayout: |
                [pref]
+                                                           choosePrintMaster
+                                                           
                "Number of Forms (max 255): ",printCount    choosePrint
                
                                                            chooseNetwork

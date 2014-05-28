@@ -404,25 +404,46 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	{
 		changePanel(CREATE_TEST_PANEL_INDEX);
 	}
-	
-	private void changePanelImportTest()
+
+	private void importTest()
 	{
-		//Create a file chooser
+		// Create a file chooser
 		final JFileChooser fc = new JFileChooser();
-		//In response to a button click:
+		// In response to a button click:
 		int returnVal = fc.showOpenDialog(getParent());
+
+		if (returnVal == JFileChooser.CANCEL_OPTION)
+			return;
+
+		if (fc.getSelectedFile() == null || !fc.getSelectedFile().exists())
+			return;
+
 		String pathName = fc.getSelectedFile().getAbsolutePath();
 		File file = new File(pathName);
 		Import myImport = new Import();
 		currentTest = myImport.importNew(file);
-		
+
 		int numQuestions = currentTest.getQuestionCount();
-		for (int i = 0; i < numQuestions; i++) {
+		for (int i = 0; i < numQuestions; i++)
+		{
 			testQuestions.add(currentTest.getQuestion(i));
 			getInstance().addQuestion();
 			getInstance().updateQuestion(currentTest.getQuestion(i));
 		}
 		changePanel(CREATE_QUESTION_PANEL_INDEX);
+	}
+
+	private void printTest()
+	{
+		TestPrinter printer = new TestPrinter(currentTest, -1);
+
+		try
+		{
+			printer.printTest();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	/**

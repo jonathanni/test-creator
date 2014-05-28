@@ -199,8 +199,6 @@ public class QuestionEditor extends JFrame implements ChangeListener,
 				{
 					addCorrectAnswer();
 					editCorrectAnswer(i.get(j), j);
-					((DefaultTableModel) fibBlankCAChoicesList.getModel())
-							.setValueAt(i.get(j), j, 0);
 				}
 
 				fibBlankCAIndices.set(fibBlankIndex, -1);
@@ -277,6 +275,8 @@ public class QuestionEditor extends JFrame implements ChangeListener,
 		fibBlankCACounts.add(fibBlankIndex, 0);
 
 		fibBlankList.setSelectedIndex(fibBlankIndex);
+
+		updateTable();
 	}
 
 	/**
@@ -383,14 +383,14 @@ public class QuestionEditor extends JFrame implements ChangeListener,
 		isBusy = false;
 
 		// Decrement count
-		fibBlankCACounts.set(fibBlankCount,
+		fibBlankCACounts.set(fibBlankIndex,
 				fibBlankCACounts.get(fibBlankIndex) - 1);
 
 		// If at end, decrement
-		if (blankCAIndex == fibBlankCACounts.get(fibBlankCount))
+		if (blankCAIndex == fibBlankCACounts.get(fibBlankIndex))
 			fibBlankCAIndices.set(fibBlankIndex, blankCAIndex - 1);
 
-		if (fibBlankCACounts.get(fibBlankCount) == 1)
+		if (fibBlankCACounts.get(fibBlankIndex) == 1)
 			remCA.setEnabled(false);
 
 		// Select prev item
@@ -833,7 +833,7 @@ public class QuestionEditor extends JFrame implements ChangeListener,
 				.getSelectionModel())
 		{
 			if (!event.getValueIsAdjusting()
-					&& fibBlankCAChoicesList.getSelectedRow() != -1)
+					&& fibBlankCAChoicesList.getSelectedRow() != -1 && !isBusy)
 				fibBlankCAIndices.set(fibBlankIndex,
 						fibBlankCAChoicesList.getSelectedRow());
 
