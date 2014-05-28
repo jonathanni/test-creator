@@ -74,7 +74,7 @@ JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDes
             "Please give this information to students: "
             ipAddress
             password
-            "<br />"
+            
             networkScrollPanel
             startNetwork
      - CardLayout(name=layout): [titleScreen, importTestScreen, createTestScreen, createQuestionScreen, chooseTestScreen, printTestScreen, networkTestScreen]

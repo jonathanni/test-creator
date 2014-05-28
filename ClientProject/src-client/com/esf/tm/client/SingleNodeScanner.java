@@ -4,9 +4,11 @@ package com.esf.tm.client;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 public class SingleNodeScanner implements Runnable
 {
@@ -22,10 +24,10 @@ public class SingleNodeScanner implements Runnable
 	@Override
 	public void run()
 	{
-		Socket s = null;
+		SSLSocket s = null;
 		try
 		{
-			s = new Socket();
+			s = (SSLSocket) SSLSocketFactory.getDefault().createSocket();
 			s.setReuseAddress(true);
 			s.connect(new InetSocketAddress(InetAddress.getByName(host),
 					TestTaker.PORT), 1000);

@@ -2,9 +2,9 @@ package com.esf.tm;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.SSLSocket;
 
 public class ClientListener implements Runnable
 {
@@ -32,7 +32,7 @@ public class ClientListener implements Runnable
 		{
 			while (isRunning)
 			{
-				Socket socket = server.accept();
+				SSLSocket socket = (SSLSocket) server.accept();
 				TestGenerator.getInstance().getClients()
 						.add(new ClientCommunicator(socket));
 				Thread.sleep(10);
