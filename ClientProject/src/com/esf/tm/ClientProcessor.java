@@ -48,8 +48,10 @@ public class ClientProcessor implements Runnable
 		String header = message.getHeader();
 		Object payload = message.getPayload();
 
-		if (header.equals("requestLogin"))
+		if (header.equals("requestLogin")){
+		    System.out.println("HI");
 			cc.getWriter().getQueue().add(new Message("requestPassword", null));
+		}
 		else if (header.equals("login"))
 			if (((String[]) payload)[1].equals(TestGenerator.PASSWORD))
 			{

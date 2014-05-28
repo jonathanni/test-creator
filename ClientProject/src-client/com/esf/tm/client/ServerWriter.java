@@ -34,6 +34,7 @@ public class ServerWriter implements Runnable
 			while (isRunning)
 			{
 				out.writeObject(queue.poll());
+				out.flush();
 				Thread.sleep(10);
 			}
 		} catch (InterruptedException e)
