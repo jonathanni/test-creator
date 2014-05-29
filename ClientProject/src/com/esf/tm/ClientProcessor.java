@@ -12,6 +12,7 @@ import com.esf.tm.serializable.Message;
 import com.esf.tm.serializable.Question;
 import com.esf.tm.serializable.TFQuestion;
 import com.esf.tm.serializable.Test;
+import com.esf.tm.serializable.TestAnswer;
 
 public class ClientProcessor implements Runnable
 {

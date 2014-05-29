@@ -1,10 +1,11 @@
-package com.esf.tm.client;
+package com.esf.tm.serializable;
 
-
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class TestAnswer
+public class TestAnswer implements Serializable
 {
+	private static final long serialVersionUID = -3919271939347719877L;
 	private ArrayList<Object> answers;
 	
 	public TestAnswer(int length)
