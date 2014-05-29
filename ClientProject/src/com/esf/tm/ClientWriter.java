@@ -17,6 +17,7 @@ public class ClientWriter implements Runnable
 		try
 		{
 			out = new ObjectOutputStream(socket.getOutputStream());
+			out.flush();
 		} catch (IOException e)
 		{
 			e.printStackTrace();
