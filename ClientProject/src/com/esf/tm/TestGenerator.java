@@ -1,9 +1,7 @@
 package com.esf.tm;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.io.File;
@@ -15,7 +13,6 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -31,7 +28,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -173,18 +169,6 @@ class TestGenerator extends JFrame implements ListSelectionListener
 
 	setVisible(true);
 	pack();
-    }
-
-    private void recBorder(Component a)
-    {
-	Border line = BorderFactory.createLineBorder(Color.RED);
-
-	if (a instanceof JPanel)
-	    ((JPanel) a).setBorder(line);
-
-	if (a instanceof Container)
-	    for (Component b : ((Container) a).getComponents())
-		recBorder(b);
     }
 
     /**
@@ -411,6 +395,12 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	changePanel(CREATE_TEST_PANEL_INDEX);
     }
 
+    /**
+     * 
+     * Imports a test and changes the panel to question creation.
+     * 
+     */
+
     private void importTest()
     {
 	// Create a file chooser
@@ -438,6 +428,12 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	}
 	changePanel(CREATE_QUESTION_PANEL_INDEX);
     }
+
+    /**
+     * 
+     * Prints a test out.
+     * 
+     */
 
     private void printTest()
     {
@@ -660,10 +656,23 @@ class TestGenerator extends JFrame implements ListSelectionListener
 		.getMessage());
     }
 
+    /**
+     * 
+     * Gets the clients associated with the test generator.
+     * 
+     * @return the clients
+     */
+
     public ArrayList<ClientCommunicator> getClients()
     {
 	return clients;
     }
+
+    /**
+     * 
+     * Adds a new client to the GUI.
+     * 
+     */
 
     void addClientNode()
     {
@@ -679,6 +688,12 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	nPanel.add(clientPanel);
     }
 
+    /**
+     * 
+     * Sends tests to all the clients.
+     * 
+     */
+
     private void distributeTests()
     {
 	if (!startNetwork.isEnabled())
@@ -691,6 +706,12 @@ class TestGenerator extends JFrame implements ListSelectionListener
 
 	listener.isRunning = false;
     }
+
+    /**
+     * 
+     * Triggered when the question list selection changes. Updates the GUI.
+     * 
+     */
 
     @Override
     public void valueChanged(ListSelectionEvent event)
@@ -719,15 +740,42 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	return instance;
     }
 
+    /**
+     * 
+     * Gets the current test associated with the generator.
+     * 
+     * @return
+     */
+
     Test getTest()
     {
 	return currentTest;
     }
 
+    /**
+     * 
+     * Gets the network panel on the network test screen.
+     * 
+     * @return the network panel
+     */
+
     JPanel getNetPanel()
     {
 	return nPanel;
     }
+
+    /**
+     * 
+     * Generates a new random string.
+     * 
+     * @param rng
+     *            a {@link java.util.Random}
+     * @param characters
+     *            the alphabet of the string
+     * @param length
+     *            the length of the string
+     * @return a random string
+     */
 
     private static String generateString(Random rng, String characters,
 	    int length)
@@ -740,15 +788,23 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	return new String(text);
     }
 
+    /**
+     * 
+     * Entry point.
+     * 
+     * @param args
+     *            the command line arguments
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws UnsupportedLookAndFeelException
+     */
+
     public static void main(String[] args) throws ClassNotFoundException,
 	    InstantiationException, IllegalAccessException,
 	    UnsupportedLookAndFeelException
-    {// TestGen\keys\TestTest.key.-1.txt
+    {
 	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-	System.setProperty("javax.net.ssl.keyStore", "testgen.key");
-	System.setProperty("javax.net.ssl.keyStorePassword",
-		"2436230468901920356");
 
 	if (SCREEN_WIDTH < 0 || SCREEN_HEIGHT < 0)
 	    ErrorReporter.reportError(

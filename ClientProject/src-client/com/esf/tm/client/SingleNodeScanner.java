@@ -10,16 +10,42 @@ import java.net.UnknownHostException;
 
 import javax.net.SocketFactory;
 
+/**
+ * 
+ * Scans a single node (IP) to see if it's up.
+ * 
+ * @author Jonathan Ni
+ * @since 5/22/14
+ * @version 0.0r1
+ * 
+ */
+
 public class SingleNodeScanner implements Runnable
 {
     public volatile boolean isDone, isUp;
 
     private String host;
 
+    /**
+     * 
+     * Creates a new single node scanner for an IP
+     * 
+     * @param host
+     *            the IP
+     */
+
     public SingleNodeScanner(String host)
     {
 	this.host = host;
     }
+
+    /**
+     * 
+     * Runs a scan on one IP. Tries to connect to it with a socket, and if it
+     * times out, it is not up. If it cannot connect, it also is not up. Sets
+     * the status isUp and then sets that it isDone.
+     * 
+     */
 
     @Override
     public void run()
@@ -42,20 +68,20 @@ public class SingleNodeScanner implements Runnable
 	{
 	    if (s != null)
 	    {
-		if (s.isConnected()){
-			ObjectOutputStream out;
-			try
-			{
-				out = new ObjectOutputStream(s.getOutputStream());
-				out.flush();
-				out.close();
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+		if (s.isConnected())
+		{
+		    ObjectOutputStream out;
+		    try
+		    {
+			out = new ObjectOutputStream(s.getOutputStream());
+			out.flush();
+			out.close();
+		    } catch (IOException e)
+		    {
+			e.printStackTrace();
+		    }
 		    isUp = true;
-		}
-		else
+		} else
 		    isUp = false;
 
 		try
@@ -65,7 +91,7 @@ public class SingleNodeScanner implements Runnable
 		{
 		    e1.printStackTrace();
 		}
-		
+
 		try
 		{
 		    s.close();

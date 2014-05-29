@@ -7,46 +7,77 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import com.esf.tm.serializable.Message;
 
+/**
+ * 
+ * Reader to read from a client.
+ * 
+ * @author Jonathan Ni
+ * @since 5/22/14
+ * @version 0.0r1
+ * 
+ */
+
 public class ClientReader implements Runnable
 {
-	private LinkedBlockingQueue<Message> queue = new LinkedBlockingQueue<Message>();
-	private ObjectInputStream in;
+    private LinkedBlockingQueue<Message> queue = new LinkedBlockingQueue<Message>();
+    private ObjectInputStream in;
 
-	public volatile boolean isRunning;
+    public volatile boolean isRunning;
 
-	public ClientReader(Socket socket) throws IOException
+    /**
+     * 
+     * Creates a new client reader bound to a socket.
+     * 
+     * @param socket
+     *            the socket
+     * @throws IOException
+     */
+
+    public ClientReader(Socket socket) throws IOException
+    {
+	in = new ObjectInputStream(socket.getInputStream());
+
+	isRunning = true;
+    }
+
+    /**
+     * 
+     * Runs the client reading loop. Blocks to try to read from the input
+     * stream.
+     * 
+     */
+
+    @Override
+    public void run()
+    {
+	try
 	{
-		in = new ObjectInputStream(socket.getInputStream());
-
-		isRunning = true;
-	}
-
-	@Override
-	public void run()
+	    while (isRunning)
+	    {
+		queue.add((Message) in.readObject());
+		Thread.sleep(10);
+	    }
+	} catch (InterruptedException e)
 	{
-		try
-		{
-			while (isRunning)
-			{// TODO parse input
-				System.out.println("READ");
-				queue.add((Message) in.readObject());
-				System.out.println("RUN");
-				Thread.sleep(10);
-			}
-		} catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		} catch (ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	LinkedBlockingQueue<Message> getQueue()
+	    e.printStackTrace();
+	} catch (IOException e)
 	{
-		return queue;
+	    e.printStackTrace();
+	} catch (ClassNotFoundException e)
+	{
+	    e.printStackTrace();
 	}
+    }
+
+    /**
+     * 
+     * Gets the queue associated with the reader.
+     * 
+     * @return the queue
+     */
+
+    LinkedBlockingQueue<Message> getQueue()
+    {
+	return queue;
+    }
 }
