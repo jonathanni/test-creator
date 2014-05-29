@@ -227,7 +227,7 @@ public class TestTaker extends JFrame implements MouseListener
 		Message m = communicator.getReader().getQueue().take();
 
 		System.out.println(m);
-		
+
 		boolean flag = true;
 
 		while (flag)
@@ -262,9 +262,13 @@ public class TestTaker extends JFrame implements MouseListener
 				communicator.getReader().getQueue().take();
 		}
 
+		System.out.println("GETTING TEST");
+
 		// receiveTest
 		currentTest = (Test) communicator.getReader().getQueue().take()
 				.getPayload();
+
+		System.out.println("GOT TEST");
 
 		mainPanel.remove(ipPanel);
 
@@ -348,11 +352,15 @@ public class TestTaker extends JFrame implements MouseListener
 
 			questionPanel.add(qPanel, "" + i);
 		}
+		
+		System.out.println("Finished layout");
 
 		mainPanel.add(questionPanel);
 		mainPanel.add(npPanel);
 
 		answers = new TestAnswer(currentTest.getQuestionCount());
+		
+		pack();
 	}
 
 	/**
