@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.5" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="com.esf.tm.serializable.Question" project="ClientProject" 
-    file="/ClientProject/src/com/esf/tm/serializable/Question.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="950" y="445"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="2" language="java" name="com.esf.tm.Configuration" project="ClientProject" 
+  <class id="1" language="java" name="com.esf.tm.Configuration" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/Configuration.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="109" y="-190"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -19,7 +10,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="com.esf.tm.ClientProcessor" project="ClientProject" 
+  <class id="2" language="java" name="com.esf.tm.ClientProcessor" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/ClientProcessor.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="144" y="-43"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -28,7 +19,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="com.esf.tm.ClientListener" project="ClientProject" 
+  <class id="3" language="java" name="com.esf.tm.ClientListener" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/ClientListener.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="73" y="97"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -37,7 +28,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="com.esf.tm.serializable.TFQuestion" project="ClientProject" 
+  <class id="4" language="java" name="com.esf.tm.serializable.TFQuestion" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/serializable/TFQuestion.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="989" y="809"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -46,7 +37,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="com.esf.tm.ClientCommunicator" project="ClientProject" 
+  <class id="5" language="java" name="com.esf.tm.ClientCommunicator" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/ClientCommunicator.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="738" y="131"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -55,7 +46,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="com.esf.tm.Logger" project="ClientProject" 
+  <class id="6" language="java" name="com.esf.tm.Logger" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/Logger.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="129" y="260"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -64,7 +55,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="com.esf.tm.serializable.MCQuestion" project="ClientProject" 
+  <class id="7" language="java" name="com.esf.tm.serializable.MCQuestion" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/serializable/MCQuestion.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1200" y="250"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -73,7 +64,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="com.esf.tm.Callback" project="ClientProject" 
+  <class id="8" language="java" name="com.esf.tm.Callback" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/Callback.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="212" y="91"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -82,7 +73,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="10" language="java" name="com.esf.tm.ClientReader" project="ClientProject" 
+  <class id="9" language="java" name="com.esf.tm.ClientReader" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/ClientReader.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="927" y="-179"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -91,7 +82,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="11" language="java" name="com.esf.tm.TestPrinter" project="ClientProject" 
+  <class id="10" language="java" name="com.esf.tm.TestPrinter" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/TestPrinter.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="919" y="209"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -100,8 +91,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="12" language="java" name="com.esf.tm.Status" project="ClientProject" 
-    file="/ClientProject/src/com/esf/tm/Status.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="11" language="java" name="com.esf.tm.serializable.Status" project="ClientProject" 
+    file="/ClientProject/src/com/esf/tm/serializable/Status.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="290" y="-190"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -109,7 +100,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="13" language="java" name="com.esf.tm.ClientWriter" project="ClientProject" 
+  <class id="12" language="java" name="com.esf.tm.ClientWriter" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/ClientWriter.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1187" y="-173"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -118,7 +109,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="com.esf.tm.serializable.Message" project="ClientProject" 
+  <class id="13" language="java" name="com.esf.tm.serializable.Message" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/serializable/Message.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="934" y="14"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -127,7 +118,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="15" language="java" name="com.esf.tm.TestGenerator" project="ClientProject" 
+  <class id="14" language="java" name="com.esf.tm.TestGenerator" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/TestGenerator.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="419" y="512"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -136,7 +127,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="16" language="java" name="com.esf.tm.ErrorReporter" project="ClientProject" 
+  <class id="15" language="java" name="com.esf.tm.ErrorReporter" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/ErrorReporter.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="476" y="-207"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -145,7 +136,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="17" language="java" name="com.esf.tm.serializable.Choice" project="ClientProject" 
+  <class id="16" language="java" name="com.esf.tm.serializable.Choice" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/serializable/Choice.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1127" y="587"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -154,7 +145,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="18" language="java" name="com.esf.tm.serializable.Test" project="ClientProject" 
+  <class id="17" language="java" name="com.esf.tm.serializable.Test" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/serializable/Test.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="700" y="446"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -163,7 +154,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="19" language="java" name="com.esf.tm.serializable.FIBQuestion" project="ClientProject" 
+  <class id="18" language="java" name="com.esf.tm.serializable.FIBQuestion" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/serializable/FIBQuestion.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="746" y="862"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -172,7 +163,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="20" language="java" name="com.esf.tm.serializable.TestAnswer" project="ClientProject" 
+  <class id="19" language="java" name="com.esf.tm.serializable.TestAnswer" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/serializable/TestAnswer.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="685" y="-22"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -181,7 +172,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="21" language="java" name="com.esf.tm.CustomCardLayout" project="ClientProject" 
+  <class id="20" language="java" name="com.esf.tm.CustomCardLayout" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/CustomCardLayout.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1020" y="979"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -190,7 +181,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="22" language="java" name="com.esf.tm.QuestionEditor" project="ClientProject" 
+  <class id="21" language="java" name="com.esf.tm.QuestionEditor" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/QuestionEditor.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1464" y="434"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -199,7 +190,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="23" language="java" name="com.esf.tm.Util" project="ClientProject" 
+  <class id="22" language="java" name="com.esf.tm.Util" project="ClientProject" 
     file="/ClientProject/src/com/esf/tm/Util.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="690" y="-174"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -208,164 +199,124 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <generalization id="24">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <association id="25">    
-    <end type="SOURCE" refId="15" navigable="false">      
-      <attribute id="26" name="currentTest"/>      
-      <multiplicity id="27" minimum="0" maximum="1"/>    
+  <association id="23">    
+    <bendpoint x="557" y="183"/>    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="24" name="clients"/>      
+      <multiplicity id="25" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="18" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="28">    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="29" name="test"/>      
-      <multiplicity id="30" minimum="0" maximum="1"/>    
+  <association id="26">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="27" name="test"/>      
+      <multiplicity id="28" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="18" navigable="true"/>    
+    <end type="TARGET" refId="17" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="31">    
+  <association id="29">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="30" name="choiceList"/>      
+      <multiplicity id="31" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="32">    
     <bendpoint x="1249" y="979"/>    
-    <end type="SOURCE" refId="22" navigable="false">      
-      <attribute id="32" name="customLayout"/>      
-      <multiplicity id="33" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="33" name="customLayout"/>      
+      <multiplicity id="34" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="21" navigable="true"/>    
+    <end type="TARGET" refId="20" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="34">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
   <association id="35">    
-    <bendpoint x="1267" y="704"/>    
-    <bendpoint x="1033" y="704"/>    
-    <end type="SOURCE" refId="22" navigable="false">      
-      <attribute id="36" name="question"/>      
+    <bendpoint x="605" y="1093"/>    
+    <bendpoint x="987" y="1093"/>    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="36" name="customLayout"/>      
       <multiplicity id="37" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="20" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="38">    
-    <bendpoint x="557" y="183"/>    
-    <end type="SOURCE" refId="15" navigable="false">      
-      <attribute id="39" name="clients"/>      
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="39" name="queue"/>      
       <multiplicity id="40" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
+    <end type="TARGET" refId="13" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="41">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="42" name="test"/>      
-      <multiplicity id="43" minimum="0" maximum="1"/>    
+    <bendpoint x="1052" y="19"/>    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="42" name="queue"/>      
+      <multiplicity id="43" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="18" navigable="true"/>    
+    <end type="TARGET" refId="13" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="44">    
-    <bendpoint x="605" y="1093"/>    
-    <bendpoint x="987" y="1093"/>    
-    <end type="SOURCE" refId="15" navigable="false">      
-      <attribute id="45" name="customLayout"/>      
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="45" name="test"/>      
       <multiplicity id="46" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="21" navigable="true"/>    
+    <end type="TARGET" refId="17" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="47">    
-    <bendpoint x="598" y="648"/>    
-    <bendpoint x="784" y="646"/>    
-    <end type="SOURCE" refId="15" navigable="false">      
-      <attribute id="48" name="testQuestions"/>      
-      <multiplicity id="49" minimum="0" maximum="2147483647"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="48" name="reader"/>      
+      <multiplicity id="49" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="50">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="51" name="queue"/>      
+    <bendpoint x="1275" y="589"/>    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="51" name="mcQChoices"/>      
       <multiplicity id="52" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="14" navigable="true"/>    
+    <end type="TARGET" refId="16" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="53">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="54" name="reader"/>      
+    <bendpoint x="1001" y="128"/>    
+    <bendpoint x="1179" y="-63"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="54" name="writer"/>      
       <multiplicity id="55" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="10" navigable="true"/>    
+    <end type="TARGET" refId="12" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="56">    
-    <bendpoint x="1275" y="589"/>    
-    <end type="SOURCE" refId="22" navigable="false">      
-      <attribute id="57" name="mcQChoices"/>      
-      <multiplicity id="58" minimum="0" maximum="2147483647"/>    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="57" name="currentTest"/>      
+      <multiplicity id="58" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="17" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="59">    
-    <bendpoint x="1052" y="19"/>    
-    <end type="SOURCE" refId="13" navigable="false">      
-      <attribute id="60" name="queue"/>      
-      <multiplicity id="61" minimum="0" maximum="2147483647"/>    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="60" name="logger"/>      
+      <multiplicity id="61" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="14" navigable="true"/>    
+    <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="62">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="63" name="choiceList"/>      
-      <multiplicity id="64" minimum="0" maximum="2147483647"/>    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="63" name="instance"/>      
+      <multiplicity id="64" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="17" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="65">    
-    <end type="SOURCE" refId="15" navigable="false">      
-      <attribute id="66" name="instance"/>      
-      <multiplicity id="67" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="15" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="68">    
-    <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="69" name="questionList"/>      
-      <multiplicity id="70" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="71">    
-    <end type="SOURCE" refId="19"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <association id="72">    
-    <end type="SOURCE" refId="15" navigable="false">      
-      <attribute id="73" name="logger"/>      
-      <multiplicity id="74" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="75">    
-    <bendpoint x="1001" y="128"/>    
-    <bendpoint x="1179" y="-63"/>    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="76" name="writer"/>      
-      <multiplicity id="77" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="13" navigable="true"/>    
+    <end type="TARGET" refId="14" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
