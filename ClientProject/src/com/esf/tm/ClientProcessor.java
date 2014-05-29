@@ -1,11 +1,17 @@
 package com.esf.tm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.esf.tm.message.Message;
+import com.esf.tm.serializable.FIBQuestion;
+import com.esf.tm.serializable.MCQuestion;
+import com.esf.tm.serializable.Message;
+import com.esf.tm.serializable.Question;
+import com.esf.tm.serializable.TFQuestion;
+import com.esf.tm.serializable.Test;
 
 public class ClientProcessor implements Runnable
 {
@@ -62,6 +68,8 @@ public class ClientProcessor implements Runnable
 			System.err.println("requestLogin");
 			cc.getWriter().getQueue().add(new Message("requestPassword", null));
 		} else if (header.equals("login"))
+		{
+			System.out.println(Arrays.toString((String[]) payload));
 			if (((String[]) payload)[1].equals(TestGenerator.PASSWORD))
 			{
 				System.err.println("loginSuccess");
@@ -84,7 +92,7 @@ public class ClientProcessor implements Runnable
 				cc.getWriter().getQueue()
 						.add(new Message("requestPassword", null));
 			}
-		else if (header.equals("status"))
+		} else if (header.equals("status"))
 		{
 			((JLabel) ((JPanel) TestGenerator
 					.getInstance()

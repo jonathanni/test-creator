@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  * 
  */
 
-class ErrorReporter
+public class ErrorReporter
 {
 
 	/**
@@ -28,7 +28,7 @@ class ErrorReporter
 	 * 
 	 * @param o
 	 */
-	static void reportError(Object errormsg, Object stacktrace)
+	public static void reportError(Object errormsg, Object stacktrace)
 	{
 		final String msg = errormsg.toString();
 		final String stackTrace = stacktrace.toString();

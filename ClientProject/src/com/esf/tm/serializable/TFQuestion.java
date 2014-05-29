@@ -1,4 +1,6 @@
-package com.esf.tm;
+package com.esf.tm.serializable;
+
+import java.io.Serializable;
 
 /**
  * 
@@ -10,10 +12,10 @@ package com.esf.tm;
  * 
  */
 
-public class TFQuestion extends Question
+public class TFQuestion extends Question implements Serializable
 {
-
-    private boolean correctAnswer;
+	private static final long serialVersionUID = -8912005812147669276L;
+	private boolean correctAnswer;
 
     /**
      * 

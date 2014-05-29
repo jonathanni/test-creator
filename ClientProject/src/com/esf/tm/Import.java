@@ -4,6 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import com.esf.tm.serializable.Choice;
+import com.esf.tm.serializable.FIBQuestion;
+import com.esf.tm.serializable.MCQuestion;
+import com.esf.tm.serializable.TFQuestion;
+import com.esf.tm.serializable.Test;
+
 public class Import
 {
 	String line = "";

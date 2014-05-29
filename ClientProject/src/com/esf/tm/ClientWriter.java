@@ -5,7 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import com.esf.tm.message.Message;
+import com.esf.tm.serializable.Message;
 
 public class ClientWriter implements Runnable
 {

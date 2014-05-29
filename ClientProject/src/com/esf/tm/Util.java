@@ -14,7 +14,7 @@ import java.io.StringWriter;
  * 
  */
 
-class Util
+public class Util
 {
     public static String RESTRICTED_CHARACTERS = "[<>:\"/\\\\\\|\\?\\*]";
 
@@ -27,7 +27,7 @@ class Util
      * @return the stack trace as a String
      */
 
-    static String stackTraceToString(Exception e)
+    public static String stackTraceToString(Exception e)
     {
 	StringWriter sw = new StringWriter();
 	PrintWriter pw = new PrintWriter(sw);

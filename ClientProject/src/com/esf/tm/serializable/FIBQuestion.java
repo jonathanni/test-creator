@@ -1,6 +1,10 @@
-package com.esf.tm;
+package com.esf.tm.serializable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+
+import com.esf.tm.ErrorReporter;
+import com.esf.tm.Util;
 
 /**
  * 
@@ -12,8 +16,10 @@ import java.util.ArrayList;
  * 
  */
 
-public class FIBQuestion extends Question
+public class FIBQuestion extends Question implements Serializable
 {
+	private static final long serialVersionUID = 8743164425511849835L;
+
 	private ArrayList<ArrayList<String>> correctAnswers = new ArrayList<ArrayList<String>>();
 
 	private boolean isCaseSensitive, isWhitespaceSensitive;
@@ -76,7 +82,7 @@ public class FIBQuestion extends Question
 	 *            a correct answer
 	 */
 
-	void addAnswer(int blankIndex, String answer)
+	public void addAnswer(int blankIndex, String answer)
 	{
 		correctAnswers.get(blankIndex).add(answer);
 	}

@@ -3,6 +3,8 @@ package com.esf.tm;
 import java.io.IOException;
 import java.net.Socket;
 
+import com.esf.tm.serializable.Test;
+
 public class ClientCommunicator
 {
 	private ClientReader reader;

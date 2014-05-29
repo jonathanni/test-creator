@@ -1,7 +1,11 @@
-package com.esf.tm;
+package com.esf.tm.serializable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import com.esf.tm.ErrorReporter;
+import com.esf.tm.Util;
 
 import ec.util.MersenneTwisterFast;
 
@@ -15,8 +19,9 @@ import ec.util.MersenneTwisterFast;
  * 
  */
 
-class MCQuestion extends Question
+public class MCQuestion extends Question implements Serializable
 {
+	private static final long serialVersionUID = 7086060268077026539L;
 	private ArrayList<Choice> choiceList = new ArrayList<Choice>();
 	private int correctAnswer;
 	private boolean isMixable = true;
@@ -91,7 +96,7 @@ class MCQuestion extends Question
 	 *            the choice
 	 */
 
-	void addChoice(Choice choice)
+	public void addChoice(Choice choice)
 	{
 		choiceList.add(choice);
 	}
@@ -162,7 +167,7 @@ class MCQuestion extends Question
 	 * @throws IllegalArgumentException
 	 */
 
-	Choice getChoice(int index)
+	public Choice getChoice(int index)
 	{
 		if (index < 0 || index >= choiceList.size())
 			try
@@ -242,7 +247,7 @@ class MCQuestion extends Question
 	 * 
 	 */
 
-	void assignIDs()
+	public void assignIDs()
 	{
 		for (int i = 0; i < choiceList.size(); i++)
 			choiceList.get(i).setChoiceID(i);

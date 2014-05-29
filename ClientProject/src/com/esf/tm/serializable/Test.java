@@ -1,7 +1,11 @@
-package com.esf.tm;
+package com.esf.tm.serializable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import com.esf.tm.ErrorReporter;
+import com.esf.tm.Util;
 
 import ec.util.MersenneTwisterFast;
 
@@ -15,7 +19,7 @@ import ec.util.MersenneTwisterFast;
  * 
  */
 
-public class Test
+public class Test implements Serializable
 {
 	private ArrayList<Question> questionList = new ArrayList<Question>();
 	private String testTitle, testDescription;
@@ -61,7 +65,7 @@ public class Test
 	 *            the question
 	 */
 
-	void addQuestion(Question question)
+	public void addQuestion(Question question)
 	{
 		questionList.add(question);
 	}
@@ -132,7 +136,7 @@ public class Test
 	 * @throws IllegalArgumentException
 	 */
 
-	Question getQuestion(int index)
+	public Question getQuestion(int index)
 	{
 		if (index < 0 || index >= questionList.size())
 			try
@@ -209,7 +213,7 @@ public class Test
 		return questionList.size();
 	}
 
-	int getPointWorth()
+	public int getPointWorth()
 	{
 		int points = 0;
 		for (Question i : questionList)
@@ -231,7 +235,7 @@ public class Test
 	 * 
 	 */
 
-	void assignIDs()
+	public void assignIDs()
 	{
 		for (int i = 0; i < questionList.size(); i++)
 		{
@@ -261,7 +265,7 @@ public class Test
 	 * downto 1 do j = random integer with 0 <= j <= i exchange a[j] and a[i]
 	 */
 
-	Test mix()
+	public Test mix()
 	{
 		Test mixed = new Test(this);
 

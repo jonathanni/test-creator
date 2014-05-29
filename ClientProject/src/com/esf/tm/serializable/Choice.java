@@ -1,5 +1,10 @@
-package com.esf.tm.client;
+package com.esf.tm.serializable;
 
+import java.io.Serializable;
+
+import com.esf.tm.Configuration;
+import com.esf.tm.ErrorReporter;
+import com.esf.tm.Util;
 
 /**
  * 
@@ -14,9 +19,10 @@ package com.esf.tm.client;
  * 
  */
 
-class Choice
+public class Choice implements Serializable
 {
-    private int choiceID;
+	private static final long serialVersionUID = -4393644679307887868L;
+	private int choiceID;
     private String msg;
 
     /**

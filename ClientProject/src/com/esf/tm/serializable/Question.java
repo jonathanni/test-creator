@@ -1,4 +1,6 @@
-package com.esf.tm;
+package com.esf.tm.serializable;
+
+import java.io.Serializable;
 
 /**
  * 
@@ -13,9 +15,10 @@ package com.esf.tm;
  * 
  */
 
-class Question
+public class Question implements Serializable
 {
-    private String message;
+	private static final long serialVersionUID = -3380460923523617609L;
+	private String message;
     private int questionID;
 
     /**
@@ -56,7 +59,7 @@ class Question
      * @return the message
      */
 
-    String getMessage()
+    public String getMessage()
     {
 	return message;
     }
@@ -69,7 +72,7 @@ class Question
      *            the message
      */
 
-    void setMessage(String message)
+    public void setMessage(String message)
     {
 	this.message = message;
     }

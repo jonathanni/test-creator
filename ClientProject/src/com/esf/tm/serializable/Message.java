@@ -1,11 +1,11 @@
-package com.esf.tm.message;
+package com.esf.tm.serializable;
 
 import java.io.Serializable;
 
 public class Message implements Serializable
 {
-	private static final long serialVersionUID = 32L;
 
+	private static final long serialVersionUID = -1857292167991598281L;
 	private String header;
 	private Object payload;
 

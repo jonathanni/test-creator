@@ -1,6 +1,6 @@
 package com.esf.tm.client;
 
-import com.esf.tm.message.Message;
+import com.esf.tm.serializable.Message;
 
 
 public class StatusChecker implements Runnable

@@ -5,6 +5,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import com.esf.tm.serializable.FIBQuestion;
+import com.esf.tm.serializable.MCQuestion;
+import com.esf.tm.serializable.Question;
+import com.esf.tm.serializable.TFQuestion;
+import com.esf.tm.serializable.Test;
+
 /**
  * 
  * Prints the tests out to text files so that the client may pick them up.

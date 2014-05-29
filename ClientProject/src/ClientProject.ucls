@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.5" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="com.esf.tm.Question" project="ClientProject" 
-    file="/ClientProject/src/com/esf/tm/Question.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="1" language="java" name="com.esf.tm.serializable.Question" project="ClientProject" 
+    file="/ClientProject/src/com/esf/tm/serializable/Question.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="950" y="445"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -37,8 +37,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="com.esf.tm.TFQuestion" project="ClientProject" 
-    file="/ClientProject/src/com/esf/tm/TFQuestion.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="5" language="java" name="com.esf.tm.serializable.TFQuestion" project="ClientProject" 
+    file="/ClientProject/src/com/esf/tm/serializable/TFQuestion.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="989" y="809"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -64,8 +64,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="com.esf.tm.MCQuestion" project="ClientProject" 
-    file="/ClientProject/src/com/esf/tm/MCQuestion.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="8" language="java" name="com.esf.tm.serializable.MCQuestion" project="ClientProject" 
+    file="/ClientProject/src/com/esf/tm/serializable/MCQuestion.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1200" y="250"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -118,8 +118,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="com.esf.tm.message.Message" project="ClientProject" 
-    file="/ClientProject/src/com/esf/tm/message/Message.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="14" language="java" name="com.esf.tm.serializable.Message" project="ClientProject" 
+    file="/ClientProject/src/com/esf/tm/serializable/Message.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="934" y="14"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -145,8 +145,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="17" language="java" name="com.esf.tm.Choice" project="ClientProject" 
-    file="/ClientProject/src/com/esf/tm/Choice.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="17" language="java" name="com.esf.tm.serializable.Choice" project="ClientProject" 
+    file="/ClientProject/src/com/esf/tm/serializable/Choice.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1127" y="587"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -154,8 +154,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="18" language="java" name="com.esf.tm.Test" project="ClientProject" 
-    file="/ClientProject/src/com/esf/tm/Test.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="18" language="java" name="com.esf.tm.serializable.Test" project="ClientProject" 
+    file="/ClientProject/src/com/esf/tm/serializable/Test.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="700" y="446"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -163,8 +163,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="19" language="java" name="com.esf.tm.FIBQuestion" project="ClientProject" 
-    file="/ClientProject/src/com/esf/tm/FIBQuestion.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="19" language="java" name="com.esf.tm.serializable.FIBQuestion" project="ClientProject" 
+    file="/ClientProject/src/com/esf/tm/serializable/FIBQuestion.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="746" y="862"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      

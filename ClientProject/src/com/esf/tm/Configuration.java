@@ -10,7 +10,7 @@ package com.esf.tm;
  * 
  */
 
-class Configuration
+public class Configuration
 {
     private static boolean isLetterChoice;
 
@@ -22,7 +22,7 @@ class Configuration
      * @return the flag
      */
 
-    static boolean isLetterChoice()
+    public static boolean isLetterChoice()
     {
 	return isLetterChoice;
     }
