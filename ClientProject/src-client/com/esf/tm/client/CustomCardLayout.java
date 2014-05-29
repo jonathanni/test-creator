@@ -1,6 +1,5 @@
 package com.esf.tm.client;
 
-
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Container;
@@ -25,6 +24,13 @@ public class CustomCardLayout extends CardLayout
 
     private static final long serialVersionUID = -6045116650905060041L;
 
+    /**
+     * 
+     * Instead of having the size be the size of the largest component, have the
+     * size continuously update, and only be of the current component.
+     * 
+     */
+
     @Override
     public Dimension preferredLayoutSize(Container parent)
     {
@@ -40,6 +46,15 @@ public class CustomCardLayout extends CardLayout
 	}
 	return super.preferredLayoutSize(parent);
     }
+
+    /**
+     * 
+     * Find the component that is currently selected.
+     * 
+     * @param parent
+     *            the parent container
+     * @return the component
+     */
 
     public Component findCurrentComponent(Container parent)
     {
