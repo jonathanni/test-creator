@@ -1,33 +1,43 @@
 package com.esf.tm;
 
-public class Message
+import java.io.Serializable;
+
+public class Message implements Serializable
 {
-    private String header;
-    private Object payload;
+	private static final long serialVersionUID = 32L;
 
-    public Message(String header, Object payload)
-    {
-	this.header = header;
-	this.payload = payload;
-    }
+	private String header;
+	private Object payload;
 
-    public String getHeader()
-    {
-	return header;
-    }
+	public Message(String header, Object payload)
+	{
+		this.header = header;
+		this.payload = payload;
+	}
 
-    public void setHeader(String header)
-    {
-	this.header = header;
-    }
+	public String getHeader()
+	{
+		return header;
+	}
 
-    public Object getPayload()
-    {
-	return payload;
-    }
+	public void setHeader(String header)
+	{
+		this.header = header;
+	}
 
-    public void setPayload(Object payload)
-    {
-	this.payload = payload;
-    }
+	public Object getPayload()
+	{
+		return payload;
+	}
+
+	public void setPayload(Object payload)
+	{
+		this.payload = payload;
+	}
+
+	@Override
+	public String toString()
+	{
+		return this.header + " " + this.payload;
+	}
 }

@@ -227,8 +227,6 @@ public class Import
 			blankIndex++;
 		}
 		// C:\Users\Jonathan\git\client-project-test-creator\ClientProject\keys\asdfasdf.key.-1.txt
-		System.out.println("HI");
-		System.out.println(question);
 
 		myTest.addQuestion(question);
 	}

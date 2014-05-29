@@ -9,52 +9,52 @@ import javax.net.ServerSocketFactory;
 
 public class ClientListener implements Runnable
 {
-    public volatile boolean isRunning;
+	public volatile boolean isRunning;
 
-    public ClientListener()
-    {
-	isRunning = true;
-    }
-
-    @Override
-    public void run()
-    {
-	ServerSocket server = null;
-	try
+	public ClientListener()
 	{
-	    server = ServerSocketFactory.getDefault().createServerSocket(
-		    TestGenerator.PORT);
-	} catch (IOException e)
-	{
-	    e.printStackTrace();
+		isRunning = true;
 	}
 
-	try
+	@Override
+	public void run()
 	{
-	    while (isRunning)
-	    {
-		Socket socket = server.accept();
+		ServerSocket server = null;
 		try
 		{
-		    TestGenerator.getInstance().getClients()
-			    .add(new ClientCommunicator(socket));
-		} catch (EOFException e)
+			server = ServerSocketFactory.getDefault().createServerSocket(
+					TestGenerator.PORT);
+		} catch (IOException e)
 		{
-		    TestGenerator
-			    .getInstance()
-			    .getClients()
-			    .remove(TestGenerator.getInstance().getClients()
-				    .size() - 1);
+			e.printStackTrace();
 		}
-		Thread.sleep(10);
-	    }
-	} catch (InterruptedException e)
-	{
-	    e.printStackTrace();
-	} catch (IOException e)
-	{
-	    e.printStackTrace();
+
+		try
+		{
+			while (isRunning)
+			{
+				Socket socket = server.accept();
+				try
+				{
+					System.out.println("ADDING CLIENT");
+					TestGenerator.getInstance().getClients()
+							.add(new ClientCommunicator(socket));
+					System.out.println("ADDED");
+				} catch (IOException e)
+				{
+					socket.close();
+					System.out.println("Dead client");
+					e.printStackTrace();
+				}
+				Thread.sleep(10);
+			}
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
-    }
 
 }

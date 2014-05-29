@@ -9,6 +9,8 @@ public class ClientProcessor implements Runnable
 {
 	public volatile boolean isRunning;
 
+	private boolean first = true;
+
 	public ClientProcessor()
 	{
 		isRunning = true;
@@ -27,12 +29,17 @@ public class ClientProcessor implements Runnable
 				{
 					if (i.isRunning && !i.getReader().getQueue().isEmpty())
 					{
-						processMessage(i, i.getReader().getQueue().poll());
-						flag = false;
+						System.out.println("PROCESSING");
+						processMessage(i, i.getReader().getQueue().take());
+						System.out.println("PROCESSED");
 					}
+
+					if (i.isRunning)
+						flag = false;
 				}
 
-				if (flag)
+				if (flag
+						&& TestGenerator.getInstance().getClients().size() != 0)
 					isRunning = false;
 
 				Thread.sleep(1000);
@@ -48,13 +55,14 @@ public class ClientProcessor implements Runnable
 		String header = message.getHeader();
 		Object payload = message.getPayload();
 
-		if (header.equals("requestLogin")){
-		    System.out.println("HI");
+		if (header.equals("requestLogin"))
+		{
+			System.err.println("requestLogin");
 			cc.getWriter().getQueue().add(new Message("requestPassword", null));
-		}
-		else if (header.equals("login"))
+		} else if (header.equals("login"))
 			if (((String[]) payload)[1].equals(TestGenerator.PASSWORD))
 			{
+				System.err.println("loginSuccess");
 				TestGenerator.getInstance().addClientNode();
 				((JLabel) ((JPanel) TestGenerator
 						.getInstance()
@@ -68,6 +76,7 @@ public class ClientProcessor implements Runnable
 						.add(new Message("loginSuccess", null));
 			} else
 			{
+				System.err.println("loginFailure");
 				cc.getWriter().getQueue()
 						.add(new Message("loginFailure", null));
 				cc.getWriter().getQueue()

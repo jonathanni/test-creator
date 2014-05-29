@@ -7,40 +7,44 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientReader implements Runnable
 {
-    private LinkedBlockingQueue<Message> queue = new LinkedBlockingQueue<Message>();
-    private ObjectInputStream in;
+	private LinkedBlockingQueue<Message> queue = new LinkedBlockingQueue<Message>();
+	private ObjectInputStream in;
 
-    public volatile boolean isRunning;
+	public volatile boolean isRunning;
 
-    public ClientReader(Socket socket) throws IOException
-    {
-	in = new ObjectInputStream(socket.getInputStream());
-    }
+	public ClientReader(Socket socket) throws IOException
+	{
+		in = new ObjectInputStream(socket.getInputStream());
 
-    @Override
-    public void run()
-    {
-	try
-	{
-	    while (isRunning)
-	    {// TODO parse input
-		queue.add((Message) in.readObject());
-		Thread.sleep(10);
-	    }
-	} catch (InterruptedException e)
-	{
-	    e.printStackTrace();
-	} catch (IOException e)
-	{
-	    e.printStackTrace();
-	} catch (ClassNotFoundException e)
-	{
-	    e.printStackTrace();
+		isRunning = true;
 	}
-    }
 
-    LinkedBlockingQueue<Message> getQueue()
-    {
-	return queue;
-    }
+	@Override
+	public void run()
+	{
+		try
+		{
+			while (isRunning)
+			{// TODO parse input
+				System.out.println("READ");
+				queue.add((Message) in.readObject());
+				System.out.println("RUN");
+				Thread.sleep(10);
+			}
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		} catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	LinkedBlockingQueue<Message> getQueue()
+	{
+		return queue;
+	}
 }
