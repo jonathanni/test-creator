@@ -1,4 +1,4 @@
-package com.esf.tm;
+package com.esf.tm.message;
 
 import java.io.Serializable;
 

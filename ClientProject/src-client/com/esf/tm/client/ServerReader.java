@@ -6,6 +6,8 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.esf.tm.message.Message;
+
 public class ServerReader implements Runnable
 {
 	private LinkedBlockingQueue<Message> queue = new LinkedBlockingQueue<Message>();

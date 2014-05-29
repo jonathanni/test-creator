@@ -23,6 +23,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.javabuilders.BuildResult;
 import org.javabuilders.swing.SwingJavaBuilder;
 
+import com.esf.tm.message.Message;
+
 /**
  * 
  * Client front-end.

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.esf.tm.message.Message;
+
 public class ClientProcessor implements Runnable
 {
 	public volatile boolean isRunning;

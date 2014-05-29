@@ -118,8 +118,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="com.esf.tm.Message" project="ClientProject" 
-    file="/ClientProject/src/com/esf/tm/Message.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="14" language="java" name="com.esf.tm.message.Message" project="ClientProject" 
+    file="/ClientProject/src/com/esf/tm/message/Message.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="934" y="14"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
