@@ -1,8 +1,12 @@
 package com.esf.tm.client;
 
+import java.io.Serializable;
 
-public class Message
+public class Message implements Serializable
 {
+	
+	private static final long serialVersionUID = 32L;
+	
 	private String header;
 	private Object payload;
 
@@ -30,5 +34,11 @@ public class Message
 	public void setPayload(Object payload)
 	{
 		this.payload = payload;
+	}
+
+	@Override
+	public String toString()
+	{
+		return this.header + " " + this.payload;
 	}
 }

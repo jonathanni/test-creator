@@ -1,6 +1,7 @@
 package com.esf.tm.client;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -41,8 +42,19 @@ public class SingleNodeScanner implements Runnable
 	{
 	    if (s != null)
 	    {
-		if (s.isConnected())
+		if (s.isConnected()){
+			ObjectOutputStream out;
+			try
+			{
+				out = new ObjectOutputStream(s.getOutputStream());
+				out.flush();
+				out.close();
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 		    isUp = true;
+		}
 		else
 		    isUp = false;
 
