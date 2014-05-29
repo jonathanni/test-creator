@@ -17,6 +17,7 @@ public class ClientWriter implements Runnable
 		try
 		{
 			out = new ObjectOutputStream(socket.getOutputStream());
+			out.flush();
 		} catch (IOException e)
 		{
 			e.printStackTrace();
@@ -32,7 +33,7 @@ public class ClientWriter implements Runnable
 		{
 			while (isRunning)
 			{
-				out.writeObject(queue.poll());
+				out.writeObject(queue.take());
 				out.flush();
 				Thread.sleep(10);
 			}
