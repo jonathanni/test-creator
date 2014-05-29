@@ -24,6 +24,8 @@ public class ServerReader implements Runnable
 		{
 			e.printStackTrace();
 		}
+		
+		isRunning = true;
 	}
 
 	@Override
