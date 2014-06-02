@@ -18,62 +18,64 @@ import javax.net.ServerSocketFactory;
 
 public class ClientListener implements Runnable
 {
-    public volatile boolean isRunning;
+	public volatile boolean isRunning;
 
-    /**
-     * 
-     * Creates a new client listener.
-     * 
-     */
+	/**
+	 * 
+	 * Creates a new client listener.
+	 * 
+	 */
 
-    public ClientListener()
-    {
-	isRunning = true;
-    }
-
-    /**
-     * 
-     * Runs the client detection loop. Specifically, creates a new server
-     * socket, then starts adding clients when clients connect.
-     * 
-     */
-
-    @Override
-    public void run()
-    {
-	ServerSocket server = null;
-	try
+	public ClientListener()
 	{
-	    server = ServerSocketFactory.getDefault().createServerSocket(
-		    TestGenerator.PORT);
-	} catch (IOException e)
-	{
-	    e.printStackTrace();
+		isRunning = true;
 	}
 
-	try
+	/**
+	 * 
+	 * Runs the client detection loop. Specifically, creates a new server
+	 * socket, then starts adding clients when clients connect.
+	 * 
+	 */
+
+	@Override
+	public void run()
 	{
-	    while (isRunning)
-	    {
-		Socket socket = server.accept();
+		ServerSocket server = null;
 		try
 		{
-		    TestGenerator.getInstance().getClients()
-			    .add(new ClientCommunicator(socket));
+			server = ServerSocketFactory.getDefault().createServerSocket(
+					TestGenerator.PORT);
 		} catch (IOException e)
 		{
-		    socket.close();
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
-		Thread.sleep(10);
-	    }
-	} catch (InterruptedException e)
-	{
-	    e.printStackTrace();
-	} catch (IOException e)
-	{
-	    e.printStackTrace();
+
+		try
+		{
+			while (isRunning)
+			{
+				Socket socket = server.accept();
+				ClientCommunicator cc = null;
+				try
+				{
+					TestGenerator.getInstance().getClients()
+							.add(cc = new ClientCommunicator(socket));
+				} catch (IOException e)
+				{
+					socket.close();
+					TestGenerator.getInstance().getClients().remove(cc);
+					e.printStackTrace();
+				}
+				Thread.sleep(10);
+			}
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
-    }
 
 }

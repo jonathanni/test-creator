@@ -417,15 +417,15 @@ class TestGenerator extends JFrame implements ListSelectionListener
 		String pathName = fc.getSelectedFile().getAbsolutePath();
 		File file = new File(pathName);
 		Import myImport = new Import();
-		currentTest = myImport.importNew(file);
+		Test importTest = myImport.importNew(file);
 
-		int numQuestions = currentTest.getQuestionCount();
+		int numQuestions = importTest.getQuestionCount();
 		for (int i = 0; i < numQuestions; i++)
 		{
-			testQuestions.add(currentTest.getQuestion(i));
 			getInstance().addQuestion();
-			getInstance().updateQuestion(currentTest.getQuestion(i));
+			getInstance().updateQuestion(importTest.getQuestion(i));
 		}
+
 		changePanel(CREATE_QUESTION_PANEL_INDEX);
 	}
 
@@ -482,9 +482,7 @@ class TestGenerator extends JFrame implements ListSelectionListener
 
 	private void changePanelNetworkTest()
 	{
-		for (int i = 0; i < currentTest.getQuestionCount(); i++)
-			System.out.println(currentTest.getQuestion(i));
-
+		System.out.println(currentTest.getQuestionCount());
 		try
 		{
 			ipAddress.setText("IP Address: "
@@ -813,5 +811,5 @@ class TestGenerator extends JFrame implements ListSelectionListener
 					"Error occured while initiating graphics", "");
 
 		instance = new TestGenerator();
-	}
+	}// C:\Users\Jonathan\git\client-project-test-creator\ClientProject\keys\Sample_Test,_ttttttttttt.key.-1.txt
 }

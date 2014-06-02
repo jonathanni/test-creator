@@ -23,111 +23,114 @@ import com.esf.tm.serializable.Test;
 
 public class TestPrinter
 {
-    private Test test;
-    private int index;
+	private Test test;
+	private int index;
 
-    private static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	    .toCharArray();
+	private static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+			.toCharArray();
 
-    /**
-     * 
-     * Creates a new TestPrinter. Binds the test to the TestPrinter.
-     * 
-     * @param test
-     *            the Test
-     */
+	/**
+	 * 
+	 * Creates a new TestPrinter. Binds the test to the TestPrinter.
+	 * 
+	 * @param test
+	 *            the Test
+	 */
 
-    public TestPrinter(Test test, int index)
-    {
-	this.test = test;
-	this.index = index;
-    }
-
-    /**
-     * 
-     * Prints a test out.
-     * 
-     * If the test/ and keys/ folder does not exist, create a new one. Next,
-     * output the test and the keys.
-     * 
-     * @throws IOException
-     */
-
-    void printTest() throws IOException
-    {
-	File testFolder = new File("test/");
-
-	if (!testFolder.exists())
-	    testFolder.mkdir();
-
-	File keyFolder = new File("keys/");
-
-	if (!keyFolder.exists())
-	    keyFolder.mkdir();
-
-	File testFile = new File("test/" + Util.encodeURI(test.getTestTitle())
-		+ ".test." + index + ".txt");
-
-	BufferedWriter testOut = new BufferedWriter(new FileWriter(testFile));
-
-	for (int i = 0; i < test.getQuestionCount(); i++)
+	public TestPrinter(Test test, int index)
 	{
-	    Question q = test.getQuestion(i);
-
-	    testOut.write(i + ". " + q.getMessage() + "\n");
-
-	    if (q instanceof MCQuestion)
-		for (int j = 0; j < ((MCQuestion) q).getChoiceCount(); j++)
-		    testOut.write("  ( ) "
-			    + (j < ALPHABET.length ? String
-				    .valueOf(ALPHABET[j]) : "" + j) + " "
-			    + ((MCQuestion) q).getChoice(j));
-	    else if (q instanceof TFQuestion)
-		testOut.write("  ( ) True\n  ( ) False\n");
-
-	    testOut.write("\n");
-	    testOut.write("\n");
+		this.test = test;
+		this.index = index;
 	}
 
-	testOut.close();
+	/**
+	 * 
+	 * Prints a test out.
+	 * 
+	 * If the test/ and keys/ folder does not exist, create a new one. Next,
+	 * output the test and the keys.
+	 * 
+	 * @throws IOException
+	 */
 
-	File keyFile = new File("keys/" + Util.encodeURI(test.getTestTitle())
-		+ ".key." + index + ".txt");
-
-	BufferedWriter keyOut = new BufferedWriter(new FileWriter(keyFile));
-
-	for (int i = 0; i < test.getQuestionCount(); i++)
+	void printTest() throws IOException
 	{
-	    Question q = test.getQuestion(i);
+		File testFolder = new File("test/");
 
-	    keyOut.write(i + ". " + q.getMessage() + "\n");
+		if (!testFolder.exists())
+			testFolder.mkdir();
 
-	    if (q instanceof MCQuestion)
-		for (int j = 0; j < ((MCQuestion) q).getChoiceCount(); j++)
-		    keyOut.write((((MCQuestion) q).getChoice(j).getChoiceID() == ((MCQuestion) q)
-			    .getCorrectAnswer() ? "\n  (*) " : "\n  ( ) ")
-			    + (j < ALPHABET.length ? String
-				    .valueOf(ALPHABET[j]) : "" + j)
-			    + " "
-			    + ((MCQuestion) q).getChoice(j));
-	    else if (q instanceof TFQuestion)
-		if (((TFQuestion) q).getCorrectAnswer())
-		    keyOut.write("\n  (*) True\n\n  ( ) False\n");
-		else
-		    keyOut.write("\n  ( ) True\n\n  (*) False\n");
-	    else
-		for (int j = 0; j < ((FIBQuestion) q).getBlankSpaces(); j++)
+		File keyFolder = new File("keys/");
+
+		if (!keyFolder.exists())
+			keyFolder.mkdir();
+
+		File testFile = new File("test/" + Util.encodeURI(test.getTestTitle())
+				+ ".test." + index + ".txt");
+
+		BufferedWriter testOut = new BufferedWriter(new FileWriter(testFile));
+
+		testOut.write(test.getTestTitle() + "\n");
+		testOut.write(test.getTestDescription() + "\n\n");
+
+		for (int i = 0; i < test.getQuestionCount(); i++)
 		{
-		    keyOut.write("\n  Blank " + j + " Correct Answers:\n");
-		    for (String k : ((FIBQuestion) q).getCorrectAnswers()
-			    .get(j))
-			keyOut.write("    " + k + "\n");
+			Question q = test.getQuestion(i);
+
+			testOut.write(i + ". " + q.getMessage() + "\n");
+
+			if (q instanceof MCQuestion)
+				for (int j = 0; j < ((MCQuestion) q).getChoiceCount(); j++)
+					testOut.write("  ( ) "
+							+ (j < ALPHABET.length ? String
+									.valueOf(ALPHABET[j]) : "" + j) + " "
+							+ ((MCQuestion) q).getChoice(j));
+			else if (q instanceof TFQuestion)
+				testOut.write("  ( ) True\n  ( ) False\n");
+
+			testOut.write("\n");
+			testOut.write("\n");
 		}
 
-	    keyOut.write("\n");
-	    keyOut.write("\n");
-	}
+		testOut.close();
 
-	keyOut.close();
-    }
+		File keyFile = new File("keys/" + Util.encodeURI(test.getTestTitle())
+				+ ".key." + index + ".txt");
+
+		BufferedWriter keyOut = new BufferedWriter(new FileWriter(keyFile));
+
+		for (int i = 0; i < test.getQuestionCount(); i++)
+		{
+			Question q = test.getQuestion(i);
+
+			keyOut.write(i + ". " + q.getMessage() + "\n");
+
+			if (q instanceof MCQuestion)
+				for (int j = 0; j < ((MCQuestion) q).getChoiceCount(); j++)
+					keyOut.write((((MCQuestion) q).getChoice(j).getChoiceID() == ((MCQuestion) q)
+							.getCorrectAnswer() ? "\n  (*) " : "\n  ( ) ")
+							+ (j < ALPHABET.length ? String
+									.valueOf(ALPHABET[j]) : "" + j)
+							+ " "
+							+ ((MCQuestion) q).getChoice(j));
+			else if (q instanceof TFQuestion)
+				if (((TFQuestion) q).getCorrectAnswer())
+					keyOut.write("\n  (*) True\n\n  ( ) False\n");
+				else
+					keyOut.write("\n  ( ) True\n\n  (*) False\n");
+			else
+				for (int j = 0; j < ((FIBQuestion) q).getBlankSpaces(); j++)
+				{
+					keyOut.write("\n  Blank " + j + " Correct Answers:\n");
+					for (String k : ((FIBQuestion) q).getCorrectAnswers()
+							.get(j))
+						keyOut.write("    " + k + "\n");
+				}
+
+			keyOut.write("\n");
+			keyOut.write("\n");
+		}
+
+		keyOut.close();
+	}
 }

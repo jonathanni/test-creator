@@ -19,4 +19,10 @@ public class TestAnswer implements Serializable
 	{
 		return answers;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return answers.toString();
+	}
 }
