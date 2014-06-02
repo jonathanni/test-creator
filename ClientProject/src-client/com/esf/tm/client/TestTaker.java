@@ -259,6 +259,8 @@ public class TestTaker extends JFrame implements MouseListener
 
 	private void finish() throws InterruptedException
 	{
+		currentQuestion = currentTest.getQuestionCount();
+
 		// sendTest
 		communicator.getWriter().getQueue()
 				.add(new Message("sendTest", answers));
@@ -364,6 +366,7 @@ public class TestTaker extends JFrame implements MouseListener
 						+ "<br /></html>");
 
 				qPanel.add(title, BorderLayout.NORTH);
+				qPanel.add(Box.createHorizontalStrut(5));
 
 				ButtonGroup group = new ButtonGroup();
 
@@ -376,6 +379,7 @@ public class TestTaker extends JFrame implements MouseListener
 
 					group.add(btn);
 					qPanel.add(btn, BorderLayout.NORTH);
+					qPanel.add(Box.createHorizontalStrut(5));
 
 					testComponents.get(i).add(btn);
 				}
@@ -386,6 +390,7 @@ public class TestTaker extends JFrame implements MouseListener
 						+ "<br /></html>");
 
 				qPanel.add(title, BorderLayout.NORTH);
+				qPanel.add(Box.createHorizontalStrut(5));
 
 				ButtonGroup group = new ButtonGroup();
 
@@ -399,7 +404,9 @@ public class TestTaker extends JFrame implements MouseListener
 				group.add(btnFalse);
 
 				qPanel.add(btnTrue, BorderLayout.NORTH);
+				qPanel.add(Box.createHorizontalStrut(5));
 				qPanel.add(btnFalse, BorderLayout.NORTH);
+				qPanel.add(Box.createHorizontalStrut(5));
 
 				testComponents.get(i).add(btnTrue);
 				testComponents.get(i).add(btnFalse);
@@ -408,6 +415,7 @@ public class TestTaker extends JFrame implements MouseListener
 				JLabel title = new JLabel("<html>" + i + ". " + "</html>");
 
 				qPanel.add(title, BorderLayout.NORTH);
+				qPanel.add(Box.createHorizontalStrut(5));
 
 				String[] pieces = j.getMessage().replace("\n", "<br />")
 						.split("___.");
@@ -429,6 +437,7 @@ public class TestTaker extends JFrame implements MouseListener
 		}
 
 		mainPanel.add(questionPanel, BorderLayout.NORTH);
+		mainPanel.add(Box.createHorizontalStrut(5));
 		mainPanel.add(npPanel, BorderLayout.NORTH);
 
 		answers = new TestAnswer(currentTest.getQuestionCount());

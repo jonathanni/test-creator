@@ -37,17 +37,17 @@ public class StatusChecker implements Runnable
 	@Override
 	public void run()
 	{
-		Status status = new Status();
-
 		try
 		{
 			while (isRunning)
 			{
-				System.out.println("hi");
-				status.setCurrentQuestion(TestTaker.getInstance()
-						.getCurrentQuestion());
-				TestTaker.getInstance().getCommunicator().getWriter()
-						.getQueue().add(new Message("status", status));
+				TestTaker
+						.getInstance()
+						.getCommunicator()
+						.getWriter()
+						.getQueue()
+						.add(new Message("status", TestTaker.getInstance()
+								.getCurrentQuestion()));
 				Thread.sleep(1000);
 			}
 		} catch (InterruptedException e)
