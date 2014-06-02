@@ -492,7 +492,6 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	 */
 	private void changePanelNetworkTest()
 	{
-		System.out.println(currentTest.getQuestionCount());
 		try
 		{
 			ipAddress.setText("IP Address: "
@@ -944,5 +943,5 @@ class TestGenerator extends JFrame implements ListSelectionListener
 					"Error occured while initiating graphics", "");
 
 		instance = new TestGenerator();
-	}// C:\Users\Jonathan\git\client-project-test-creator\ClientProject\keys\Sample_Test,_ttttttttttt.key.-1.txt
+	}
 }

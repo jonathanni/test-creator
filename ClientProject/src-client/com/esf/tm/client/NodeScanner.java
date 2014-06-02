@@ -54,7 +54,7 @@ public class NodeScanner implements Runnable
 		+ (ip[2] & 0xFF);
 
 	// DEBUG
-	subnet = "192.168.88";
+	// subnet = "192.168.88";
 	
 	try
 	{
@@ -85,7 +85,6 @@ public class NodeScanner implements Runnable
 
 		populateList(hosts);
 
-		System.out.println(hosts);
 		Thread.sleep(15000);
 	    }
 	} catch (InterruptedException e)

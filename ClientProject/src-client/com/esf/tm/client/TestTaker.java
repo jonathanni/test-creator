@@ -208,7 +208,6 @@ public class TestTaker extends JFrame implements MouseListener
 		layout.next(questionPanel);
 		pack();
 
-		System.out.println(currentQuestion);
 	}
 
 	/**
@@ -541,8 +540,6 @@ public class TestTaker extends JFrame implements MouseListener
 			JRadioButton btn = (JRadioButton) event.getSource();
 
 			Question question = currentTest.getQuestion(currentQuestion);
-
-			System.out.println(question);
 
 			if (question instanceof MCQuestion)
 				answers.getAnswers().set(currentQuestion,
