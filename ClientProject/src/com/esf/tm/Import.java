@@ -205,6 +205,8 @@ public class Import
 
 	if (endAllIndex == -1)
 	    endAllIndex = line.length() - 1;
+	if(newlineIndex == -1)
+		newlineIndex = endAllIndex;
 
 	while (p != -1 && p < endAllIndex)
 	{

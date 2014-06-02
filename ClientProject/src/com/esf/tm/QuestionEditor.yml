@@ -1,9 +1,9 @@
 JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit]):
   - JPanel(name=questionTypeContainer):
      - JPanel(name=questionTypeController):
-        - JRadioButton(name=rb1, text=Multiple Choice Question, selected=true, onMouseClicked=[chMCQPanel, chMCQLabel])
-        - JRadioButton(name=rb2, text=True/False Question, onMouseClicked=[chTFQPanel, chTFQLabel])
-        - JRadioButton(name=rb3, text=Fill in the Blank Question, onMouseClicked=[chFIBQPanel, chFIBQLabel])
+        - JRadioButton(name=rb1, text=Multiple Choice Question, selected=true, onAction=[chMCQPanel, chMCQLabel])
+        - JRadioButton(name=rb2, text=True/False Question, onAction=[chTFQPanel, chTFQLabel])
+        - JRadioButton(name=rb3, text=Fill in the Blank Question, onAction=[chFIBQPanel, chFIBQLabel])
         - ButtonGroup: [rb1, rb2, rb3]
      - MigLayout: |
          [pref]
@@ -19,12 +19,12 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
            - JScrollPane(name=mcChoiceScrollPanel):
               JList(name=mcChoices)
            - JPanel(name=mcChoiceButtonPanel):
-              - JButton(name=editC, text=Edit Choice, onMouseClicked=[editChoice])
-              - JButton(name=addC, text=Add Choice, onMouseClicked=[addChoice])
-              - JButton(name=remC, text=Remove Choice, enabled=false, onMouseClicked=[removeChoice])
-              - JButton(name=moveUpC, text=Move Choice Up, onMouseClicked=[moveUpChoice])
-              - JButton(name=moveDownC, text=Move Choice Down, onMouseClicked=[moveDownChoice])
-              - JButton(name=setC, text=Set as Correct Answer, onMouseClicked=[setChoice])
+              - JButton(name=editC, text=Edit Choice, onAction=[editChoice])
+              - JButton(name=addC, text=Add Choice, onAction=[addChoice])
+              - JButton(name=remC, text=Remove Choice, enabled=false, onAction=[removeChoice])
+              - JButton(name=moveUpC, text=Move Choice Up, onAction=[moveUpChoice])
+              - JButton(name=moveDownC, text=Move Choice Down, onAction=[moveDownChoice])
+              - JButton(name=setC, text=Set as Correct Answer, onAction=[setChoice])
               - MigLayout: |
                   [pref]
                   editC
@@ -56,10 +56,10 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
            JTable(name=fibBlankCAChoicesList)
         - JPanel(name=fibAllButtonPanel):
            - JPanel(name=fibCAButtonPanel):
-              - JButton(name=addCA, text=Add Choice, onMouseClicked=[addCorrectAnswer])
-              - JButton(name=remCA, text=Remove Choice, enabled=false, onMouseClicked=[removeCorrectAnswer])
-              - JButton(name=moveUpCA, text=Move Choice Up, onMouseClicked=[moveUpCorrectAnswer])
-              - JButton(name=moveDownCA, text=Move Choice Down, onMouseClicked=[moveDownCorrectAnswer])
+              - JButton(name=addCA, text=Add Choice, onAction=[addCorrectAnswer])
+              - JButton(name=remCA, text=Remove Choice, enabled=false, onAction=[removeCorrectAnswer])
+              - JButton(name=moveUpCA, text=Move Choice Up, onAction=[moveUpCorrectAnswer])
+              - JButton(name=moveDownCA, text=Move Choice Down, onAction=[moveDownCorrectAnswer])
               - MigLayout: |
                   [pref]
                   moveUpCA            addCA
@@ -74,7 +74,7 @@ JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit])
             blankSpaces,"(max 255)"
             blankListScrollPanel,blankCAScrollPanel,fibAllButtonPanel
      - CardLayout(name=questionLayout): [MCQuestionContainer, TFQuestionContainer, FIBQuestionContainer]
-  - JButton(name=exitButton, text=Save and Return, onMouseClicked=[$validate, validateData, exit])
+  - JButton(name=exitButton, text=Save and Return, onAction=[$validate, validateData, exit])
   - MigLayout: |
       [pref]                  [grow]
       questionTypeContainer+*
