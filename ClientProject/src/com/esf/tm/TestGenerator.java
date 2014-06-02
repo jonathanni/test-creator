@@ -2,14 +2,17 @@ package com.esf.tm;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -28,7 +31,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -100,13 +102,16 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	private Test currentTest = new Test();
 
 	private ArrayList<Question> testQuestions = new ArrayList<Question>();
-	private DefaultListModel qListModel = new DefaultListModel(), clientListModel = new DefaultListModel();
+	private DefaultListModel qListModel = new DefaultListModel(),
+			clientListModel = new DefaultListModel();
 
 	private int testForms;
 
 	private ArrayList<ClientCommunicator> clients = new ArrayList<ClientCommunicator>();
 	private ClientProcessor processor;
 	private ClientListener listener;
+
+	private HashMap<String, Integer[]> scores = new HashMap<String, Integer[]>();
 
 	public static final String PASSWORD = generateString(new Random(),
 			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
@@ -425,6 +430,9 @@ class TestGenerator extends JFrame implements ListSelectionListener
 			getInstance().updateQuestion(importTest.getQuestion(i));
 		}
 
+		currentTest.setTestTitle(importTest.getTestTitle());
+		currentTest.setTestDescription(importTest.getTestDescription());
+
 		changePanel(CREATE_QUESTION_PANEL_INDEX);
 	}
 
@@ -703,6 +711,123 @@ class TestGenerator extends JFrame implements ListSelectionListener
 		listener.isRunning = false;
 	}
 
+	void exportResults() throws IOException
+	{
+		File resultFolder = new File("results/");
+
+		if (!resultFolder.exists())
+			resultFolder.mkdir();
+
+		File resultFile = new File("results/"
+				+ Util.encodeURI(currentTest.getTestTitle()) + ".result"
+				+ ".txt");
+
+		BufferedWriter resultOut = new BufferedWriter(
+				new FileWriter(resultFile));
+
+		// Headers
+
+		resultOut.write("Student,");
+
+		for (int i = 0; i < currentTest.getQuestionCount(); i++)
+			resultOut.write("\"" + i + ". "
+					+ currentTest.getQuestion(i).getMessage() + "\",");
+
+		resultOut.write("Total");
+
+		resultOut.write("\n");
+
+		// Question pointage
+
+		resultOut.write("Pointage,");
+
+		for (int i = 0; i < currentTest.getQuestionCount(); i++)
+		{
+			Question q = currentTest.getQuestion(i);
+			if (q instanceof MCQuestion || q instanceof TFQuestion)
+				resultOut.write("1,");
+			else
+				resultOut.write(((FIBQuestion) q).getBlankSpaces() + ",");
+		}
+
+		resultOut.write(currentTest.getPointWorth() + "");
+
+		resultOut.write("\n");
+
+		// Student
+
+		HashMap<String, Integer> studentTotals = new HashMap<String, Integer>();
+		double[] means = new double[currentTest.getQuestionCount() + 1];
+
+		for (Entry<String, Integer[]> i : scores.entrySet())
+		{
+			studentTotals.put(i.getKey(), 0);
+
+			resultOut.write(i.getKey() + ",");
+
+			for (int j = 0; j < i.getValue().length; j++)
+			{
+				resultOut.write(i.getValue()[j] + ",");
+				studentTotals.put(i.getKey(),
+						studentTotals.get(i.getKey()) + i.getValue()[j]);
+			}
+
+			resultOut.write(studentTotals.get(i.getKey()) + "");
+
+			resultOut.write("\n");
+		}
+
+		// Mean
+
+		resultOut.write("Average,");
+
+		for (int i = 0; i < currentTest.getQuestionCount(); i++)
+		{
+			for (Entry<String, Integer[]> j : scores.entrySet())
+				means[i] += j.getValue()[i];
+			means[i] /= scores.size();
+
+			resultOut.write(means[i] + ",");
+		}
+
+		for (Entry<String, Integer> i : studentTotals.entrySet())
+			means[currentTest.getQuestionCount()] += i.getValue();
+		means[currentTest.getQuestionCount()] /= scores.size();
+
+		resultOut.write(means[currentTest.getQuestionCount()] + "");
+
+		resultOut.write("\n");
+
+		// Median
+
+		resultOut.write("Median,");
+
+		for (int i = 0; i < currentTest.getQuestionCount(); i++)
+		{
+			int[] points = new int[scores.size()];
+
+			int k = 0;
+			for (Entry<String, Integer[]> j : scores.entrySet())
+				points[k++] = j.getValue()[i];
+
+			resultOut.write(Util.median(points) + ",");
+		}
+
+		{
+			int[] points = new int[scores.size()];
+
+			int k = 0;
+			for (Entry<String, Integer> i : studentTotals.entrySet())
+				points[k++] = i.getValue();
+
+			resultOut.write(Util.median(points) + "");
+		}
+
+		resultOut.write("\n");
+
+		resultOut.close();
+	}
+
 	/**
 	 * 
 	 * Triggered when the question list selection changes. Updates the GUI.
@@ -746,6 +871,18 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	Test getTest()
 	{
 		return currentTest;
+	}
+
+	/**
+	 * 
+	 * Gets the scores HashMap.
+	 * 
+	 * @return
+	 */
+
+	HashMap<String, Integer[]> getScores()
+	{
+		return scores;
 	}
 
 	/**

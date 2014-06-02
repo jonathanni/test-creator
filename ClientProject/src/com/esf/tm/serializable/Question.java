@@ -19,93 +19,93 @@ public class Question implements Serializable
 {
 	private static final long serialVersionUID = -3380460923523617609L;
 	private String message;
-    private int questionID;
+	private int questionID;
 
-    /**
-     * 
-     * Creates a new Question from a message and an ID (which would be
-     * internal).
-     * 
-     * @param message
-     *            the message of the question
-     * @param ID
-     *            the ID number, which will be unique
-     */
+	/**
+	 * 
+	 * Creates a new Question from a message and an ID (which would be
+	 * internal).
+	 * 
+	 * @param message
+	 *            the message of the question
+	 * @param ID
+	 *            the ID number, which will be unique
+	 */
 
-    public Question(String message, int ID)
-    {
-	setMessage(message);
-	setQuestionID(ID);
-    }
+	public Question(String message, int ID)
+	{
+		setMessage(message);
+		setQuestionID(ID);
+	}
 
-    /**
-     * 
-     * Copy constructor.
-     * 
-     * @param other
-     *            the question
-     */
+	/**
+	 * 
+	 * Copy constructor.
+	 * 
+	 * @param other
+	 *            the question
+	 */
 
-    public Question(Question other)
-    {
-	setMessage(other.message);
-	setQuestionID(other.questionID);
-    }
+	public Question(Question other)
+	{
+		setMessage(other.message);
+		setQuestionID(other.questionID);
+	}
 
-    /**
-     * 
-     * Gets the message associated with this Question.
-     * 
-     * @return the message
-     */
+	/**
+	 * 
+	 * Gets the message associated with this Question.
+	 * 
+	 * @return the message
+	 */
 
-    public String getMessage()
-    {
-	return message;
-    }
+	public String getMessage()
+	{
+		return message;
+	}
 
-    /**
-     * 
-     * Sets the message associated with this Question.
-     * 
-     * @param message
-     *            the message
-     */
+	/**
+	 * 
+	 * Sets the message associated with this Question.
+	 * 
+	 * @param message
+	 *            the message
+	 */
 
-    public void setMessage(String message)
-    {
-	this.message = message;
-    }
+	public void setMessage(String message)
+	{
+		this.message = message;
+	}
 
-    /**
-     * 
-     * Gets the unique ID associated with this Question.
-     * 
-     * @return the ID
-     */
+	/**
+	 * 
+	 * Gets the unique ID associated with this Question.
+	 * 
+	 * @return the ID
+	 */
 
-    int getQuestionID()
-    {
-	return questionID;
-    }
+	public int getQuestionID()
+	{
+		return questionID;
+	}
 
-    /**
-     * 
-     * Gets the unique ID associated with this Question.
-     * 
-     * @param questionID
-     *            the ID
-     */
+	/**
+	 * 
+	 * Gets the unique ID associated with this Question.
+	 * 
+	 * @param questionID
+	 *            the ID
+	 */
 
-    void setQuestionID(int questionID)
-    {
-	this.questionID = questionID;
-    }
+	public void setQuestionID(int questionID)
+	{
+		this.questionID = questionID;
+	}
 
-    @Override
-    public String toString()
-    {
-	return "Question ID: " + questionID + "\nQuestion Description: "
-		+ message + "\n";
-    }
+	@Override
+	public String toString()
+	{
+		return "Question ID: " + questionID + "\nQuestion Description: "
+				+ message + "\n";
+	}
 }

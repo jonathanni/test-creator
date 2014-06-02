@@ -1,5 +1,6 @@
 package com.esf.tm;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -75,6 +76,14 @@ public class ClientProcessor implements Runnable
 				Thread.sleep(1000);
 			}
 		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+
+		try
+		{
+			TestGenerator.getInstance().exportResults();
+		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}
@@ -154,6 +163,8 @@ public class ClientProcessor implements Runnable
 										+ original.substring(original
 												.indexOf("Progress:")), index);
 
+				cc.setName(((String[]) payload)[0]);
+
 				cc.getWriter().getQueue()
 						.add(new Message("loginSuccess", null));
 			} else
@@ -176,15 +187,22 @@ public class ClientProcessor implements Runnable
 					.setElementAt(
 							original.substring(0, original.indexOf("Progress:"))
 									+ "Progress: "
-									+ ((Status) payload).getCurrentQuestion()
-									+ "/"
-									+ TestGenerator.getInstance().getTest()
-											.getQuestionCount(), index);
+									+ (((Integer) payload) == TestGenerator
+											.getInstance().getTest()
+											.getQuestionCount() ? "FINISHED"
+											: (Integer) payload
+													+ "/"
+													+ TestGenerator
+															.getInstance()
+															.getTest()
+															.getQuestionCount()),
+							index);
 		} else if (header.equals("sendTest"))
 		{
-			// TODO check test
 			TestAnswer answers = (TestAnswer) payload;
 			Test test = cc.getTest();
+			Integer[] scores = new Integer[test.getQuestionCount()];
+			Arrays.fill(scores, 0);
 
 			int points = 0;
 
@@ -197,12 +215,16 @@ public class ClientProcessor implements Runnable
 								(Integer) answers.getAnswers().get(i))
 								.getChoiceID() == ((MCQuestion) j)
 								.getCorrectAnswer())
+				{
 					points++;
-				else if (j instanceof TFQuestion
+					scores[j.getQuestionID()] = 1;
+				} else if (j instanceof TFQuestion
 						&& ((TFQuestion) j).getCorrectAnswer() == (Boolean) answers
 								.getAnswers().get(i))
+				{
 					points++;
-				else if (j instanceof FIBQuestion)
+					scores[j.getQuestionID()] = 1;
+				} else if (j instanceof FIBQuestion)
 				{
 					for (int k = 0; k < ((FIBQuestion) j).getCorrectAnswers()
 							.size(); k++)
@@ -227,10 +249,15 @@ public class ClientProcessor implements Runnable
 							}
 
 							if (guess.equals(answer))
+							{
 								points++;
+								scores[j.getQuestionID()]++;
+							}
 						}
 				}
 			}
+
+			TestGenerator.getInstance().getScores().put(cc.getName(), scores);
 
 			cc.getWriter().getQueue().add(new Message("receiveScore", points));
 		} else if (header.equals("exit"))

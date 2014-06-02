@@ -22,7 +22,7 @@ import ec.util.MersenneTwisterFast;
 public class Test implements Serializable
 {
 	private ArrayList<Question> questionList = new ArrayList<Question>();
-	private String testTitle, testDescription;
+	private String testTitle = "", testDescription = "";
 
 	/**
 	 * 
