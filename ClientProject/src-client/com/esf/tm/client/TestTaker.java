@@ -53,7 +53,7 @@ public class TestTaker extends JFrame implements MouseListener
 	private JScrollPane ipPanel;
 	private JList ips;
 	private JButton next, prev;
-	private JLabel scoreText;
+	private JLabel scoreText, scanning;
 
 	private CustomCardLayout layout = new CustomCardLayout();
 
@@ -202,12 +202,11 @@ public class TestTaker extends JFrame implements MouseListener
 
 		currentQuestion++;
 
-		if (currentQuestion == 0)
-			checkButtons();
+		checkButtons();
 
 		layout.next(questionPanel);
 		pack();
-		
+
 		System.out.println(currentQuestion);
 	}
 
@@ -423,26 +422,26 @@ public class TestTaker extends JFrame implements MouseListener
 
 					qPanel.add(piece);
 
-					if (!k.equals(pieces[pieces.length - 1]))
-					{
-						JTextField field = new JTextField();
+					JTextField field = new JTextField();
 
-						qPanel.add(piece);
+					qPanel.add(field);
 
-						testComponents.get(i).add(field);
-					}
+					testComponents.get(i).add(field);
 				}
 			}
 
 			questionPanel.add(qPanel, "" + i);
 		}
 
-		System.out.println("Finished layout");
+		System.out.println("Finished layout for "
+				+ currentTest.getQuestionCount() + " questions");
 
 		mainPanel.add(questionPanel);
 		mainPanel.add(npPanel);
 
 		answers = new TestAnswer(currentTest.getQuestionCount());
+
+		remove(scanning);
 
 		pack();
 
