@@ -1,14 +1,15 @@
-JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDestroy]):
+JFrame(name=frame, title=Test Generator, size=packed, onWindowClosing=[windowDestroy], iconImage=/com/esf/tm/assets/64v.png):
   - JPanel(name=tmainPanel):
      - JPanel(name=titleScreen):
-        - JLabel(name=titleScreenText, text=Welcome to Test Generator, font=italic bold Helvetica 40pt)
+        - JLabel(name=titleScreenText, text=" Welcome to ESF Test Generator ", font=italic bold Helvetica 40pt)
+        - JLabel(name=titleScreenIcon, icon=/com/esf/tm/assets/64v.png)
         - JButton(name=importTestButton, text=Import Existing Test..., onMouseClicked=[importTest])
         - JButton(name=createTestButton, text=Create New Test..., onMouseClicked=[changePanelCreateTest])
         - JButton(name=exitButton, text=Exit, onMouseClicked=[windowDestroy])
         - MigLayout: |
-            [grow]                [grow]                 [grow]
+            [pref]                                           [grow]
             |titleScreenText+*
-            /importTestButton     |/createTestButton     >/exitButton
+            /importTestButton,/createTestButton,/exitButton  >titleScreenIcon
      - JPanel(name=importTestScreen):
         - MigLayout: |
             [pref]

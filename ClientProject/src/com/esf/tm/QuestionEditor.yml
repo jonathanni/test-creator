@@ -1,4 +1,4 @@
-JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit]):
+JFrame(name=frame, title=Question Creation, size=packed, onWindowClosing=[exit], iconImage=/com/esf/tm/assets/64v.png):
   - JPanel(name=questionTypeContainer):
      - JPanel(name=questionTypeController):
         - JRadioButton(name=rb1, text=Multiple Choice Question, selected=true, onAction=[chMCQPanel, chMCQLabel])

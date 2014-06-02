@@ -1,4 +1,4 @@
-JFrame(name=frame, onWindowClosing=[windowDestroy]):
+JFrame(name=frame, onWindowClosing=[windowDestroy], iconImage=/com/esf/tm/assets/64v.png):
   - JLabel(name=scanning, text=Scanning for Teachers...)
   - JPanel(name=mainPanel):
      - JScrollPane(name=ipPanel):
