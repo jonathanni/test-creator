@@ -64,7 +64,7 @@ public class TestTaker extends JFrame implements MouseListener
 
 	private Test currentTest;
 
-	private int currentQuestion;
+	private int currentQuestion = -1;
 	private ArrayList<Object> testAnswers = new ArrayList<Object>();
 
 	private ArrayList<ArrayList<Component>> testComponents = new ArrayList<ArrayList<Component>>();
@@ -184,7 +184,8 @@ public class TestTaker extends JFrame implements MouseListener
 
 	private void nextPanel()
 	{
-		if (currentTest.getQuestion(currentQuestion) instanceof FIBQuestion)
+		if (currentQuestion >= 0
+				&& currentTest.getQuestion(currentQuestion) instanceof FIBQuestion)
 			answers.getAnswers().set(currentQuestion, getFIBData());
 
 		if (currentQuestion == currentTest.getQuestionCount() - 1)
@@ -201,8 +202,13 @@ public class TestTaker extends JFrame implements MouseListener
 
 		currentQuestion++;
 
+		if (currentQuestion == 0)
+			checkButtons();
+
 		layout.next(questionPanel);
 		pack();
+		
+		System.out.println(currentQuestion);
 	}
 
 	/**
@@ -359,8 +365,9 @@ public class TestTaker extends JFrame implements MouseListener
 
 			if (j instanceof MCQuestion)
 			{
-				JLabel title = new JLabel(i + ". "
-						+ j.getMessage().replace("\n", "<br />") + "<br />");
+				JLabel title = new JLabel("<html>" + i + ". "
+						+ j.getMessage().replace("\n", "<br />")
+						+ "<br /></html>");
 
 				qPanel.add(title);
 
@@ -380,8 +387,9 @@ public class TestTaker extends JFrame implements MouseListener
 				}
 			} else if (j instanceof TFQuestion)
 			{
-				JLabel title = new JLabel(i + ". "
-						+ j.getMessage().replace("\n", "<br />") + "<br />");
+				JLabel title = new JLabel("<html>" + i + ". "
+						+ j.getMessage().replace("\n", "<br />")
+						+ "<br /></html>");
 
 				qPanel.add(title);
 
@@ -403,7 +411,7 @@ public class TestTaker extends JFrame implements MouseListener
 				testComponents.get(i).add(btnFalse);
 			} else
 			{
-				JLabel title = new JLabel(i + ". ");
+				JLabel title = new JLabel("<html>" + i + ". " + "</html>");
 
 				qPanel.add(title);
 
@@ -411,7 +419,7 @@ public class TestTaker extends JFrame implements MouseListener
 						.split("___.");
 				for (String k : pieces)
 				{
-					JLabel piece = new JLabel(k);
+					JLabel piece = new JLabel("<html>" + k + "</html>");
 
 					qPanel.add(piece);
 
@@ -435,6 +443,10 @@ public class TestTaker extends JFrame implements MouseListener
 		mainPanel.add(npPanel);
 
 		answers = new TestAnswer(currentTest.getQuestionCount());
+
+		pack();
+
+		nextPanel();
 
 		pack();
 	}
@@ -533,7 +545,8 @@ public class TestTaker extends JFrame implements MouseListener
 			Question question = currentTest.getQuestion(currentQuestion);
 
 			if (question instanceof MCQuestion)
-				testComponents.get(currentQuestion).indexOf(btn);
+				answers.getAnswers().set(currentQuestion,
+						testComponents.get(currentQuestion).indexOf(btn));
 			else if (question instanceof TFQuestion)
 				answers.getAnswers().set(currentQuestion,
 						testComponents.get(currentQuestion).indexOf(btn) == 0);

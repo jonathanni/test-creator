@@ -53,6 +53,9 @@ public class NodeScanner implements Runnable
 	String subnet = (ip[0] & 0xFF) + "." + (ip[1] & 0xFF) + "."
 		+ (ip[2] & 0xFF);
 
+	// DEBUG
+	subnet = "192.168.88";
+	
 	try
 	{
 	    while (isRunning)
