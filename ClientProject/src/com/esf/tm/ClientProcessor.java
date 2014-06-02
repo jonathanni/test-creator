@@ -138,13 +138,21 @@ public class ClientProcessor implements Runnable
 			if (((String[]) payload)[1].equals(TestGenerator.PASSWORD))
 			{
 				TestGenerator.getInstance().addClientNode();
-				((JLabel) ((JPanel) TestGenerator
+
+				int index = TestGenerator.getInstance().getClients()
+						.indexOf(cc);
+				String original = ((String) TestGenerator.getInstance()
+						.getClientListModel().getElementAt(index));
+
+				TestGenerator
 						.getInstance()
-						.getNetPanel()
-						.getComponent(
-								TestGenerator.getInstance().getClients()
-										.indexOf(cc))).getComponent(0))
-						.setText("Name: " + ((String[]) payload)[0] + "<br />");
+						.getClientListModel()
+						.setElementAt(
+								"Name: "
+										+ ((String[]) payload)[0]
+										+ " "
+										+ original.substring(original
+												.indexOf("Progress:")), index);
 
 				cc.getWriter().getQueue()
 						.add(new Message("loginSuccess", null));
@@ -158,17 +166,20 @@ public class ClientProcessor implements Runnable
 			}
 		else if (header.equals("status"))
 		{
-			((JLabel) ((JPanel) TestGenerator
+			int index = TestGenerator.getInstance().getClients().indexOf(cc);
+			String original = ((String) TestGenerator.getInstance()
+					.getClientListModel().getElementAt(index));
+
+			TestGenerator
 					.getInstance()
-					.getNetPanel()
-					.getComponent(
-							TestGenerator.getInstance().getClients()
-									.indexOf(cc))).getComponent(1))
-					.setText("<html>Progress: "
-							+ ((Status) payload).getCurrentQuestion()
-							+ "/"
-							+ TestGenerator.getInstance().getTest()
-									.getQuestionCount() + "<br /></html>");
+					.getClientListModel()
+					.setElementAt(
+							original.substring(0, original.indexOf("Progress:"))
+									+ "Progress: "
+									+ ((Status) payload).getCurrentQuestion()
+									+ "/"
+									+ TestGenerator.getInstance().getTest()
+											.getQuestionCount(), index);
 		} else if (header.equals("sendTest"))
 		{
 			// TODO check test
@@ -193,7 +204,7 @@ public class ClientProcessor implements Runnable
 						&& ((TFQuestion) j).getCorrectAnswer() == (Boolean) answers
 								.getAnswers().get(i))
 					points++;
-				else
+				else if (j instanceof FIBQuestion)
 				{
 					for (int k = 0; k < ((FIBQuestion) j).getCorrectAnswers()
 							.size(); k++)

@@ -69,12 +69,11 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	// TestGenerator.yml document, but they can be referenced here.
 	private JButton prevPanel, nextPanel, addQ, remQ, moveUpQ, moveDownQ,
 			startNetwork;
-	private JPanel mainPanel, tmainPanel, npPanel, qPanel, networkTestScreen,
-			nPanel;
+	private JPanel mainPanel, tmainPanel, npPanel, qPanel, networkTestScreen;
 	private JLabel ipAddress, password;
 	private CustomCardLayout customLayout;
 	private JTextField testTitleField, testDescriptField;
-	private JList qList;
+	private JList qList, clientList;
 	private JScrollPane qListScrollPanel;
 	private JSpinner printCount;
 
@@ -101,7 +100,7 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	private Test currentTest = new Test();
 
 	private ArrayList<Question> testQuestions = new ArrayList<Question>();
-	private DefaultListModel qListModel = new DefaultListModel();
+	private DefaultListModel qListModel = new DefaultListModel(), clientListModel = new DefaultListModel();
 
 	private int testForms;
 
@@ -480,6 +479,9 @@ class TestGenerator extends JFrame implements ListSelectionListener
 	 * 
 	 */
 
+	/**
+	 * 
+	 */
 	private void changePanelNetworkTest()
 	{
 		System.out.println(currentTest.getQuestionCount());
@@ -499,7 +501,7 @@ class TestGenerator extends JFrame implements ListSelectionListener
 		new Thread(listener = new ClientListener()).start();
 		new Thread(processor = new ClientProcessor()).start();
 
-		nPanel.setLayout(new GridLayout(20, 3));
+		clientList.setModel(clientListModel);
 	}
 
 	/**
@@ -679,13 +681,7 @@ class TestGenerator extends JFrame implements ListSelectionListener
 		if (!startNetwork.isEnabled())
 			startNetwork.setEnabled(true);
 
-		JPanel clientPanel = new JPanel();
-		clientPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-
-		clientPanel.add(new JLabel("Name: [not connected]<br />"));
-		clientPanel.add(new JLabel("Progress: [N/A]"));
-
-		nPanel.add(clientPanel);
+		clientListModel.addElement("Name: [not connected] Progress: [N/A]");
 	}
 
 	/**
@@ -754,14 +750,14 @@ class TestGenerator extends JFrame implements ListSelectionListener
 
 	/**
 	 * 
-	 * Gets the network panel on the network test screen.
+	 * Gets the client list model.
 	 * 
-	 * @return the network panel
+	 * @return the client list model
 	 */
 
-	JPanel getNetPanel()
+	DefaultListModel getClientListModel()
 	{
-		return nPanel;
+		return clientListModel;
 	}
 
 	/**
