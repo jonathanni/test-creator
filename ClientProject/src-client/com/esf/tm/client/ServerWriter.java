@@ -19,62 +19,62 @@ import com.esf.tm.serializable.Message;
 
 public class ServerWriter implements Runnable
 {
-    private LinkedBlockingQueue<Message> queue = new LinkedBlockingQueue<Message>();
-    private ObjectOutputStream out;
+	private LinkedBlockingQueue<Message> queue = new LinkedBlockingQueue<Message>();
+	private ObjectOutputStream out;
 
-    public volatile boolean isRunning;
+	public volatile boolean isRunning;
 
-    /**
-     * 
-     * Creates a new server writer bound to a socket.
-     * 
-     * @param socket
-     *            the socket
-     */
+	/**
+	 * 
+	 * Creates a new server writer bound to a socket.
+	 * 
+	 * @param socket
+	 *            the socket
+	 */
 
-    public ServerWriter(Socket socket)
-    {
-	try
+	public ServerWriter(Socket socket)
 	{
-	    out = new ObjectOutputStream(socket.getOutputStream());
-	    out.flush();
-	} catch (IOException e)
-	{
-	    e.printStackTrace();
+		try
+		{
+			out = new ObjectOutputStream(socket.getOutputStream());
+			out.flush();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+		isRunning = true;
 	}
 
-	isRunning = true;
-    }
+	/**
+	 * 
+	 * Runs the server writing loop. Blocks to try to write an object from the
+	 * queue.
+	 * 
+	 */
 
-    /**
-     * 
-     * Runs the server writing loop. Blocks to try to write an object from the
-     * queue.
-     * 
-     */
-
-    @Override
-    public void run()
-    {
-	try
+	@Override
+	public void run()
 	{
-	    while (isRunning)
-	    {
-		out.writeObject(queue.take());
-		out.flush();
-		Thread.sleep(10);
-	    }
-	} catch (InterruptedException e)
-	{
-	    e.printStackTrace();
-	} catch (IOException e)
-	{
-	    e.printStackTrace();
+		try
+		{
+			while (isRunning)
+			{
+				out.writeObject(queue.take());
+				out.flush();
+				Thread.sleep(10);
+			}
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
-    }
 
-    LinkedBlockingQueue<Message> getQueue()
-    {
-	return queue;
-    }
+	LinkedBlockingQueue<Message> getQueue()
+	{
+		return queue;
+	}
 }

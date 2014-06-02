@@ -186,8 +186,6 @@ public class ClientProcessor implements Runnable
 			TestAnswer answers = (TestAnswer) payload;
 			Test test = cc.getTest();
 
-			System.out.println(answers);
-
 			int points = 0;
 
 			for (int i = 0; i < test.getQuestionCount(); i++)

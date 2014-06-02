@@ -1,5 +1,7 @@
 package com.esf.tm.serializable;
 
+import java.io.Serializable;
+
 /**
  * 
  * Status container. Mainly used for serialization.
@@ -10,32 +12,33 @@ package com.esf.tm.serializable;
  * 
  */
 
-public class Status
+public class Status implements Serializable
 {
-    private int currentQuestion;
+	private static final long serialVersionUID = -1027946968773323655L;
+	private int currentQuestion;
 
-    /**
-     * 
-     * Gets the current question the client is on.
-     * 
-     * @return the current question
-     */
+	/**
+	 * 
+	 * Gets the current question the client is on.
+	 * 
+	 * @return the current question
+	 */
 
-    public int getCurrentQuestion()
-    {
-	return currentQuestion;
-    }
+	public int getCurrentQuestion()
+	{
+		return currentQuestion;
+	}
 
-    /**
-     * 
-     * Sets the current question the client is on.
-     * 
-     * @param currentQuestion
-     *            the current question
-     */
+	/**
+	 * 
+	 * Sets the current question the client is on.
+	 * 
+	 * @param currentQuestion
+	 *            the current question
+	 */
 
-    public void setCurrentQuestion(int currentQuestion)
-    {
-	this.currentQuestion = currentQuestion;
-    }
+	public void setCurrentQuestion(int currentQuestion)
+	{
+		this.currentQuestion = currentQuestion;
+	}
 }
