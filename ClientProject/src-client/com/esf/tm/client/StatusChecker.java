@@ -43,6 +43,7 @@ public class StatusChecker implements Runnable
 		{
 			while (isRunning)
 			{
+				System.out.println("hi");
 				status.setCurrentQuestion(TestTaker.getInstance()
 						.getCurrentQuestion());
 				TestTaker.getInstance().getCommunicator().getWriter()

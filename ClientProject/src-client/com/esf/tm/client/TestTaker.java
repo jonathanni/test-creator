@@ -1,5 +1,6 @@
 package com.esf.tm.client;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -64,7 +65,7 @@ public class TestTaker extends JFrame implements MouseListener
 
 	private Test currentTest;
 
-	private int currentQuestion = -1;
+	private int currentQuestion;
 	private ArrayList<Object> testAnswers = new ArrayList<Object>();
 
 	private ArrayList<ArrayList<Component>> testComponents = new ArrayList<ArrayList<Component>>();
@@ -218,7 +219,6 @@ public class TestTaker extends JFrame implements MouseListener
 
 	private void prevPanel()
 	{
-		checkButtons();
 		if (!prev.isEnabled())
 			return;
 
@@ -229,6 +229,8 @@ public class TestTaker extends JFrame implements MouseListener
 			next.setText("Next");
 
 		currentQuestion--;
+
+		checkButtons();
 
 		layout.previous(questionPanel);
 		pack();
@@ -274,7 +276,7 @@ public class TestTaker extends JFrame implements MouseListener
 		scoreText.setText(score + "/" + currentTest.getPointWorth());
 
 		mainPanel.remove(questionPanel);
-		remove(npPanel);
+		mainPanel.remove(npPanel);
 
 		mainPanel.add(scorePanel);
 
@@ -282,7 +284,6 @@ public class TestTaker extends JFrame implements MouseListener
 		communicator.getWriter().isRunning = false;
 	}
 
-	// TODO hiiii
 	/**
 	 * 
 	 * Starts communication with the server. Sends a login request, get
@@ -295,8 +296,6 @@ public class TestTaker extends JFrame implements MouseListener
 
 	private void requestLogin(String ip) throws InterruptedException
 	{
-		System.out.println("Host is up");
-
 		// Retire node scanner
 		nScanner.isRunning = false;
 
@@ -306,12 +305,8 @@ public class TestTaker extends JFrame implements MouseListener
 		communicator.getWriter().getQueue()
 				.add(new Message("requestLogin", null));
 
-		System.out.println("Added message");
-
 		// receive requestPassword
 		Message m = communicator.getReader().getQueue().take();
-
-		System.out.println(m);
 
 		boolean flag = true;
 
@@ -329,7 +324,7 @@ public class TestTaker extends JFrame implements MouseListener
 			panel.add(passField);
 
 			JOptionPane.showConfirmDialog(null, panel, "Enter the password",
-					JOptionPane.OK_OPTION);
+					JOptionPane.OK_CANCEL_OPTION);
 
 			String user = userField.getText();
 			String password = passField.getText();
@@ -368,7 +363,7 @@ public class TestTaker extends JFrame implements MouseListener
 						+ j.getMessage().replace("\n", "<br />")
 						+ "<br /></html>");
 
-				qPanel.add(title);
+				qPanel.add(title, BorderLayout.NORTH);
 
 				ButtonGroup group = new ButtonGroup();
 
@@ -380,7 +375,7 @@ public class TestTaker extends JFrame implements MouseListener
 					btn.addMouseListener(this);
 
 					group.add(btn);
-					qPanel.add(btn);
+					qPanel.add(btn, BorderLayout.NORTH);
 
 					testComponents.get(i).add(btn);
 				}
@@ -390,7 +385,7 @@ public class TestTaker extends JFrame implements MouseListener
 						+ j.getMessage().replace("\n", "<br />")
 						+ "<br /></html>");
 
-				qPanel.add(title);
+				qPanel.add(title, BorderLayout.NORTH);
 
 				ButtonGroup group = new ButtonGroup();
 
@@ -403,8 +398,8 @@ public class TestTaker extends JFrame implements MouseListener
 				group.add(btnTrue);
 				group.add(btnFalse);
 
-				qPanel.add(btnTrue);
-				qPanel.add(btnFalse);
+				qPanel.add(btnTrue, BorderLayout.NORTH);
+				qPanel.add(btnFalse, BorderLayout.NORTH);
 
 				testComponents.get(i).add(btnTrue);
 				testComponents.get(i).add(btnFalse);
@@ -412,7 +407,7 @@ public class TestTaker extends JFrame implements MouseListener
 			{
 				JLabel title = new JLabel("<html>" + i + ". " + "</html>");
 
-				qPanel.add(title);
+				qPanel.add(title, BorderLayout.NORTH);
 
 				String[] pieces = j.getMessage().replace("\n", "<br />")
 						.split("___.");
@@ -420,9 +415,9 @@ public class TestTaker extends JFrame implements MouseListener
 				{
 					JLabel piece = new JLabel("<html>" + k + "</html>");
 
-					qPanel.add(piece);
+					qPanel.add(piece, BorderLayout.NORTH);
 
-					JTextField field = new JTextField();
+					JTextField field = new JTextField(10);
 
 					qPanel.add(field);
 
@@ -433,11 +428,8 @@ public class TestTaker extends JFrame implements MouseListener
 			questionPanel.add(qPanel, "" + i);
 		}
 
-		System.out.println("Finished layout for "
-				+ currentTest.getQuestionCount() + " questions");
-
-		mainPanel.add(questionPanel);
-		mainPanel.add(npPanel);
+		mainPanel.add(questionPanel, BorderLayout.NORTH);
+		mainPanel.add(npPanel, BorderLayout.NORTH);
 
 		answers = new TestAnswer(currentTest.getQuestionCount());
 
@@ -445,9 +437,7 @@ public class TestTaker extends JFrame implements MouseListener
 
 		pack();
 
-		nextPanel();
-
-		pack();
+		new Thread(new StatusChecker()).start();
 	}
 
 	/**
@@ -542,6 +532,8 @@ public class TestTaker extends JFrame implements MouseListener
 			JRadioButton btn = (JRadioButton) event.getSource();
 
 			Question question = currentTest.getQuestion(currentQuestion);
+
+			System.out.println(question);
 
 			if (question instanceof MCQuestion)
 				answers.getAnswers().set(currentQuestion,

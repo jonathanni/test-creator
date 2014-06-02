@@ -5,7 +5,15 @@ JFrame(name=frame, onWindowClosing=[windowDestroy]):
         JList(name=ips)
      - JPanel(name=scorePanel):
         - JLabel(name=scoreTitle, text=Your final score is..., font=bold Helvetica 20pt)
-        - JLabel(Name=scoreText, font = bold Helvetica 48pt)
+        - JLabel(name=scoreText, font=bold Helvetica 48pt)
+        - MigLayout: |
+            [pref]
+            scoreTitle
+            scoreText
+     - MigLayout: |
+         [pref]
+         ipPanel
+         scorePanel
   - JPanel(name=npPanel):
      - JButton(name=next, text=Next, onAction=[nextPanel])
      - JButton(name=prev, text=Previous, onAction=[prevPanel])
@@ -16,4 +24,3 @@ JFrame(name=frame, onWindowClosing=[windowDestroy]):
       [pref]
       |scanning
       mainPanel
-      >/npPanel
